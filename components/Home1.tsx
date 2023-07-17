@@ -1,20 +1,25 @@
 import React from 'react'
 import Image from 'next/image'
+import Button from '@/components/Button'
 
 const Home1 = () => {
   return (
-    <div className='flex pl-36 bg-gray-100'>
-        <div className='w-1/2 flex flex-col justify-center h-screen'>
-            <h1 className="text-7xl font-bold my-2">Show</h1>
-            <h1 className="text-7xl font-bold my-2">Creativity via</h1>
-            <h1 className="text-6xl font-bold my-2 text-green-200">Artificial Intelligence</h1>
-            <h1 className="text-7xl font-bold my-2">In Collabaration</h1>
-        </div>
-        <div className='w-1/2 flex justify-center items-center'>
-            <Image className="rounded-2xl" src='/home.png' width={400} height={300} alt='logo' />
-        </div>
+    <div className='flex text-white pt-40'>
+      <div className='w-5/12'>
+        <h1 className="text-4xl uppercase">Unlock the power of creators
+          through <span className='text-[#A318D3]'>AI Coo</span>perate</h1>
+        <h1 className="text-2xl mt-[68px]">Co-create  in one collection by AIGC,
+          Show your creativity & Share Royalty of collection</h1>
+          <div className='flex gap-8 mt-24'>
+            <Button className="bg-[#CFF800] text-black">View on OpenSea</Button>
+            <Button>Create Collection</Button>
+          </div>
+      </div>
+      <div className='w-1/2 flex justify-center items-center'>
+        <Image className="rounded-2xl" src='/home.png' width={400} height={300} alt='logo' />
+      </div>
     </div>
   )
 }
-
+    
 export default Home1

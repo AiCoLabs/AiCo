@@ -7,9 +7,10 @@ export default function Home() {
   return (
     <main>
       <Home1 />
-      <Home2 />
+
+      {/* <Home2 />
       <Home3 />
-      <Home4 />
+      <Home4 /> */}
     </main>
   )
 }

@@ -13,11 +13,15 @@ function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <Providers>
-          <Navbar />
-            {children}
-          <Footer />
-        </Providers>
+        <div className="bg-indigo">
+          <div className='container mx-auto'>
+            <Providers>
+              <Navbar />
+              {children}
+              <Footer />
+            </Providers>
+          </div>
+        </div>
       </body>
     </html>
   );
