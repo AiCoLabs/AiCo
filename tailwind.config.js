@@ -19,8 +19,8 @@ module.exports = {
       "indigo":{
           DEFAULT: '#000235',
       },
-      "white":colors.white,
-      "black":colors.black,
+      // "white":colors.white,
+      // "black":colors.black,
     }
   },
   plugins: [],
