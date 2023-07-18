@@ -14,7 +14,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <div className="bg-indigo">
-          <div className='container mx-auto'>
+          <div className='max-w-screen-lg mx-auto'>
             <Providers>
               <Navbar />
               {children}
