@@ -5,8 +5,8 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 const navs = [
   {
-    link: "AIwork",
-    label: "Aiwork"
+    link: "AIWork",
+    label: "AIWork"
   },
   {
     link: "Create",
@@ -24,14 +24,14 @@ const navs = [
 
 const Navbar = () => {
   return (
-    <nav className="flex justify-between items-center text-white py-4">
+    <nav className="h-20 flex justify-between items-center text-white">
       <div className="gap-2 flex items-center ">
         <Link href='/'>
           <Image className='rounded-full' src='/logo.png' width={30} height={30} alt='logo' />
         </Link>
         <h3 className='text-2xl font-mono'>AiCo</h3>
       </div>
-      <div className="px-2 py-2 gap-20 flex items-center">
+      <div className="w-[420px] py-2 flex justify-between text-xl">
         {navs.map(nav => (
           <Link href={`/${nav.link}`}>
             {nav.label}
