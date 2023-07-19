@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <main>
       <div className='flex text-white py-40 relative'>
-        <div className='w-7/12 z-10'>
+        <div className='w-8/12 z-10'>
           <h1 className="text-4xl uppercase font-500">Unlock the power of creators
             through <span className='text-[#A318D3]'>AI Coo</span>perate</h1>
           <h1 className="text-2xl mt-[68px]">Co-create  in one collection by AIGC, <br />
@@ -27,12 +27,12 @@ const Home = () => {
             <Button>Create Collection</Button>
           </div>
         </div>
-        <Image className="absolute top-0 end-36 rounded-2xl" src={img1} alt='card' />
-        <Image className="absolute top-56 end-0 rounded-2xl" src={img2} alt='card' />
-        <Image className="absolute top-96 end-96 rounded-2xl" src={img3} alt='card' />
+        <Image className="absolute -top-4 end-12 rounded-2xl" src={img1} alt='' />
+        <Image className="absolute top-56 end-0 rounded-2xl" src={img2} alt='' />
+        <Image className="absolute top-96 end-64 rounded-2xl" src={img3} alt='' />
       </div>
       <Title>Live Co-Create</Title>
-      <div className='flex justify-between py-8 px-10 mt-16 rounded-2xl'
+      <div className='flex justify-between py-8 px-10  mt-16 rounded-2xl'
         style={{
           background: 'linear-gradient(241deg, #031322 0%, rgba(151, 147, 198, 0.24) 71.35%)'
         }}>
