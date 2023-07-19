@@ -27,7 +27,7 @@ const Home = () => {
             <Button>Create Collection</Button>
           </div>
         </div>
-        <Image className="absolute -top-4 end-12 rounded-2xl" src={img1} alt='' />
+        <Image className="absolute -top-4 end-24 rounded-2xl" src={img1} alt='' />
         <Image className="absolute top-56 end-0 rounded-2xl" src={img2} alt='' />
         <Image className="absolute top-96 end-64 rounded-2xl" src={img3} alt='' />
       </div>
