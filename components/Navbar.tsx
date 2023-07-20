@@ -25,12 +25,12 @@ const navs = [
 const Navbar = () => {
   return (
     <nav className="h-20 flex justify-between items-center text-white">
-      <div className="gap-2 flex items-center ">
-        <Link href='/'>
+      <Link href='/'>
+        <div className="gap-2 flex items-center ">
           <Image className='rounded-full' src='/logo.png' width={30} height={30} alt='logo' />
-        </Link>
-        <h3 className='text-2xl font-mono'>AiCo</h3>
-      </div>
+          <h3 className='text-2xl font-mono'>AiCo</h3>
+        </div>
+      </Link>
       <div className="w-[420px] py-2 flex justify-between text-xl">
         {navs.map(nav => (
           <Link href={`/${nav.link}`}>
