@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
  
+@layer components {
+  .container {
+    @apply max-w-[70rem];
+  }
+}
 @layer base {
   :root {
     --background: 0, 2%, 50%, 1;
@@ -75,4 +80,9 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.index_bg{
+  background: url("../public/footerbg.svg") center 130px no-repeat;
+  background-size: cover;
 }

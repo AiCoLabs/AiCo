@@ -24,7 +24,7 @@ const navs = [
 
 const Navbar = () => {
   return (
-    <nav className="h-20 flex justify-between items-center text-white">
+    <nav className="container mx-auto h-20 flex justify-between items-center text-white">
       <Link href='/'>
         <div className="gap-2 flex items-center ">
           <Image className='rounded-full' src='/logo.png' width={30} height={30} alt='logo' />

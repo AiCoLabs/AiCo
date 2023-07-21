@@ -1,5 +1,6 @@
 import Image from 'next/image'
-import type { StaticImageData } from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 import collection from "../public/collection.png"
 
 const card = {
@@ -12,7 +13,7 @@ const cardarr: CardProps[] = new Array(3).fill(card)
 interface CardProps {
     title: string;
     desc: string;
-    logo: StaticImageData;
+    logo: string;
 }
 const FeaturesCards = () => {
     return (
@@ -29,13 +30,16 @@ const Card = (props: { data: CardProps }) => {
     const { data } = props
     return (
         <div className={`text-white w-64`} >
-            <Image className="rounded-[30px]" src={data.logo} alt='card' />
+            <Image className="rounded-[30px]" src={data.logo} alt='card' width={255} height={463} />
             <div className='flex gap-4 mt-5'>
                 <Image className="rounded-2xl h-20 w-20" src={data.logo} width={75} height={75} alt='card' />
                 <div>
                     <div>Collection Name</div>
                     <div className='flex gap-4 mt-4 items-center'>
-                        <Image className="rounded-full overflow-hidden w-10 h-10" src={data.logo} width={40} height={40} alt='card' />
+                        <Avatar>
+                            <AvatarImage src={data.logo} width={40} height={40} />
+                            <AvatarFallback>Avtar</AvatarFallback>
+                        </Avatar>
                         <div className='text-xl'>@0x3d45</div>
                     </div>
                 </div>

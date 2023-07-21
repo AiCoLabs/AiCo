@@ -14,13 +14,11 @@ function RootLayout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <div className="bg-indigo min-h-screen">
-          <div className='max-w-[65.9375rem] mx-auto'>
-            <Providers>
-              <Navbar />
-              {children}
-              <Footer />
-            </Providers>
-          </div>
+          <Providers>
+            <Navbar />
+            {children}
+            {/* <Footer /> */}
+          </Providers>
         </div>
       </body>
     </html>
