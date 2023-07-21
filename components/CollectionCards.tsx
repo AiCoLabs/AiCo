@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import type { StaticImageData } from "next/image";
-import collection1 from "../public/collection1.png"
+import collection1 from "/public/collection1.png"
 
 const card = {
     title: "Integrate OpenSea",
@@ -16,16 +16,17 @@ interface CardProps {
 }
 const FeaturesCards = () => {
     return (
-        <div className='grid grid-cols-4 gap-5 py-8 px-10 mt-16 rounded-2xl bg-[#32365F]'>
-            {cardarr.map(card => <Card />)}
+        <div className='grid grid-cols-4 gap-4 py-8 px-10 mt-16 rounded-2xl bg-indigo-500'>
+            {cardarr.map(card => <Card data={card} />)}
         </div>
     )
 }
 
-const Card = (props) => {
+const Card = (props:{data:CardProps}) => {
+    const {data}=props
     return (
         <div className={`flex flex-col items-center text-center text-white`} >
-            <Image className="rounded-[30px]" src='/collection1.png' width={255} height={463} alt='card' />
+            <Image className="rounded-[30px]" src={data.logo} width={255} height={463} alt='card' />
             {/* <div className='mt-5 text-xl font-bold'>
                 Collection Name
             </div>
@@ -36,5 +37,6 @@ const Card = (props) => {
         </div>
     )
 }
+
 
 export default FeaturesCards 

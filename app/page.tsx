@@ -39,7 +39,7 @@ const Home = () => {
         <Title>Features</Title>
         <FeaturesCards />
       </div>
-      <div className='py-10 mt-32 rounded-2xl bg-[#32365F] text-white'>
+      <div className='py-10 mt-32 rounded-2xl bg-indigo-500 text-white'>
         <Title>What’s AiCoo?</Title>
         <div className='flex justify-between'>
           <div className='pl-24 mt-9'>

@@ -19,6 +19,7 @@ module.exports = {
       colors: {
         indigo: {
           DEFAULT: "#000235",
+          500:"#32365F"
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
