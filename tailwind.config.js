@@ -20,8 +20,11 @@ module.exports = {
         indigo: {
           DEFAULT: "#000235",
           500: "#32365F",
+          800: "#3B29AE",
         },
         "yellow-rgba": "rgba(207, 248, 0, 0.65)",
+        "white-rgba": "rgba(255, 255, 255, 0.6)",
+        "black-rgba": "rgba(0, 0, 0, 0.6)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
