@@ -1,3 +1,4 @@
+import Link from "next/link";
 import collection from "/public/collection.png"
 import { CollectionProps, CollectionDone } from '@/components/CollectionCards';
 
@@ -12,7 +13,7 @@ const nftarr: CollectionProps[] = new Array(12).fill(collectionItem)
 const Nfts = () => {
     return (
         <div className='grid grid-cols-4 gap-4 py-8'>
-            {nftarr.map(card => <CollectionDone data={card} />)}
+            {nftarr.map(card => <Link href={`/Collection/${card.id}`}> <CollectionDone data={card} /></Link>)}
         </div>
     )
 }

@@ -65,11 +65,9 @@ export const CollectionIng = (props: { data: CollectionProps }) => {
 export const CollectionDone = (props: { data: CollectionProps, children?: React.ReactNode }) => {
     const { data } = props
     return (
-        <Link href={`/Collection/${data.id}`}>
-            <div className='w-[15.18125rem] h-[18.75rem] relative'>
-                <Image src={data.logo} alt='card' fill />
-                {props.children}
-            </div>
-        </Link>
+        <div className='w-[15.18125rem] h-[18.75rem] relative'>
+            <Image src={data.logo} alt='card' fill />
+            {props.children}
+        </div>
     )
 }

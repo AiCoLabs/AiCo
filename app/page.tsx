@@ -53,7 +53,7 @@ const Home = () => {
         <div className='mt-40'>
           <Title>Featured Collections</Title>
           <div className='grid grid-cols-4 gap-4 py-8 justify-items-center mt-16 rounded-2xl bg-indigo-500'>
-            {collections.map(card => <CollectionDone data={card} />)}
+            {collections.map(card => <Link href={`/Collection/${card.id}`}><CollectionDone data={card} /></Link>)}
           </div>
         </div>
         <div className='mt-40'>
@@ -73,7 +73,7 @@ const Home = () => {
                   Claim the royalty fee from the NFT contracts.
                 </div>
                 <Link href={"/Create"}>
-                  <Button className="bg-yellow-rgba text-black mt-16">Show your creativity</Button>
+                  <Button className="yellow-rgba text-black mt-16">Show your creativity</Button>
                 </Link>
               </div>
             </div>
