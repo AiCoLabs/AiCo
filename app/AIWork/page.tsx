@@ -3,7 +3,7 @@ import CollectionCards from "./collections";
 import NftCards from "./nfts";
 const AiWork = () => {
   return (
-    <div>
+    <div className="container mx-auto">
       <div className="border-b-2 border-[#D9D9D9] mt-7"></div>
       <Tabs defaultValue="Collections" className="mt-12">
         <TabsList className="bg-transparent text-xl text-white" style={{ "--foreground": "#fff" }}>

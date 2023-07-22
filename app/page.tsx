@@ -3,15 +3,23 @@ import Image from 'next/image'
 import Button from '@/components/Button'
 import Title from '@/components/Title'
 import FeaturesCards from '@/components/FeaturesCards'
-import CollectionCards from '@/components/CollectionCards'
-import CoCreateCards from '@/components/CoCreateCards'
-import img1 from "../public/Card.png"
-import img2 from "../public/Card2.png"
-import img3 from "../public/Card3.png"
+import { CollectionDone, CollectionIng, CollectionRandom, CollectionProps } from '@/components/CollectionCards'
 import img4 from "../public/Card7.png"
+import collection from "/public/collection.png"
+
 import logo from "../public/logo.svg"
 
+
 const Home = () => {
+  const card = {
+    title: "Integrate OpenSea",
+    name: "collection",
+    creator: "liuq",
+    desc: "Automatically listed on Opensea immediatelyafter collection created",
+    logo: collection
+  }
+
+  const cardarr: CollectionProps[] = new Array(12).fill(card)
   return (
     <main>
       <div className='container mx-auto'>
@@ -26,17 +34,32 @@ const Home = () => {
               <Button>Create Collection</Button>
             </div>
           </div>
-          <Image className="absolute -top-8 end-20 rounded-2xl" src={img1} alt='' />
-          <Image className="absolute top-80 end-0 rounded-2xl" src={img2} alt='' />
-          <Image className="absolute top-96 end-72 rounded-2xl" src={img3} alt='' />
+          <div className='absolute inset-0 left-2/3'>
+            <div className="absolute top-0 end-32 w-52 h-72 rotate-[35deg]">
+              <CollectionRandom data={card} />
+            </div>
+            <div className="absolute top-80 end-0 w-44 h-60">
+              <CollectionRandom data={card} />
+            </div>
+            <div className="absolute top-96 end-72 w-44 h-60 rotate-[17.5deg]">
+              <CollectionRandom data={card} />
+            </div>
+          </div>
         </div>
         <div className='mt-32'>
           <Title>Live Co-Create</Title>
-          <CoCreateCards />
+          <div className='flex justify-between py-8 px-10  mt-16 rounded-2xl'
+            style={{
+              background: 'linear-gradient(241deg, #031322 0%, rgba(151, 147, 198, 0.24) 71.35%)'
+            }}>
+            {cardarr.slice(0, 3).map(card => <CollectionIng data={card} />)}
+          </div>
         </div>
         <div className='mt-40'>
           <Title>Featured Collections</Title>
-          <CollectionCards />
+          <div className='grid grid-cols-4 gap-4 py-8 justify-items-center mt-16 rounded-2xl bg-indigo-500'>
+            {cardarr.map(card => <CollectionDone data={card} />)}
+          </div>
         </div>
         <div className='mt-40'>
           <Title>Features</Title>
