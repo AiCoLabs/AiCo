@@ -6,6 +6,7 @@ import FeaturesCards from '@/components/FeaturesCards'
 import { CollectionDone, CollectionIng, CollectionRandom, CollectionProps, collectionItem } from '@/components/CollectionCards'
 import img4 from "../public/Card7.png"
 import logo from "../public/logo.svg"
+import Link from 'next/link'
 
 
 const Home = () => {
@@ -22,8 +23,10 @@ const Home = () => {
             <h1 className="text-2xl mt-[68px]">Co-create  in one collection by AIGC, <br />
               Show your creativity & Share Royalty of collection</h1>
             <div className='flex gap-8 mt-24'>
-              <Button className="bg-[#cff800] text-black">View on OpenSea</Button>
-              <Button>Create Collection</Button>
+              <Button className="bg-yellow-rgba text-black">View on OpenSea</Button>
+              <Link href={"/Create"}>
+                <Button>Create Collection</Button>
+              </Link>
             </div>
           </div>
           <div className='absolute inset-0 left-2/3'>
@@ -69,7 +72,9 @@ const Home = () => {
                   And all contributors of collection share the royalty og the collection.
                   Claim the royalty fee from the NFT contracts.
                 </div>
-                <Button className="bg-[#cff800] text-black mt-16">Show your creativity</Button>
+                <Link href={"/Create"}>
+                  <Button className="bg-yellow-rgba text-black mt-16">Show your creativity</Button>
+                </Link>
               </div>
             </div>
             <Image src={logo} alt='' />
