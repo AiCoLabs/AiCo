@@ -1,7 +1,7 @@
 import Image from 'next/image'
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import type { StaticImageData } from "next/image";
 import UserAvatar from './UserAvatar';
+import collectionImg from "/public/collection.png"
 
 export interface CollectionProps {
     name: string;
@@ -10,7 +10,13 @@ export interface CollectionProps {
     desc: string;
     logo: string | StaticImageData;
 }
-
+export const collectionItem = {
+    title: "Integrate OpenSea",
+    name: "collection",
+    creator: "liuq",
+    desc: "Automatically listed on Opensea immediatelyafter collection created",
+    logo: collectionImg
+  }
 // 首页banner随机 collectionCard
 export const CollectionRandom = (props: { data: CollectionProps }) => {
     const { data } = props
@@ -22,7 +28,7 @@ export const CollectionRandom = (props: { data: CollectionProps }) => {
                     <div>
                         Name
                     </div>
-                    <UserAvatar data={data} className={"w-5 h-5"}/>
+                    <UserAvatar data={data} className={"w-5 h-5"} />
                 </div>
 
             </div>
@@ -35,8 +41,8 @@ export const CollectionIng = (props: { data: CollectionProps }) => {
     const { data } = props
     return (
         <div className={`text-white w-64`} >
-            <div className='w-64 h-[28.9375rem] relative'>
-                <Image className="rounded-[30px]" src={data.logo} alt={data.title} fill />
+            <div className='w-64 h-[28.9375rem] relative rounded-[30px] overflow-hidden'>
+                <Image src={data.logo} alt={data.title} fill />
             </div>
             <div className='flex gap-4 mt-5'>
                 <Image className="rounded-2xl h-20 w-20" src={data.logo} width={75} height={75} alt='card' />
@@ -48,12 +54,14 @@ export const CollectionIng = (props: { data: CollectionProps }) => {
         </div>
     )
 }
+
 // 已经结束归档的collection
-export const CollectionDone = (props: { data: CollectionProps }) => {
+export const CollectionDone = (props: { data: CollectionProps, children?: React.ReactNode }) => {
     const { data } = props
     return (
         <div className='w-[15.18125rem] h-[18.75rem] relative'>
-            <Image className="rounded-[30px]" src={data.logo} alt='card' fill />
+            <Image src={data.logo} alt='card' fill />
+            {props.children}
         </div>
     )
 }

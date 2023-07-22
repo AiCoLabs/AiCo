@@ -3,23 +3,15 @@ import Image from 'next/image'
 import Button from '@/components/Button'
 import Title from '@/components/Title'
 import FeaturesCards from '@/components/FeaturesCards'
-import { CollectionDone, CollectionIng, CollectionRandom, CollectionProps } from '@/components/CollectionCards'
+import { CollectionDone, CollectionIng, CollectionRandom, CollectionProps, collectionItem } from '@/components/CollectionCards'
 import img4 from "../public/Card7.png"
-import collection from "/public/collection.png"
-
 import logo from "../public/logo.svg"
 
 
 const Home = () => {
-  const card = {
-    title: "Integrate OpenSea",
-    name: "collection",
-    creator: "liuq",
-    desc: "Automatically listed on Opensea immediatelyafter collection created",
-    logo: collection
-  }
 
-  const cardarr: CollectionProps[] = new Array(12).fill(card)
+
+  const collections: CollectionProps[] = new Array(12).fill(collectionItem)
   return (
     <main>
       <div className='container mx-auto'>
@@ -36,13 +28,13 @@ const Home = () => {
           </div>
           <div className='absolute inset-0 left-2/3'>
             <div className="absolute top-0 end-32 w-52 h-72 rotate-[35deg]">
-              <CollectionRandom data={card} />
+              <CollectionRandom data={collections[0]} />
             </div>
             <div className="absolute top-80 end-0 w-44 h-60">
-              <CollectionRandom data={card} />
+              <CollectionRandom data={collections[0]} />
             </div>
             <div className="absolute top-96 end-72 w-44 h-60 rotate-[17.5deg]">
-              <CollectionRandom data={card} />
+              <CollectionRandom data={collections[0]} />
             </div>
           </div>
         </div>
@@ -52,13 +44,13 @@ const Home = () => {
             style={{
               background: 'linear-gradient(241deg, #031322 0%, rgba(151, 147, 198, 0.24) 71.35%)'
             }}>
-            {cardarr.slice(0, 3).map(card => <CollectionIng data={card} />)}
+            {collections.slice(0, 3).map(card => <CollectionIng data={card} />)}
           </div>
         </div>
         <div className='mt-40'>
           <Title>Featured Collections</Title>
           <div className='grid grid-cols-4 gap-4 py-8 justify-items-center mt-16 rounded-2xl bg-indigo-500'>
-            {cardarr.map(card => <CollectionDone data={card} />)}
+            {collections.map(card => <CollectionDone data={card} />)}
           </div>
         </div>
         <div className='mt-40'>

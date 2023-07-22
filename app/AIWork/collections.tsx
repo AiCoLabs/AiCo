@@ -1,41 +1,24 @@
-import Image from 'next/image'
-import type { StaticImageData } from "next/image";
-import collections from "/public/collections.png"
+import BuyButton from '@/components/BuyBtn';
+import { CollectionProps, CollectionDone, collectionItem } from '@/components/CollectionCards';
 
-const card = {
-    title: "Integrate OpenSea",
-    desc: "Automatically listed on Opensea immediatelyafter collection created",
-    logo: collections
-}
-const cardarr: CardProps[] = new Array(12).fill(card)
 
-interface CardProps {
-    title: string;
-    desc: string;
-    logo: StaticImageData;
-}
-const FeaturesCards = () => {
+
+const collections: CollectionProps[] = new Array(12).fill(collectionItem)
+
+const Collections = () => {
     return (
         <div className='grid grid-cols-4 gap-4 py-8'>
-            {cardarr.map(card => <Card data={card} />)}
+            {collections.map(card => (
+                <CollectionDone data={card} >
+                    <div className="absolute w-full bottom-0 h-11 flex items-center justify-between bg-indigo-500 px-3 text-white">
+                        <div>{card.title}</div>
+                        <BuyButton data={card} />
+                    </div>
+                </CollectionDone>
+            ))}
         </div>
     )
 }
 
-const Card = (props:{data:CardProps}) => {
-    const {data}=props
-    return (
-        <div className={`flex flex-col items-center text-center text-white`} >
-            <Image className="rounded-[30px]" src={data.logo} width={255} height={463} alt='card' />
-            {/* <div className='mt-5 text-xl font-bold'>
-                Collection Name
-            </div>
-            <div className=''>
-                Automatically listed on Opensea immediately
-                after collection created
-            </div> */}
-        </div>
-    )
-}
 
-export default FeaturesCards 
+export default Collections 

@@ -11,8 +11,12 @@ const AiWork = () => {
           <TabsTrigger value="NFTs">NFTs</TabsTrigger>
         </TabsList>
         <div className="border-b-2 border-[#D9D9D9] mt-6 mb-16"></div>
-        <TabsContent value="Collections"><CollectionCards /></TabsContent>
-        <TabsContent value="NFTs"><NftCards /></TabsContent>
+        <TabsContent value="Collections">
+          <CollectionCards />
+        </TabsContent>
+        <TabsContent value="NFTs">
+          <NftCards />
+        </TabsContent>
       </Tabs>
     </div>
   )
