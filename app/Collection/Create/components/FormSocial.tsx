@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { TwitterLogoIcon, DiscordLogoIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -19,13 +19,15 @@ import { Input } from "@/components/ui/input";
 
 import { toast } from "@/components/ui/use-toast";
 
-const accountFormSchema = z.object({
-  website: z.string().url(),
-  twitter: z.string().url(),
-  telegram: z.string().url(),
-  medium: z.string().url(),
-  discord: z.string().url(),
-}).partial();
+const accountFormSchema = z
+  .object({
+    website: z.string().url(),
+    twitter: z.string().url(),
+    telegram: z.string().url(),
+    medium: z.string().url(),
+    discord: z.string().url(),
+  })
+  .partial();
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
@@ -56,7 +58,7 @@ export default function AccountForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8" style={{ "--background": "transparent" }}>
         <FormField
           control={form.control}
           name="website"

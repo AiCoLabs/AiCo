@@ -22,7 +22,6 @@ const CreateCollection = () => {
         </TabsList>
         <div
           className="flex-1 text-white text-2xl bg-indigo-500 p-3 rounded-2xl"
-          style={{ "--background": "transparent" }}
         >
           <TabsContent value="Collections">
             <FormInfo />

@@ -87,7 +87,7 @@ export default function AccountForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8" style={{ "--background": "transparent" }}>
         <FormField
           control={form.control}
           name="name"
@@ -180,7 +180,7 @@ export default function AccountForm() {
             <FormItem>
               <FormLabel>Logo Image</FormLabel>
               <FormControl>
-                <Upload placeholder="Your name" {...field} />
+                <Upload {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
-import { format } from "date-fns"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Form,
   FormControl,
@@ -24,16 +24,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { toast } from "@/components/ui/use-toast"
+} from "@/components/ui/popover";
+import { toast } from "@/components/ui/use-toast";
+import { Switch } from "@/components/ui/switch";
+import Upload from "@/components/Upload";
 
-const languages = [
+const currencys = [
   { label: "English", value: "en" },
   { label: "French", value: "fr" },
   { label: "German", value: "de" },
@@ -43,38 +45,51 @@ const languages = [
   { label: "Japanese", value: "ja" },
   { label: "Korean", value: "ko" },
   { label: "Chinese", value: "zh" },
-] as const
+] as const;
 
 const accountFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Name must not be longer than 30 characters.",
-    }),
-  dob: z.date({
+  limit: z.number().max(10000, {
+    message: "Name must be at least 2 characters.",
+  }),
+  royalty: z.number().max(100, {
+    message: "Name must be at least 2 characters.",
+  }),
+  endTime: z.date({
     required_error: "A date of birth is required.",
   }),
-  language: z.string({
-    required_error: "Please select a language.",
+  isCharge: z.boolean(),
+  currency: z.string({
+    required_error: "Please select a currency.",
   }),
-})
+  price: z.number().max(10000, {
+    message: "Name must be at least 2 characters.",
+  }),
+  receiptAddress: z.string().min(20).max(100, {
+    message: "Name must be at least 2 characters.",
+  }),
+  isSupportWhiteList: z.boolean(),
+  whiteList: z.instanceof(File),
+});
 
-type AccountFormValues = z.infer<typeof accountFormSchema>
+type AccountFormValues = z.infer<typeof accountFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<AccountFormValues> = {
-  // name: "Your name",
-  // dob: new Date("2023-01-23"),
-}
+  // name: "",
+  // endTime: new Date("2023-01-23"),
+};
 
 export default function AccountForm() {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues,
-  })
+  });
+  const [isCharge, isSupportWhiteList] = form.watch([
+    "isCharge",
+    "isSupportWhiteList",
+  ]);
+  console.log("isCharge", isCharge);
+  console.log("isSupportWhiteList", isSupportWhiteList);
 
   function onSubmit(data: AccountFormValues) {
     toast({
@@ -84,20 +99,24 @@ export default function AccountForm() {
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-    })
+    });
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8"
+        style={{ "--background": "transparent" }}
+      >
         <FormField
           control={form.control}
-          name="name"
+          name="limit"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Mint Limit</FormLabel>
               <FormControl>
-                <Input placeholder="Your name" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,10 +124,23 @@ export default function AccountForm() {
         />
         <FormField
           control={form.control}
-          name="dob"
+          name="royalty"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Royalty</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="endTime"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Description</FormLabel>
+              <FormLabel>End Time</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -144,66 +176,153 @@ export default function AccountForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
-          name="language"
+          name="isCharge"
           render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Language</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "w-[200px] justify-between",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value
-                        ? languages.find(
-                            (language) => language.value === field.value
-                          )?.label
-                        : "Select language"}
-                      <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Search language..." />
-                    <CommandEmpty>No language found.</CommandEmpty>
-                    <CommandGroup>
-                      {languages.map((language) => (
-                        <CommandItem
-                          value={language.value}
-                          key={language.value}
-                          onSelect={(value) => {
-                            form.setValue("language", value)
-                          }}
-                        >
-                          <CheckIcon
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              language.value === field.value
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
-                          />
-                          {language.label}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+            <FormItem>
+              <FormLabel>Charge for minting</FormLabel>
+              <FormDescription>
+                Charge for mintingCharge for mintingCharge for minting
+              </FormDescription>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Update account</Button>
+        {isCharge && (
+          <>
+            <div className="flex gap-8">
+              <FormField
+                control={form.control}
+                name="price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mint Price</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="currency"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>currency</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              "w-[200px] justify-between",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? currencys.find(
+                                  (currency) => currency.value === field.value
+                                )?.label
+                              : "Select currency"}
+                            <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandInput placeholder="Search currency..." />
+                          <CommandEmpty>No currency found.</CommandEmpty>
+                          <CommandGroup>
+                            {currencys.map((currency) => (
+                              <CommandItem
+                                value={currency.value}
+                                key={currency.value}
+                                onSelect={(value) => {
+                                  form.setValue("currency", value);
+                                }}
+                              >
+                                <CheckIcon
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    currency.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {currency.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="receiptAddress"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Receipt Address</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isSupportWhiteList"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Support WhiteList</FormLabel>
+                  <FormDescription>Only whitelist can mint</FormDescription>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {isSupportWhiteList && (
+              <FormField
+                control={form.control}
+                name="whiteList"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Upload {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Upload excel/csv whitelist file
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+          </>
+        )}
+        <Button type="submit">Create Collection</Button>
       </form>
     </Form>
-  )
+  );
 }
