@@ -5,19 +5,19 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 const navs = [
   {
-    link: "AIWork",
+    link: "/AIWork",
     label: "AIWork"
   },
   {
-    link: "Create",
+    link: "/Collection/Create",
     label: "Create"
   },
   {
-    link: "About",
+    link: "/About",
     label: "About"
   },
   {
-    link: "Roadmap",
+    link: "/Roadmap",
     label: "Roadmap"
   },
 ]
@@ -33,7 +33,7 @@ const Navbar = () => {
       </Link>
       <div className="w-[420px] py-2 flex justify-between text-xl">
         {navs.map(nav => (
-          <Link href={`/${nav.link}`}>
+          <Link href={nav.link}>
             {nav.label}
           </Link>
         ))}

@@ -63,7 +63,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
                 </AccordionItem>
               </Accordion>
             </div>
-            <div className=' bg-indigo-500 py-4 px-2'>
+            <div className='bg-indigo-500 py-4 px-2'>
               <div className='flex gap-6'>
                 <div className='flex gap-2 items-center'>
                   <div className='text-white-rgba'>Total Royalty:   </div>

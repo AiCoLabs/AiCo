@@ -22,6 +22,7 @@ module.exports = {
           500: "#32365F",
           800: "#3B29AE",
         },
+        placeholder:"rgba(241, 241, 241, 0.47)",
         "yellow-rgba": "rgba(207, 248, 0, 0.65)",
         "white-rgba": "rgba(255, 255, 255, 0.6)",
         "black-rgba": "rgba(0, 0, 0, 0.6)",
