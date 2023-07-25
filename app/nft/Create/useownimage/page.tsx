@@ -32,13 +32,7 @@ const defaultValues: Partial<OwnImageToNFTValues> = {
   // endTime: new Date("2023-01-23"),
 };
 
-interface BaseFormProps {
-    // this form component is used by below 3 pages
-  type: "TextToImage" | "ImageToImage" | "ForkImage";
-}
-
-export default function OwnImageToNFT(props: BaseFormProps) {
-  const { type } = props;
+export default function OwnImageToNFT() {
 
   const form = useForm<OwnImageToNFTValues>({
     resolver: zodResolver(OwnImageToNFTSchema),

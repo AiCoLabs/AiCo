@@ -1,8 +1,21 @@
-const Button = (props) => {
-    const { children ,className="" ,...rest} = props
-    return (
-        <div className={`w-60 py-4 rounded-2xl shadow-md text-center font-medium bg-indigo-800 cursor-pointer ${className}`} {...rest}>{children}</div>
-    )
-}
+import { cn } from "@/lib/utils";
 
-export default Button
+interface ButtonProps {
+  className?: string;
+  children?: React.ReactNode;
+}
+const Button = (props: ButtonProps) => {
+  const { children, className = "" } = props;
+  return (
+    <div
+      className={cn(
+        `w-60 py-4 rounded-2xl shadow-md text-center font-medium bg-indigo-800 cursor-pointer`,
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+};
+
+export default Button;

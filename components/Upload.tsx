@@ -7,7 +7,7 @@ export interface UploadProps extends InputProps {
   children?: React.ReactNode;
 }
 
-const Upload = React.forwardRef<HTMLTextAreaElement, UploadProps>(
+const Upload = React.forwardRef<HTMLInputElement, UploadProps>(
   ({ className, ...props }, ref) => {
     return (
       <div className="flex flex-row items-center">
