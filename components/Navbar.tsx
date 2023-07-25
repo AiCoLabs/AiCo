@@ -28,7 +28,7 @@ const Navbar = () => {
       <Link href='/'>
         <div className="gap-2 flex items-center ">
           <Image className='rounded-full' src='/logo.png' width={30} height={30} alt='logo' />
-          <h3 className='text-2xl font-mono'>AiCo</h3>
+          <h3 className='text-2xl font-mono'>AiCoo</h3>
         </div>
       </Link>
       <div className="w-[420px] py-2 flex justify-between text-xl">

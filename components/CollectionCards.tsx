@@ -14,13 +14,13 @@ export interface CollectionProps {
 }
 export const collectionItem = {
     id: "collectionId",
-    title: "Integrate OpenSea",
+    title: "Collection Name",
     name: "collection",
     creator: "liuq",
     desc: "Automatically listed on Opensea immediatelyafter collection created",
     logo: collectionImg
 }
-// 首页banner随机 collectionCard
+// banner random select collectionCard
 export const CollectionRandom = (props: { data: CollectionProps }) => {
     const { data } = props
     return (
@@ -40,7 +40,7 @@ export const CollectionRandom = (props: { data: CollectionProps }) => {
     )
 }
 
-// 正在进行中的Collection
+// live Collection
 export const CollectionIng = (props: { data: CollectionProps }) => {
     const { data } = props
     return (
@@ -61,7 +61,7 @@ export const CollectionIng = (props: { data: CollectionProps }) => {
     )
 }
 
-// 已经结束归档的collection
+// finshed collection
 export const CollectionDone = (props: { data: CollectionProps, children?: React.ReactNode }) => {
     const { data } = props
     return (

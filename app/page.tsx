@@ -24,7 +24,7 @@ const Home = () => {
               Show your creativity & Share Royalty of collection</h1>
             <div className='flex gap-8 mt-24'>
               <Button className="bg-yellow-rgba text-black">View on OpenSea</Button>
-              <Link href={"/Create"}>
+              <Link href={"/Collection/Create"}>
                 <Button>Create Collection</Button>
               </Link>
             </div>
@@ -72,7 +72,7 @@ const Home = () => {
                   And all contributors of collection share the royalty og the collection.
                   Claim the royalty fee from the NFT contracts.
                 </div>
-                <Link href={"/Create"}>
+                <Link href={"/Collection/Create"}>
                   <Button className="yellow-rgba text-black mt-16">Show your creativity</Button>
                 </Link>
               </div>
