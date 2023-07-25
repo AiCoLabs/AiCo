@@ -28,33 +28,24 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
 import { Switch } from "@/components/ui/switch";
-import Upload from "@/components/Upload";
 import { Slider } from "@/components/ui/slider";
 
 const accountFormSchema = z.object({
   prompt: z.number().max(10000, {
-    message: "Name must be at least 2 characters.",
+    message: "your prompt",
   }),
   nPrompt: z.number().max(1000, {
-    message: "Name must be at least 2 characters.",
+    message: "Negative prompt",
   }),
-  count:z.number().min(1).max(10),
+  count:z.number().min(1).max(8),
   advanced: z.boolean(),
-  count:z.number().min(1).max(10),
-  count:z.number().min(1).max(10),
-
-  currency: z.string({
-    required_error: "Please select a currency.",
-  }),
-  price: z.number().max(10000, {
-    message: "Name must be at least 2 characters.",
-  }),
+  width: z.number().min(1).max(350),
+  height: z.number().min(1).max(520),
+  steps:z.number().min(1).max(10),
   model: z.string().min(20).max(100, {
     message: "Name must be at least 2 characters.",
   }),
-  isSupportWhiteList: z.boolean(),
-  whiteList: z.instanceof(File),
-});
+ });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
@@ -69,12 +60,12 @@ export default function AccountForm() {
     resolver: zodResolver(accountFormSchema),
     defaultValues,
   });
-  const [advanced, isSupportWhiteList] = form.watch([
+  const [advanced, count] = form.watch([
     "advanced",
-    "isSupportWhiteList",
+    "count",
   ]);
   console.log("advanced", advanced);
-  console.log("isSupportWhiteList", isSupportWhiteList);
+  console.log("count", count);
 
   function onSubmit(data: AccountFormValues) {
     toast({
@@ -155,7 +146,7 @@ export default function AccountForm() {
             <div className="flex gap-8">
               <FormField
                 control={form.control}
-                name="price"
+                name="width"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Width</FormLabel>
@@ -168,7 +159,7 @@ export default function AccountForm() {
               />
               <FormField
                 control={form.control}
-                name="currency"
+                name="height"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Height</FormLabel>
@@ -183,7 +174,7 @@ export default function AccountForm() {
             <div className="flex gap-8">
               <FormField
                 control={form.control}
-                name="price"
+                name="steps"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Generation steps</FormLabel>
