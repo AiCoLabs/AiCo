@@ -29,45 +29,56 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
+import Upload from "@/components/Upload";
+import Image from "next/image";
+import { collectionItem } from "@/components/CollectionCards";
+import { cn } from "@/lib/utils";
 
-const accountFormSchema = z.object({
+const NFTbaseFormSchema = z.object({
   prompt: z.number().max(10000, {
     message: "your prompt",
   }),
   nPrompt: z.number().max(1000, {
     message: "Negative prompt",
   }),
-  count:z.number().min(1).max(8),
+  image: z.string(),
+  count: z.number().min(1).max(8),
   advanced: z.boolean(),
   width: z.number().min(1).max(350),
   height: z.number().min(1).max(520),
-  steps:z.number().min(1).max(10),
+  steps: z.number().min(1).max(10),
   model: z.string().min(20).max(100, {
     message: "Name must be at least 2 characters.",
   }),
- });
+});
 
-type AccountFormValues = z.infer<typeof accountFormSchema>;
+type NFTbaseFormValues = z.infer<typeof NFTbaseFormSchema>;
 
 // This can come from your database or API.
-const defaultValues: Partial<AccountFormValues> = {
+const defaultValues: Partial<NFTbaseFormValues> = {
   // name: "",
   // endTime: new Date("2023-01-23"),
 };
 
-export default function AccountForm() {
-  const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
+interface BaseFormProps {
+  // this form component is used by below 3 pages
+  type: "TextToImage" | "ImageToImage" | "ForkImage";
+  className?: string;
+}
+
+export default function NFTbaseForm(props: BaseFormProps) {
+  const { type, className } = props;
+
+  const form = useForm<NFTbaseFormValues>({
+    resolver: zodResolver(NFTbaseFormSchema),
     defaultValues,
   });
-  const [advanced, count] = form.watch([
-    "advanced",
-    "count",
-  ]);
+
+  const [advanced, count] = form.watch(["advanced", "count"]);
   console.log("advanced", advanced);
   console.log("count", count);
 
-  function onSubmit(data: AccountFormValues) {
+  function onSubmit(data: NFTbaseFormValues) {
     toast({
       title: "You submitted the following values:",
       description: (
@@ -80,7 +91,20 @@ export default function AccountForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn("space-y-8", className)}
+      >
+        {type === "ForkImage" && (
+          <div>
+            <FormLabel>Fork From( #NFT Name)</FormLabel>
+            <Image
+              src={collectionItem.logo}
+              alt="nft"
+              className="w-40 h-40 mx-auto mt-2"
+            />
+          </div>
+        )}
         <FormField
           control={form.control}
           name="prompt"
@@ -107,6 +131,22 @@ export default function AccountForm() {
             </FormItem>
           )}
         />
+        {type === "ImageToImage" && (
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Upload Image</FormLabel>
+                <FormControl>
+                  <Upload {...field} />
+                </FormControl>
+                <FormDescription>Upload Image</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name="count"
@@ -114,12 +154,7 @@ export default function AccountForm() {
             <FormItem>
               <FormLabel>Image Count</FormLabel>
               <FormControl>
-                <Slider
-                  defaultValue={[50]}
-                  max={100}
-                  step={1}
-                  {...field}
-                />
+                <Slider defaultValue={[50]} max={100} step={1} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -219,7 +254,7 @@ export default function AccountForm() {
             </div>
           </>
         )}
-        <Button type="submit">Create Collection</Button>
+        <Button type="submit">Generate</Button>
       </form>
     </Form>
   );

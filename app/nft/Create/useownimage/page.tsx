@@ -20,14 +20,14 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import Upload from "@/components/Upload";
 
-const accountFormSchema = z.object({
+const OwnImageToNFTSchema = z.object({
   image: z.any(),
 });
 
-type AccountFormValues = z.infer<typeof accountFormSchema>;
+type OwnImageToNFTValues = z.infer<typeof OwnImageToNFTSchema>;
 
 // This can come from your database or API.
-const defaultValues: Partial<AccountFormValues> = {
+const defaultValues: Partial<OwnImageToNFTValues> = {
   // name: "",
   // endTime: new Date("2023-01-23"),
 };
@@ -37,15 +37,15 @@ interface BaseFormProps {
   type: "TextToImage" | "ImageToImage" | "ForkImage";
 }
 
-export default function AccountForm(props: BaseFormProps) {
+export default function OwnImageToNFT(props: BaseFormProps) {
   const { type } = props;
 
-  const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
+  const form = useForm<OwnImageToNFTValues>({
+    resolver: zodResolver(OwnImageToNFTSchema),
     defaultValues,
   });
 
-  function onSubmit(data: AccountFormValues) {
+  function onSubmit(data: OwnImageToNFTValues) {
     toast({
       title: "You submitted the following values:",
       description: (

@@ -1,17 +1,9 @@
-import { Separator } from "@/components/ui/separator"
-import Texttoimage from "./texttoimage"
+import NftBaseForm from "../../components/nft-baseform";
 
-export default function SettingsProfilePage() {
+export default function ImageToImage() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-medium">Profile</h3>
-        <p className="text-sm text-muted-foreground">
-          This is how others will see you on the site.
-        </p>
-      </div>
-      <Separator />
-      <Texttoimage />
+    <div className="flex-1 text-white text-2xl bg-indigo-500 p-3 rounded-2xl">
+      <NftBaseForm type="ImageToImage" />
     </div>
-  )
+  );
 }
