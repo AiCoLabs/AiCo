@@ -52,7 +52,7 @@ const accountFormSchema = z.object({
     }),
   description: z.string().optional(),
   category: z.string().optional(),
-  file: z.instanceof(File),
+  file: z.string(),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
@@ -84,7 +84,7 @@ export default function AccountForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8" style={{ "--background": "transparent" }}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
           name="name"

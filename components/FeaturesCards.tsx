@@ -24,7 +24,7 @@ interface CardProps {
 const FeaturesCards = () => {
     return (
         <div className='grid grid-cols-3 gap-y-32 mt-24'>
-            {cardarr3.map(card => <Card data={card} />)}
+            {cardarr3.map(card => <Card key={card.id} data={card} />)}
         </div>
     )
 }

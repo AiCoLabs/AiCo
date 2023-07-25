@@ -47,13 +47,13 @@ const Home = () => {
             style={{
               background: 'linear-gradient(241deg, #031322 0%, rgba(151, 147, 198, 0.24) 71.35%)'
             }}>
-            {collections.slice(0, 3).map(card => <CollectionIng data={card} />)}
+            {collections.slice(0, 3).map(card => <CollectionIng key={card.id} data={card} />)}
           </div>
         </div>
         <div className='mt-40'>
           <Title>Featured Collections</Title>
           <div className='grid grid-cols-4 gap-4 py-8 justify-items-center mt-16 rounded-2xl bg-indigo-500'>
-            {collections.map(card => <Link href={`/Collection/${card.id}`}><CollectionDone data={card} /></Link>)}
+            {collections.map(card => <Link key={card.id} href={`/Collection/${card.id}`}><CollectionDone data={card} /></Link>)}
           </div>
         </div>
         <div className='mt-40'>

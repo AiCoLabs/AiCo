@@ -29,14 +29,14 @@ interface SettingsLayoutProps {
 
 export default function SettingsLayout({ children }: SettingsLayoutProps) {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto var-dark">
       <Separator className="my-6" />
-      <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+      <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0 mt-32">
         <aside className="-mx-4 lg:w-1/5">
           <SidebarNav items={sidebarNavItems} />
         </aside>
         
-        <div className="flex-1 text-white text-2xl bg-indigo-500 p-3 rounded-2xl lg:max-w-2xl" style={{ "--foreground": "#fff", "--background": "transparent" }}>
+        <div className="flex-1 text-white text-2xl bg-indigo-500 p-3 rounded-2xl lg:max-w-2xl">
           {children}
         </div>
       </div>

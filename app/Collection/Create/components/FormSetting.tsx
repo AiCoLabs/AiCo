@@ -63,7 +63,7 @@ const accountFormSchema = z.object({
     message: "Name must be at least 2 characters.",
   }),
   isSupportWhiteList: z.boolean(),
-  whiteList: z.instanceof(File),
+  whiteList: z.string(),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
@@ -102,7 +102,6 @@ export default function AccountForm() {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8"
-        style={{ "--background": "transparent" }}
       >
         <FormField
           control={form.control}

@@ -1,4 +1,3 @@
-import { Separator } from "@/components/ui/separator";
 import TexttoimageForm from "./texttoimage";
 
 export default function SettingsProfilePage() {
