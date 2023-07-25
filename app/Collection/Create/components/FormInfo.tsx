@@ -33,15 +33,12 @@ import {
 import { toast } from "@/components/ui/use-toast";
 
 const categorys = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
+  { label: "Art", value: "art" },
+  { label: "PFPs", value: "pfp" },
+  { label: "Photography", value: "Photography" },
+  { label: "Meme", value: "meme" },
+  { label: "Music", value: "music" },
+  { label: "Video", value: "video" },
 ] as const;
 
 const accountFormSchema = z.object({

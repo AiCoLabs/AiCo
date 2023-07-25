@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: "AICO Generate Collection By AIGC",
+  title: "AICOO Generate Collection By AIGC",
   description: "Showcase and discover remarkable developer projects",
 };
 

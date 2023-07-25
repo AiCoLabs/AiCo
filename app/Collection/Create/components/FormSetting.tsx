@@ -36,15 +36,10 @@ import { Switch } from "@/components/ui/switch";
 import Upload from "@/components/Upload";
 
 const currencys = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
+  { label: "ETH", value: "eth" },
+  { label: "USDT", value: "usdt" },
+  { label: "USDC", value: "usdc" },
+  { label: "BNB", value: "bnb" },
 ] as const;
 
 const accountFormSchema = z.object({

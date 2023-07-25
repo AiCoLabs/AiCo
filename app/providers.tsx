@@ -18,16 +18,16 @@ const { chains, publicClient } = configureChains(
   [publicProvider()]
 );
 
-const projectId = 'AICO';
+const projectId = 'AICOO';
 
 const { connectors } = getDefaultWallets({
-  appName: 'AiCo Web3',
+  appName: 'AiCoo Web3',
   projectId,
   chains,
 });
 
 const demoAppInfo = {
-  appName: 'AiCo Web3 Dapp',
+  appName: 'AiCoo Web3 Dapp',
 };
 
 const wagmiConfig = createConfig({
