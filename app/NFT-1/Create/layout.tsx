@@ -11,15 +11,15 @@ export const metadata: Metadata = {
 const sidebarNavItems = [
   {
     title: "Text2Image",
-    href: "/nft/Create",
+    href: "/NFT/Create",
   },
   {
     title: "Image2Image",
-    href: "/nft/Create/imagetoimage",
+    href: "/NFT/Create/imagetoimage",
   },
   {
     title: "Use Own Image",
-    href: "/nft/Create/useownimage",
+    href: "/NFT/Create/useownimage",
   },
 ];
 

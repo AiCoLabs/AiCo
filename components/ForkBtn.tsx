@@ -6,7 +6,7 @@ import Link from "next/link"
 const ForkButton = (props: { data: CollectionProps }) => {
     const { data } = props
     return (
-        <Link href={"/nft/Fork"}>
+        <Link href={"/NFT/Fork"}>
             <div className='w-16 flex justify-center items-center gap-1 bg-indigo-800 rounded-sm'>
                 <Image alt='fork' src={opensealogo} width={16} height={16} />
                 <div>Fork</div>
