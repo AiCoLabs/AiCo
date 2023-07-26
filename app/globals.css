@@ -76,7 +76,6 @@
     /* --background: transparent; */
     --foreground: rgba(255, 255, 255, 1);
   }
-
 }
 
 @layer base {
@@ -91,4 +90,7 @@
 .index_bg {
   background: url("../public/footerbg.svg") center 130px no-repeat;
   background-size: cover;
+}
+.deleteBtn-bg {
+  background-color: rgba(241, 117, 27, 0.65);
 }
