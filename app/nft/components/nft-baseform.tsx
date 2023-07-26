@@ -1,8 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -31,8 +29,12 @@ import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import Upload from "@/components/Upload";
 import Image from "next/image";
-import { collectionItem } from "@/components/CollectionCards";
+import { CollectionProps, collectionItem } from "@/components/CollectionCards";
+
 import { cn } from "@/lib/utils";
+import NFTCollections from "./nft-cards";
+
+const collections: CollectionProps[] = new Array(4).fill(collectionItem);
 
 const NFTbaseFormSchema = z.object({
   prompt: z.number().max(10000, {
@@ -90,172 +92,175 @@ export default function NFTbaseForm(props: BaseFormProps) {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className={cn("space-y-8", className)}
-      >
-        {type === "ForkImage" && (
-          <div>
-            <FormLabel>Fork From( #NFT Name)</FormLabel>
-            <Image
-              src={collectionItem.logo}
-              alt="nft"
-              className="w-40 h-40 mx-auto mt-2"
-            />
-          </div>
-        )}
-        <FormField
-          control={form.control}
-          name="prompt"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Prompt</FormLabel>
-              <FormControl>
-                <Textarea {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+    <>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={cn("space-y-8 bg-indigo-500 p-3 rounded-2xl", className)}
+        >
+          {type === "ForkImage" && (
+            <div>
+              <FormLabel>Fork From( #NFT Name)</FormLabel>
+              <Image
+                src={collectionItem.logo}
+                alt="nft"
+                className="w-40 h-40 mx-auto mt-2"
+              />
+            </div>
           )}
-        />
-        <FormField
-          control={form.control}
-          name="nPrompt"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Negative prompt</FormLabel>
-              <FormControl>
-                <Textarea {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {type === "ImageToImage" && (
           <FormField
             control={form.control}
-            name="image"
+            name="prompt"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Upload Image</FormLabel>
+                <FormLabel>Prompt</FormLabel>
                 <FormControl>
-                  <Upload {...field} />
+                  <Textarea {...field} />
                 </FormControl>
-                <FormDescription>Upload Image</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-        )}
-        <FormField
-          control={form.control}
-          name="count"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Image Count</FormLabel>
-              <FormControl>
-                <Slider defaultValue={[50]} max={100} step={1} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          <FormField
+            control={form.control}
+            name="nPrompt"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Negative prompt</FormLabel>
+                <FormControl>
+                  <Textarea {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {type === "ImageToImage" && (
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Upload Image</FormLabel>
+                  <FormControl>
+                    <Upload {...field} />
+                  </FormControl>
+                  <FormDescription>Upload Image</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           )}
-        />
+          <FormField
+            control={form.control}
+            name="count"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Image Count</FormLabel>
+                <FormControl>
+                  <Slider defaultValue={[50]} max={100} step={1} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="advanced"
-          render={({ field }) => (
-            <FormItem className="flex gap-4 items-center space-y-0">
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <FormLabel>Advanced</FormLabel>
-            </FormItem>
-          )}
-        />
-        {advanced && (
-          <>
-            <div className="flex gap-8">
-              <FormField
-                control={form.control}
-                name="width"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Width</FormLabel>
-                    <FormControl>
-                      <Input type="number" min={0} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="height"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Height</FormLabel>
-                    <FormControl>
-                      <Input type="number" min={0} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex gap-8">
-              <FormField
-                control={form.control}
-                name="steps"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Generation steps</FormLabel>
-                    <FormControl>
-                      <Input type="number" min={0} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="model"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Model</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+          <FormField
+            control={form.control}
+            name="advanced"
+            render={({ field }) => (
+              <FormItem className="flex gap-4 items-center space-y-0">
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormLabel>Advanced</FormLabel>
+              </FormItem>
+            )}
+          />
+          {advanced && (
+            <>
+              <div className="flex gap-8">
+                <FormField
+                  control={form.control}
+                  name="width"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Width</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a verified email to display" />
-                        </SelectTrigger>
+                        <Input type="number" min={0} {...field} />
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="m@example.com">
-                          m@example.com
-                        </SelectItem>
-                        <SelectItem value="m@google.com">
-                          m@google.com
-                        </SelectItem>
-                        <SelectItem value="m@support.com">
-                          m@support.com
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </>
-        )}
-        <Button type="submit">Generate</Button>
-      </form>
-    </Form>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="height"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Height</FormLabel>
+                      <FormControl>
+                        <Input type="number" min={0} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex gap-8">
+                <FormField
+                  control={form.control}
+                  name="steps"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Generation steps</FormLabel>
+                      <FormControl>
+                        <Input type="number" min={0} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="model"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Model</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a verified email to display" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="m@example.com">
+                            m@example.com
+                          </SelectItem>
+                          <SelectItem value="m@google.com">
+                            m@google.com
+                          </SelectItem>
+                          <SelectItem value="m@support.com">
+                            m@support.com
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </>
+          )}
+          <Button type="submit">Generate</Button>
+        </form>
+      </Form>
+      <NFTCollections dataSource={collections} />
+    </>
   );
 }

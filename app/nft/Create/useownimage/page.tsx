@@ -19,7 +19,11 @@ import {
 
 import { toast } from "@/components/ui/use-toast";
 import Upload from "@/components/Upload";
+import { cn } from "@/lib/utils";
+import { CollectionProps, collectionItem } from "@/components/CollectionCards";
+import NFTCollections from "../../components/nft-cards";
 
+const collections: CollectionProps[] = new Array(4).fill(collectionItem);
 const OwnImageToNFTSchema = z.object({
   image: z.any(),
 });
@@ -32,8 +36,11 @@ const defaultValues: Partial<OwnImageToNFTValues> = {
   // endTime: new Date("2023-01-23"),
 };
 
-export default function OwnImageToNFT() {
+interface ForkFormProps {
+  className?: string;
+}
 
+export default function OwnImageToNFT(props: ForkFormProps) {
   const form = useForm<OwnImageToNFTValues>({
     resolver: zodResolver(OwnImageToNFTSchema),
     defaultValues,
@@ -51,8 +58,15 @@ export default function OwnImageToNFT() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    <>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={cn(
+            "space-y-8 bg-indigo-500 p-3 rounded-2xl",
+            props.className
+          )}
+        >
           <FormField
             control={form.control}
             name="image"
@@ -61,15 +75,15 @@ export default function OwnImageToNFT() {
                 <FormControl>
                   <Upload {...field} />
                 </FormControl>
-                <FormDescription>
-                  Upload Image
-                </FormDescription>
+                <FormDescription>Upload Image</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-        <Button type="submit">Create Collection</Button>
-      </form>
-    </Form>
+          <Button type="submit">Create Collection</Button>
+        </form>
+      </Form>
+      <NFTCollections dataSource={collections} />
+    </>
   );
 }
