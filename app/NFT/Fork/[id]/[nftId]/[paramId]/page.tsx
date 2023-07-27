@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import NftBaseForm from "../components/nft-baseform";
+import NftBaseForm from "../../../../components/nft-baseform";
 
 export default function ForkNFT() {
   return (
