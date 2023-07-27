@@ -43,7 +43,7 @@ const NFTbaseFormSchema = z.object({
   nPrompt: z.number().max(1000, {
     message: "Negative prompt",
   }),
-  image: z.string(),
+  image: z.instanceof(File),
   count: z.array(z.number().min(1).max(8)),
   advanced: z.boolean(),
   width: z.number().min(1).max(350),

@@ -3,12 +3,34 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { Input, InputProps } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-export interface UploadProps extends InputProps {
-  children?: React.ReactNode;
-}
+import { getBase64 } from "./util";
+
+export type UploadProps = React.HTMLAttributes<HTMLDivElement> & {
+  onChange?: (value?: File) => void;
+  value?: File;
+  accept?: string;
+};
+// export interface UploadProps extends InputProps {
+//   children?: React.ReactNode;
+//   onChange: (value: File) => void;
+// }
+const defaultAccept = "image/*";
 
 const Upload = React.forwardRef<HTMLInputElement, UploadProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, value, accept = defaultAccept, onChange, ...props }, ref) => {
+    const handleFileOnChange: React.ChangeEventHandler<HTMLInputElement> = (
+      event
+    ) => {
+      const file = event.target.files?.[0];
+      onChange?.(file);
+    };
+    const [base64, setBase64] = React.useState("");
+    React.useEffect(() => {
+      if (value && accept === defaultAccept) {
+        getBase64(value).then(setBase64);
+      }
+    }, [value]);
+
     return (
       <div className="flex flex-row items-center">
         <div className="border w-20 h-20 relative">
@@ -20,9 +42,16 @@ const Upload = React.forwardRef<HTMLInputElement, UploadProps>(
             )}
             ref={ref}
             {...props}
+            accept={accept}
+            onChange={handleFileOnChange}
           />
-          <PlusIcon className="w-full h-full" />
+          {base64 ? (
+            <img src={base64} alt="" />
+          ) : (
+            <PlusIcon className="w-full h-full" />
+          )}
         </div>
+        {accept !== defaultAccept && value ? value.name : ""}
         {props.children}
       </div>
     );

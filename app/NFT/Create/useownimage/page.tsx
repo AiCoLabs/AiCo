@@ -25,7 +25,7 @@ import NFTCollections from "../../components/nft-cards";
 
 const collections: CollectionProps[] = new Array(4).fill(collectionItem);
 const OwnImageToNFTSchema = z.object({
-  image: z.any(),
+  image: z.instanceof(File),
 });
 
 type OwnImageToNFTValues = z.infer<typeof OwnImageToNFTSchema>;

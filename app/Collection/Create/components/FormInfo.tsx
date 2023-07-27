@@ -52,7 +52,7 @@ const accountFormSchema = z.object({
     }),
   description: z.string().optional(),
   category: z.string().optional(),
-  file: z.string(),
+  file: z.instanceof(File),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;

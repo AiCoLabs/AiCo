@@ -63,7 +63,7 @@ const accountFormSchema = z.object({
     message: "Name must be at least 2 characters.",
   }),
   isSupportWhiteList: z.boolean(),
-  whiteList: z.string(),
+  whiteList: z.instanceof(File),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
@@ -99,10 +99,7 @@ export default function AccountForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
           name="limit"
@@ -303,7 +300,10 @@ export default function AccountForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Upload {...field} />
+                      <Upload
+                        accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>
                       Upload excel/csv whitelist file
