@@ -31,6 +31,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
+import Image from "next/image";
 
 const categorys = [
   { label: "Art", value: "art" },
@@ -57,21 +58,15 @@ const accountFormSchema = z.object({
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
-// This can come from your database or API.
-const defaultValues: Partial<AccountFormValues> = {
-  // name: "Your name",
-  // dob: new Date("2023-01-23"),
-};
 
-export default function AccountForm() {
+export default function AccountForm(props:{next:(info:AccountFormValues)=>void, defaultValue: Partial<AccountFormValues>}) {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
-    defaultValues,
+    defaultValues: props.defaultValue,
   });
 
   function onSubmit(data: AccountFormValues) {
-    console.log(data);
-
+    console.log('onSubmit', data);
     toast({
       title: "You submitted the following values:",
       description: (
@@ -80,6 +75,7 @@ export default function AccountForm() {
         </pre>
       ),
     });
+    props.next(data)
   }
 
   return (
@@ -173,15 +169,15 @@ export default function AccountForm() {
         <FormField
           control={form.control}
           name="file"
-          render={({ field }) => (
-            <FormItem>
+          render={({ field }) => {
+            return field.value? <img src={field.value} />:<FormItem>
               <FormLabel>Logo Image</FormLabel>
               <FormControl>
                 <Upload {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
-          )}
+          }}
         />
         <Button type="submit">Continue</Button>
       </form>

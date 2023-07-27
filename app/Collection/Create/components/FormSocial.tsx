@@ -38,16 +38,11 @@ const accountFormSchema = z
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
-// This can come from your database or API.
-const defaultValues: Partial<AccountFormValues> = {
-  // name: "Your name",
-  // dob: new Date("2023-01-23"),
-};
 
-export default function AccountForm() {
+export default function AccountForm(props:{next:(info:AccountFormValues)=>void, defaultValue: Partial<AccountFormValues>}) {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
-    defaultValues,
+    defaultValues: props.defaultValue,
   });
 
   function onSubmit(data: AccountFormValues) {
@@ -61,6 +56,7 @@ export default function AccountForm() {
         </pre>
       ),
     });
+    props.next(data)
   }
 
   return (

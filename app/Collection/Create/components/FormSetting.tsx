@@ -68,16 +68,12 @@ const accountFormSchema = z.object({
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
-// This can come from your database or API.
-const defaultValues: Partial<AccountFormValues> = {
-  // name: "",
-  // endTime: new Date("2023-01-23"),
-};
 
-export default function AccountForm() {
+
+export default function AccountForm(props:{next:(info:AccountFormValues)=>void, defaultValue: Partial<AccountFormValues>|null} ) {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
-    defaultValues,
+    defaultValues: props.defaultValue || {},
   });
   const [isCharge, isSupportWhiteList] = form.watch([
     "isCharge",
@@ -95,6 +91,7 @@ export default function AccountForm() {
         </pre>
       ),
     });
+    props.next(data)
   }
 
   return (
