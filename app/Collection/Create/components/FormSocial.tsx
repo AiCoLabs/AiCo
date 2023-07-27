@@ -1,7 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TwitterLogoIcon, DiscordLogoIcon } from "@radix-ui/react-icons";
+import {
+  BsDiscord,
+  BsMedium,
+  BsTwitter,
+  BsTelegram,
+  BsFillHouseHeartFill,
+} from "react-icons/bs";
+
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -66,7 +73,11 @@ export default function AccountForm() {
             <FormItem>
               <FormLabel>Website</FormLabel>
               <FormControl>
-                <Input placeholder="Website" {...field} />
+                <Input
+                  icon={<BsFillHouseHeartFill />}
+                  placeholder="Website"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,7 +90,7 @@ export default function AccountForm() {
             <FormItem>
               <FormLabel>Twitter</FormLabel>
               <FormControl>
-                <Input placeholder="Twitter" {...field} />
+                <Input icon={<BsTwitter />} placeholder="Twitter" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -92,7 +103,11 @@ export default function AccountForm() {
             <FormItem>
               <FormLabel>Telegram</FormLabel>
               <FormControl>
-                <Input placeholder="Telegram" {...field} />
+                <Input
+                  icon={<BsTelegram />}
+                  placeholder="Telegram"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,7 +120,7 @@ export default function AccountForm() {
             <FormItem>
               <FormLabel>Medium</FormLabel>
               <FormControl>
-                <Input placeholder="Medium" {...field} />
+                <Input icon={<BsMedium />} placeholder="Medium" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -118,7 +133,7 @@ export default function AccountForm() {
             <FormItem>
               <FormLabel>Discord</FormLabel>
               <FormControl>
-                <Input placeholder="Discord" {...field} />
+                <Input icon={<BsDiscord />} placeholder="Discord" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
