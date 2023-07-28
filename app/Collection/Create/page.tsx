@@ -1,5 +1,4 @@
 "use client";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FormInfo from "./components/FormInfo";
 import FormSocial from "./components/FormSocial";
@@ -14,7 +13,7 @@ const CreateCollection = () => {
     name: string|undefined,
     description?: string|undefined,
     category?: string|undefined,
-    file: string|undefined}>({name:'',file:''})
+    file?: File|undefined}>({name:''})
   const [socialInfo, setSocialInfo] = useState<{ website?: string|undefined,
     twitter?: string|undefined,
     telegram?: string|undefined,
@@ -28,7 +27,7 @@ const CreateCollection = () => {
       price: number|undefined,
       receiptAddress: string|undefined,
       isSupportWhiteList: boolean|undefined,
-      whiteList: string|undefined}|null>(null)
+      whiteList: File|undefined}|null>(null)
 
   const createNewCollection = ()=>{}
 

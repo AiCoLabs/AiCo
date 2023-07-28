@@ -1,5 +1,3 @@
-import { StaticImageData } from "next/image";
-
 export type DetailJson = {
     description: string
     content: string

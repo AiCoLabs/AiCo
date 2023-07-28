@@ -1,7 +1,7 @@
-import { CollectionProps, NFTCard } from "@/components/CollectionCards";
+import { NFTProps, NFTCard } from "@/components/NFTCards";
 
 interface NFTCollectionsProps {
-  dataSource: CollectionProps[];
+  dataSource: NFTProps[];
 }
 
 const NFTCollections = ({ dataSource = [] }: NFTCollectionsProps) => {

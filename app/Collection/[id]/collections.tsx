@@ -7,15 +7,25 @@ import {
 } from "@/components/CollectionCards";
 import Link from "next/link";
 import DeleteBtn from "@/DeleteBtn";
+import { NFTProps, NFTCard } from "@/components/NFTCards";
+import collectionImg from "/public/collection.png";
 
-const collections: CollectionProps[] = new Array(12).fill(collectionItem);
+const nfts: NFTProps[] = new Array(12).fill({
+  id: "dataId",
+  title: "Collection Name",
+  name: "collection",
+  creator: "liuq",
+  desc: "Automatically listed on Opensea immediatelyafter collection created",
+  logo: collectionImg,
+  collectionId: 1
+});
 
 const Collections = () => {
   return (
     <div className="grid grid-cols-4 gap-4 py-8">
-      {collections.map((card) => (
+      {nfts.map((card) => (
         <Link key={card.id} href={`/NFT/${card.id}`}>
-          <CollectionDone data={card}>
+          <NFTCard data={card}>
             <>
               <div className="absolute right-2 top-2">
                 <DeleteBtn data={card} />
@@ -26,7 +36,7 @@ const Collections = () => {
                 <BuyButton data={card} />
               </div>
             </>
-          </CollectionDone>
+          </NFTCard>
         </Link>
       ))}
     </div>

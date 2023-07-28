@@ -27,6 +27,7 @@ interface CardProps {
   children?: React.ReactNode;
   className?: string;
 }
+
 // banner random select collectionCard
 export const CollectionRandom = (props: CardProps) => {
   const { data } = props;
@@ -85,13 +86,4 @@ export const CollectionDone = (props: CardProps) => {
   );
 };
 
-// Generate by stable_diffusion
-export const NFTCard = (props: CardProps) => {
-  const { data } = props;
-  return (
-    <div className={cn(" w-[22.5rem] h-[22.5rem] relative", props.className)}>
-      <Image src={data.logo} alt="card" fill />
-      {props.children}
-    </div>
-  );
-};
+

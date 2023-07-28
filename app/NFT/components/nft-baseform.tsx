@@ -29,12 +29,11 @@ import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import Upload from "@/components/Upload";
 import Image from "next/image";
-import { CollectionProps, collectionItem } from "@/components/CollectionCards";
+import { collectionItem } from "@/components/CollectionCards";
 
 import { cn } from "@/lib/utils";
 import NFTCollections from "./nft-cards";
 
-const collections: CollectionProps[] = new Array(4).fill(collectionItem);
 
 const NFTbaseFormSchema = z.object({
   prompt: z.number().max(10000, {
@@ -260,7 +259,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
           <Button type="submit">Generate</Button>
         </form>
       </Form>
-      <NFTCollections dataSource={collections} />
+      <NFTCollections dataSource={new Array(4).fill(collectionItem)} />
     </>
   );
 }
