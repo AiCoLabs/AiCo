@@ -1,8 +1,9 @@
+'use client'
 import BuyButton from "@/components/BuyBtn";
 import ForkButton from "@/components/ForkBtn";
 
 import Link from "next/link";
-import DeleteBtn from "@/DeleteBtn";
+import DeleteBtn from "@/components/DeleteBtn";
 import { NFTProps, NFTCard } from "@/components/NFTCards";
 import { cn } from "@/lib/utils";
 
