@@ -1,18 +1,17 @@
 import { TextToImageRequestBody, TextToImageRequestPath } from "./DiffusionOpenAPI";
 
 const apiKey = process.env.NEXT_PUBLIC_DIFFUSION_API_KEY
-console.log('apiKey', process.env.NEXT_PUBLIC_DIFFUSION_API_KEY)
 
 export async function requestTextToImage(
   engineID: string,
   positivePrompt: string,
   samples: number,
   negativePrompt?: string,
-  style?: TextToImageRequestBody["style_preset"],
+  //style?: TextToImageRequestBody["style_preset"],
   height?: TextToImageRequestBody["height"],
   width?: TextToImageRequestBody["width"],
-  cfgScale?: TextToImageRequestBody["cfg_scale"],
-  seed?: TextToImageRequestBody["seed"],
+  //cfgScale?: TextToImageRequestBody["cfg_scale"],
+  //seed?: TextToImageRequestBody["seed"],
   steps?: TextToImageRequestBody["steps"]
 ): Promise<[string | undefined, Error | undefined]> {
   const prompts = [
@@ -31,12 +30,12 @@ export async function requestTextToImage(
 
   const body = JSON.stringify({
     text_prompts: prompts,
-    style_preset: style,
+    // style_preset: style,
     samples,
     height,
     width,
-    cfg_scale: cfgScale,
-    seed,
+    // cfg_scale: cfgScale,
+    // seed,
     steps,
   } satisfies TextToImageRequestBody);
 

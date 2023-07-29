@@ -38,18 +38,14 @@ import { requestTextToImage } from "@/lib/openAPI";
 
 
 const NFTbaseFormSchema = z.object({
-  prompt: z.number().max(10000, {
-    message: "your prompt",
-  }),
-  nPrompt: z.number().max(1000, {
-    message: "Negative prompt",
-  }),
+  prompt: z.string(),
+  nPrompt: z.string().optional(),
   image: z.instanceof(File),
-  count: z.array(z.number().min(1).max(8)),
-  advanced: z.boolean(),
-  width: z.number().min(1).max(350),
-  height: z.number().min(1).max(520),
-  steps: z.number().min(1).max(10),
+  count: z.array(z.number().min(1).max(4)).optional(),
+  advanced: z.boolean().optional(),
+  width: z.number().min(200).max(1000).optional(),
+  height: z.number().min(200).max(1000).optional(),
+  steps: z.number().min(1).max(10).optional(),
   model: z.string().min(20).max(100, {
     message: "Name must be at least 2 characters.",
   }),
@@ -78,8 +74,6 @@ export default function NFTbaseForm(props: BaseFormProps) {
   });
 
   const [advanced, count] = form.watch(["advanced", "count"]);
-  console.log("advanced", advanced);
-  console.log("count", count);
 
   function onSubmit(data: NFTbaseFormValues) {
     toast({
@@ -90,8 +84,8 @@ export default function NFTbaseForm(props: BaseFormProps) {
         </pre>
       ),
     });
-    console.log('data', data)
-    requestTextToImage('','', 1)
+    console.log('onSubmit', data)
+    requestTextToImage(data.model, data.prompt, count? count[0] : 1, data.nPrompt, data.width, data.height, data.steps)
   }
 
   return (
@@ -131,7 +125,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
               <FormItem>
                 <FormLabel>Negative prompt</FormLabel>
                 <FormControl>
-                  <Textarea {...field} />
+                  <Textarea {...field} required={false}/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -160,13 +154,40 @@ export default function NFTbaseForm(props: BaseFormProps) {
               <FormItem>
                 <FormLabel>Image Count</FormLabel>
                 <FormControl>
-                  <Slider defaultValue={[2]} max={4} step={1} {...field} />
+                  <Slider defaultValue={[1]} max={4} step={1} min={1} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
+          <FormField
+            control={form.control}
+            name="model"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Model</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a model to generate" />
+                      </SelectTrigger>
+                    </FormControl>
+                  <SelectContent>
+                    {DiffusionModel.map((item, index)=>{
+                        return <SelectItem value={item.value} key={index}>
+                        {item.label}
+                      </SelectItem>
+                      })}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="advanced"
@@ -222,33 +243,6 @@ export default function NFTbaseForm(props: BaseFormProps) {
                       <FormControl>
                         <Input type="number" min={0} {...field} />
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="model"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Model</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={DiffusionModel[0].value}
-                      >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a verified email to display" />
-                            </SelectTrigger>
-                          </FormControl>
-                        <SelectContent>
-                          {DiffusionModel.map((item, index)=>{
-                              return <SelectItem value={item.value} key={index}>
-                              {item.label}
-                            </SelectItem>
-                            })}
-                        </SelectContent>
-                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

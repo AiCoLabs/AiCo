@@ -30,5 +30,5 @@ export const NFTCard = (props: CardProps) => {
       <Image src={data.logo} alt="card" fill />
       {props.children}
     </div>
-  );
+  )
 };
