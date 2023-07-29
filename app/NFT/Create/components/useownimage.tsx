@@ -20,8 +20,6 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import Upload from "@/components/Upload";
 import { cn } from "@/lib/utils";
-import { collectionItem } from "@/components/CollectionCards";
-import NFTCollections from "../../components/nft-cards";
 
 const OwnImageToNFTSchema = z.object({
   image: z.instanceof(File),
@@ -82,7 +80,6 @@ export default function OwnImageToNFT(props: ForkFormProps) {
           <Button type="submit">Create Collection</Button>
         </form>
       </Form>
-      <NFTCollections dataSource={new Array(4).fill(collectionItem)} />
     </>
   );
 }
