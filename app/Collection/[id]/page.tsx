@@ -1,7 +1,13 @@
-import { CollectionProps, collectionItem } from "@/components/CollectionCards";
+import { collectionItem } from "@/components/CollectionCards";
 import Image from "next/image";
 
-import { BsDiscord, BsMedium, BsTwitter, BsTelegram } from "react-icons/bs";
+import {
+  BsDiscord,
+  BsMedium,
+  BsTwitter,
+  BsTelegram,
+  BsPlusLg,
+} from "react-icons/bs";
 
 import UserAvatar from "@/components/UserAvatar";
 import {
@@ -13,6 +19,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import CollectionCards from "./collections";
+import type { NFTProps } from "@/components/NFTCards";
+import collectionImg from "/public/collection.png";
+import Link from "next/link";
+
+const nfts: NFTProps[] = new Array(12).fill({
+  id: "dataId",
+  title: "Collection Name",
+  name: "collection",
+  creator: "liuq",
+  desc: "Automatically listed on Opensea immediatelyafter collection created",
+  logo: collectionImg,
+  collectionId: 1,
+});
 
 const Collection = ({ params }: { params: { id: string } }) => {
   return (
@@ -125,13 +144,22 @@ const Collection = ({ params }: { params: { id: string } }) => {
         <Input
           type="text"
           placeholder="Search by name"
-          className="bg-white-rgba text-white"
+          className="text-white"
         />
         <Button type="submit" className="bg-indigo-800">
           Search
         </Button>
       </div>
-      <CollectionCards />
+      <Link
+        href={`/NFT/Create/collectionId`}
+        className={
+          "flex flex-col items-center justify-center w-[15.18125rem] mt-4 h-[18.75rem] border text-white"
+        }
+      >
+        <BsPlusLg className="w-36 h-36" />
+        add first NFT
+      </Link>
+      <CollectionCards data={nfts} className="mt-4" />
     </div>
   );
 };

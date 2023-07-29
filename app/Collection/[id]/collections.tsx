@@ -1,29 +1,16 @@
 import BuyButton from "@/components/BuyBtn";
 import ForkButton from "@/components/ForkBtn";
-import {
-  CollectionProps,
-  CollectionDone,
-  collectionItem,
-} from "@/components/CollectionCards";
+
 import Link from "next/link";
 import DeleteBtn from "@/DeleteBtn";
 import { NFTProps, NFTCard } from "@/components/NFTCards";
-import collectionImg from "/public/collection.png";
+import { cn } from "@/lib/utils";
 
-const nfts: NFTProps[] = new Array(12).fill({
-  id: "dataId",
-  title: "Collection Name",
-  name: "collection",
-  creator: "liuq",
-  desc: "Automatically listed on Opensea immediatelyafter collection created",
-  logo: collectionImg,
-  collectionId: 1
-});
-
-const Collections = () => {
+const Collections = (props:{data:NFTProps[],className?:string}) => {
+  const {data=[]}=props
   return (
-    <div className="grid grid-cols-4 gap-4 py-8">
-      {nfts.map((card) => (
+    <div className={cn("grid grid-cols-4 gap-4 py-8",props.className)}>
+      {data.map((card) => (
         <Link key={card.id} href={`/NFT/${card.id}`}>
           <NFTCard data={card}>
             <>
