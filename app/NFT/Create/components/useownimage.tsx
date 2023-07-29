@@ -77,7 +77,7 @@ export default function OwnImageToNFT(props: ForkFormProps) {
               </FormItem>
             )}
           />
-          <Button type="submit">Create Collection</Button>
+          <Button type="submit">Upload</Button>
         </form>
       </Form>
     </>

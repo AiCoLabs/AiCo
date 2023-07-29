@@ -33,6 +33,8 @@ import { collectionItem } from "@/components/CollectionCards";
 
 import { cn } from "@/lib/utils";
 import NFTCollections from "./nft-cards";
+import { DiffusionModel } from "@/lib/constants";
+import { requestTextToImage } from "@/lib/openAPI";
 
 
 const NFTbaseFormSchema = z.object({
@@ -88,6 +90,8 @@ export default function NFTbaseForm(props: BaseFormProps) {
         </pre>
       ),
     });
+    console.log('data', data)
+    requestTextToImage('','', 1)
   }
 
   return (
@@ -156,7 +160,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
               <FormItem>
                 <FormLabel>Image Count</FormLabel>
                 <FormControl>
-                  <Slider defaultValue={[50]} max={100} step={1} {...field} />
+                  <Slider defaultValue={[2]} max={4} step={1} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -230,23 +234,19 @@ export default function NFTbaseForm(props: BaseFormProps) {
                       <FormLabel>Model</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        defaultValue={DiffusionModel[0].value}
                       >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a verified email to display" />
-                          </SelectTrigger>
-                        </FormControl>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a verified email to display" />
+                            </SelectTrigger>
+                          </FormControl>
                         <SelectContent>
-                          <SelectItem value="m@example.com">
-                            m@example.com
-                          </SelectItem>
-                          <SelectItem value="m@google.com">
-                            m@google.com
-                          </SelectItem>
-                          <SelectItem value="m@support.com">
-                            m@support.com
-                          </SelectItem>
+                          {DiffusionModel.map((item, index)=>{
+                              return <SelectItem value={item.value} key={index}>
+                              {item.label}
+                            </SelectItem>
+                            })}
                         </SelectContent>
                       </Select>
                       <FormMessage />
