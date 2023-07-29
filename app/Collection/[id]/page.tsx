@@ -23,15 +23,7 @@ import type { NFTProps } from "@/components/NFTCards";
 import collectionImg from "/public/collection.png";
 import Link from "next/link";
 
-const nfts: NFTProps[] = new Array(12).fill({
-  id: "dataId",
-  title: "Collection Name",
-  name: "collection",
-  creator: "liuq",
-  desc: "Automatically listed on Opensea immediatelyafter collection created",
-  logo: collectionImg,
-  collectionId: 1,
-});
+const nfts: NFTProps[]|null = null
 
 const Collection = ({ params }: { params: { id: string } }) => {
   return (
@@ -150,16 +142,19 @@ const Collection = ({ params }: { params: { id: string } }) => {
           Search
         </Button>
       </div>
-      <Link
-        href={`/NFT/Create/collectionId`}
+      {
+        (!nfts || nfts?.length === 0) ? <Link
+        href={`/NFT/Create/${params.id}`}
         className={
           "flex flex-col items-center justify-center w-[15.18125rem] mt-4 h-[18.75rem] border text-white"
         }
       >
         <BsPlusLg className="w-36 h-36" />
-        add first NFT
-      </Link>
-      <CollectionCards data={nfts} className="mt-4" />
+          add first NFT
+      </Link> : <CollectionCards data={nfts} className="mt-4" />
+      }
+      
+      
     </div>
   );
 };
