@@ -1,4 +1,4 @@
-import { getBlob } from "@/components/util";
+import { getBlob } from "@/lib/utils";
 import { ImageToImageRequestBody, ImageToImageRequestPath, TextToImageRequestBody, TextToImageRequestPath } from "./DiffusionOpenAPI";
 
 const apiKey = process.env.NEXT_PUBLIC_DIFFUSION_API_KEY

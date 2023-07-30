@@ -3,7 +3,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { Input, InputProps } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-import { getBase64 } from "./util";
+import { getBase64 } from "../lib/utils";
 
 export type UploadProps = React.HTMLAttributes<HTMLDivElement> & {
   onChange?: (value?: File) => void;

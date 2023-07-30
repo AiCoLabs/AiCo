@@ -12,3 +12,6 @@ export const DiffusionModel = [
     value: "stable-diffusion-512-v2-1",
   },
 ]
+
+export const IPFS_GATEWAY_URL = 'https://gateway.ipfscdn.io/ipfs'
+export const ARWEAVE_GATEWAY_URL = 'https://arweave.net'
