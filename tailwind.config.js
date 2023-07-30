@@ -9,7 +9,8 @@ module.exports = {
     "./hooks/*.{ts,tsx}",
     "./lib/*.{ts,tsx}",
     "./api/**/*.{ts,tsx}",
-    "./abis/*.{ts}"
+    "./abis/*.{ts}",
+    './public/*.{png,svg,jpg,jpeg}'
   ],
   theme: {
     container: {
