@@ -4,8 +4,8 @@ import Button from '@/components/Button'
 import Title from '@/components/Title'
 import FeaturesCards from '@/components/FeaturesCards'
 import { CollectionDone, CollectionIng, CollectionRandom, CollectionProps, collectionItem } from '@/components/CollectionCards'
-import img4 from "../public/Card7.png"
-import logo from "../public/logo.svg"
+import img4 from "@/public/Card7.png"
+import logo from "@/public/logo.svg"
 import Link from 'next/link'
 
 
