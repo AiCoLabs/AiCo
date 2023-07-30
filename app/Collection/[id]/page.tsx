@@ -23,7 +23,7 @@ import type { NFTProps } from "@/components/NFTCards";
 import collectionImg from "/public/collection.png";
 import Link from "next/link";
 
-const nfts: NFTProps[]|null = null
+let nfts: NFTProps[]|null = null
 
 const Collection = ({ params }: { params: { id: string } }) => {
   return (

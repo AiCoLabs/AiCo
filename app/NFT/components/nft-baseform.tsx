@@ -40,7 +40,7 @@ import { useCallback, useState } from "react";
 const NFTbaseFormSchema = z.object({
   prompt: z.string(),
   nPrompt: z.string().optional(),
-  image: z.instanceof(File).optional(),
+  image: z.any().optional(),
   count: z.array(z.number().min(1).max(4)).optional(),
   advanced: z.boolean().optional(),
   width: z.number().min(200).max(1000).optional(),

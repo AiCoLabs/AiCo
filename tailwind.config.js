@@ -7,7 +7,9 @@ module.exports = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
     "./hooks/*.{ts,tsx}",
-    "./lib/*.{ts,tsx}"
+    "./lib/*.{ts,tsx}",
+    "./api/**/*.{ts,tsx}",
+    "./abis/*.{ts}"
   ],
   theme: {
     container: {

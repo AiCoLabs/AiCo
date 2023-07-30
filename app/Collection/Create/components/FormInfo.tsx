@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Upload from "@/components/Upload";
@@ -53,7 +52,7 @@ const accountFormSchema = z.object({
     }),
   description: z.string().optional(),
   category: z.string().optional(),
-  file: z.instanceof(File),
+  file: z.any(),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
@@ -170,7 +169,7 @@ export default function AccountForm(props:{next:(info:AccountFormValues)=>void, 
           control={form.control}
           name="file"
           render={({ field }) => {
-            return field.value? <img src={field.value} />:<FormItem>
+            return <FormItem>
               <FormLabel>Logo Image</FormLabel>
               <FormControl>
                 <Upload {...field} />

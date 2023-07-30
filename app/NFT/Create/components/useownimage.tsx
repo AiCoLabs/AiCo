@@ -22,7 +22,7 @@ import Upload from "@/components/Upload";
 import { cn } from "@/lib/utils";
 
 const OwnImageToNFTSchema = z.object({
-  image: z.instanceof(File),
+  image: z.any(),
 });
 
 type OwnImageToNFTValues = z.infer<typeof OwnImageToNFTSchema>;

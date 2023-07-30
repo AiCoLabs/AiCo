@@ -15,3 +15,6 @@ export const DiffusionModel = [
 
 export const IPFS_GATEWAY_URL = 'https://gateway.ipfscdn.io/ipfs'
 export const ARWEAVE_GATEWAY_URL = 'https://arweave.net'
+export const AICOO_PROXY_ADDRESS = '0x062e741B10B80464cDf76452404484BbB166A952'
+
+export const AiCooHubProxy = 'AiCooHubProxy'

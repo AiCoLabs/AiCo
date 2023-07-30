@@ -63,7 +63,7 @@ const accountFormSchema = z.object({
     message: "Name must be at least 2 characters.",
   }),
   isSupportWhiteList: z.boolean(),
-  whiteList: z.instanceof(File),
+  whiteList: z.any(),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
@@ -104,7 +104,7 @@ export default function AccountForm(props:{next:(info:AccountFormValues)=>void, 
             <FormItem>
               <FormLabel>Mint Limit</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} type="number"/>
               </FormControl>
               <FormMessage />
             </FormItem>

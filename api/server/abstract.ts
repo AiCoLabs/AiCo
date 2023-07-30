@@ -11,7 +11,7 @@ function _axios(_axiosRequest: AxiosRequest) {
       params: _axiosRequest.params,
       responseType: _axiosRequest.responseType,
     })
-      .then((response) => {
+      .then((response: any) => {
         if (response.status === 200) {
           resolve(response.data)
          // resolve(new Response(response.data));
@@ -21,7 +21,7 @@ function _axios(_axiosRequest: AxiosRequest) {
          // resolve(new Response(response.data));
         }
       })
-      .catch((error) => {
+      .catch((error: any) => {
         const message =
           error?.data?.errorMessage || error?.message || '请求失败';
         reject({

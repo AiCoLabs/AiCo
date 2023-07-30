@@ -2,6 +2,7 @@ import { getBlob } from "@/lib/utils";
 import { ImageToImageRequestBody, ImageToImageRequestPath, TextToImageRequestBody, TextToImageRequestPath } from "./DiffusionOpenAPI";
 
 const apiKey = process.env.NEXT_PUBLIC_DIFFUSION_API_KEY
+console.log('apiKey', apiKey)
 const apiUrl = 'https://api.stability.ai'
 
 interface GenerationResponse {
