@@ -7,3 +7,13 @@ export function getBase64(file: File) {
         reader.onerror = (error) => reject(error);
     });
 }
+
+export function getBlob(file: File){
+    return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.readAsArrayBuffer(file);
+        reader.onload = () => resolve(new Blob([reader.result]));
+        reader.onerror = (error) => reject(error);
+    });
+}

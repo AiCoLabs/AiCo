@@ -33,7 +33,7 @@ const Upload = React.forwardRef<HTMLInputElement, UploadProps>(
 
     return (
       <div className="flex flex-row items-center">
-        <div className="border w-20 h-20 relative">
+        <div className="border w-full h-40 relative">
           <Input
             type="file"
             className={cn(
@@ -46,9 +46,9 @@ const Upload = React.forwardRef<HTMLInputElement, UploadProps>(
             onChange={handleFileOnChange}
           />
           {base64 ? (
-            <img src={base64} alt="" />
+            <img className=" w-full h-full" src={base64} alt="" />
           ) : (
-            <PlusIcon className="w-full h-full" />
+            <PlusIcon className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-20 h-20" />
           )}
         </div>
         {accept !== defaultAccept && value ? value.name : ""}

@@ -12,6 +12,6 @@ const NFTCollections = ({ dataSource = [] }: NFTCollectionsProps) => {
       ))}
     </div>
   )
-};
+}
 
-export default NFTCollections;
+export default NFTCollections

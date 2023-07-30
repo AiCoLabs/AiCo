@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import Upload from "@/components/Upload";
@@ -32,15 +32,15 @@ import Image from "next/image";
 import { collectionItem } from "@/components/CollectionCards";
 
 import { cn } from "@/lib/utils";
-import NFTCollections from "./nft-cards";
 import { DiffusionModel } from "@/lib/constants";
-import { requestTextToImage } from "@/lib/openAPI";
+import { requestImageToImage, requestTextToImage } from "@/lib/openAPI";
+import { useCallback, useState } from "react";
 
 
 const NFTbaseFormSchema = z.object({
   prompt: z.string(),
   nPrompt: z.string().optional(),
-  image: z.instanceof(File),
+  image: z.instanceof(File).optional(),
   count: z.array(z.number().min(1).max(4)).optional(),
   advanced: z.boolean().optional(),
   width: z.number().min(200).max(1000).optional(),
@@ -67,6 +67,10 @@ interface BaseFormProps {
 
 export default function NFTbaseForm(props: BaseFormProps) {
   const { type, className } = props;
+  const [imageURL, setImageURL] = useState<string[] | undefined>(undefined);
+  const [generating, setGenerating] = useState<boolean>(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [selectIndex, setSelectIndex] = useState(-1);
 
   const form = useForm<NFTbaseFormValues>({
     resolver: zodResolver(NFTbaseFormSchema),
@@ -75,7 +79,39 @@ export default function NFTbaseForm(props: BaseFormProps) {
 
   const [advanced, count] = form.watch(["advanced", "count"]);
 
+  const generate = useCallback(async (data: NFTbaseFormValues) => {
+    setSelectIndex(-1);
+    setGenerating(true);
+    setError(undefined);
+    let res : [string[] | undefined, Error | undefined] | null = null
+    if (type === 'TextToImage'){
+      res = await requestTextToImage(data.model, data.prompt, count? count[0] : 1, data.nPrompt, data.height, data.width, data.steps)
+    } else if ((type === 'ImageToImage' || type === 'ForkImage') && data.image){
+      res = await requestImageToImage(
+        data.model, 
+        data.prompt,
+        data.image,
+        count? count[0] : 1,
+        data.nPrompt,
+        data.steps
+      );
+    }
+    console.log('generate', res)
+    if (res){
+      const [url, error] = res
+      setGenerating(false);
+      if (error) {
+        setError(error.message);
+        setImageURL(undefined);
+      } else {
+        setImageURL(url);
+      }
+    }
+    
+  }, [type]);
+
   function onSubmit(data: NFTbaseFormValues) {
+    console.log('onSubmit', data)
     toast({
       title: "You submitted the following values:",
       description: (
@@ -84,10 +120,14 @@ export default function NFTbaseForm(props: BaseFormProps) {
         </pre>
       ),
     });
-    console.log('onSubmit', data)
-    requestTextToImage(data.model, data.prompt, count? count[0] : 1, data.nPrompt, data.width, data.height, data.steps)
+    generate(data)
   }
 
+  const uploadToContract = ()=>{
+    if (selectIndex === -1){
+      return;
+    }
+  }
   return (
     <>
       <Form {...form}>
@@ -154,7 +194,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
               <FormItem>
                 <FormLabel>Image Count</FormLabel>
                 <FormControl>
-                  <Slider defaultValue={[1]} max={4} step={1} min={1} {...field} />
+                  <Slider defaultValue={[1]} max={4} step={1} min={1} {...field} onValueChange={field.onChange}/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -205,7 +245,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
           />
           {advanced && (
             <>
-              <div className="flex gap-8">
+              {type === "TextToImage" && <div className="flex gap-8">
                 <FormField
                   control={form.control}
                   name="width"
@@ -232,7 +272,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
                     </FormItem>
                   )}
                 />
-              </div>
+              </div>}
               <div className="flex gap-8">
                 <FormField
                   control={form.control}
@@ -250,10 +290,24 @@ export default function NFTbaseForm(props: BaseFormProps) {
               </div>
             </>
           )}
-          <Button type="submit">Generate</Button>
+          <Button type="submit" disabled={generating}>Generate</Button>
         </form>
       </Form>
-      <NFTCollections dataSource={new Array(4).fill(collectionItem)} />
+      {imageURL && 
+        <div>
+          <div className="grid grid-cols-2 justify-items-center gap-4 p-4 mt-8 border">
+            { imageURL.map((image, index) =>{
+              return <div className={cn("w-[24rem] h-[24rem] relative")} 
+                      key={index} 
+                      onClick={()=>setSelectIndex(index)}>
+                      <Image src={image} alt="card" fill />
+                      {selectIndex === index && <div className="w-full h-full"/>}
+                    </div>
+            })}
+          </div>
+          <Button className="mt-8" onClick={uploadToContract} disabled={selectIndex === -1}>Upload</Button>
+        </div>
+      }
     </>
-  );
+  )
 }

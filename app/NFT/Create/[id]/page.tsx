@@ -26,10 +26,10 @@ export default function CreatNFT() {
           className="flex-1 text-white text-2xl bg-indigo-500 p-3 rounded-2xl "
         >
           <TabsContent value="TextToImage">
-            <NftBaseForm type="TextToImage" />;
+            <NftBaseForm type="TextToImage" />
           </TabsContent>
           <TabsContent value="ImageToImage">
-            <NftBaseForm type="ImageToImage" />;
+            <NftBaseForm type="ImageToImage" />
           </TabsContent>
           <TabsContent value="UseOwnImage">
             <OwnImageToNFT />
