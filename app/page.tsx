@@ -69,7 +69,7 @@ const Home = () => {
                   AiCoo is a decentralized co-create platfrom  through AI.
                   Anyone can initial a new collection and set conditions for who can paticipate.
                   All participants co-created used AI tool(Chatgpt/Stable Diffusion),
-                  And all contributors of collection share the royalty og the collection.
+                  And all contributors of collection share the royalty of the collection.
                   Claim the royalty fee from the NFT contracts.
                 </div>
                 <Link href={"/Collection/Create"}>

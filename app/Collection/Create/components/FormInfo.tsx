@@ -33,10 +33,10 @@ import { toast } from "@/components/ui/use-toast";
 import Image from "next/image";
 
 const categorys = [
+  { label: "Meme", value: "meme" },
   { label: "Art", value: "art" },
   { label: "PFPs", value: "pfp" },
-  { label: "Photography", value: "Photography" },
-  { label: "Meme", value: "meme" },
+  { label: "Photography", value: "photo" },
   { label: "Music", value: "music" },
   { label: "Video", value: "video" },
 ] as const;
