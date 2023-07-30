@@ -18,7 +18,7 @@ const { chains, publicClient } = configureChains(
   [publicProvider()]
 );
 
-const projectId = 'AICOO';
+const projectId = '3d3cb5e586db5bf6994959eb4755bd4a';
 
 const { connectors } = getDefaultWallets({
   appName: 'AiCoo Web3',
