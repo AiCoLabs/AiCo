@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import OwnImageToNFT from "../components/useownimage";
 
-export default function CreatNFT() {
+export default function CreatNFT({ params }: { params: { id: string } }) {
   const [tabValue, setTabValue] = useState("TextToImage");
 
   return <div className="container mx-auto var-dark">
@@ -26,10 +26,10 @@ export default function CreatNFT() {
           className="flex-1 text-white text-2xl bg-indigo-500 p-3 rounded-2xl "
         >
           <TabsContent value="TextToImage">
-            <NftBaseForm type="TextToImage" />
+            <NftBaseForm type="TextToImage" collectionId={params.id}/>
           </TabsContent>
           <TabsContent value="ImageToImage">
-            <NftBaseForm type="ImageToImage" />
+            <NftBaseForm type="ImageToImage" collectionId={params.id}/>
           </TabsContent>
           <TabsContent value="UseOwnImage">
             <OwnImageToNFT />

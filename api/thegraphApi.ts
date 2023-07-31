@@ -1,4 +1,3 @@
-'use client'
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import { getReq } from './server/abstract';
 import { sanitizeDStorageUrl } from '@/lib/utils';
@@ -117,6 +116,7 @@ export const getNewNFTCreateds = async( collectionId: string)=>{
   let collections = await Promise.all(response.data.newNFTCreateds.map(async (collection: NewNFTCreateds) => {
     let url = sanitizeDStorageUrl(collection.nftInfoURI);
     let json: any = await getReq(url)
+    if (json.image) json.image = sanitizeDStorageUrl(json.image);
     return {...collection, detailJson: json}
   }))
   return collections

@@ -4,10 +4,11 @@ import ForkButton from "@/components/ForkBtn";
 
 import Link from "next/link";
 import DeleteBtn from "@/components/DeleteBtn";
-import { NFTProps, NFTCard } from "@/components/NFTCards";
+import {  NFTCard } from "@/components/NFTCards";
 import { cn } from "@/lib/utils";
+import { NewNFTCreateds } from "@/lib/type";
 
-const Collections = (props:{data:NFTProps[],className?:string}) => {
+const Collections = (props:{data: NewNFTCreateds[],className?:string}) => {
   const {data=[]}=props
   return (
     <div className={cn("grid grid-cols-4 gap-4 py-8",props.className)}>
@@ -19,7 +20,7 @@ const Collections = (props:{data:NFTProps[],className?:string}) => {
                 <DeleteBtn data={card} />
               </div>
               <div className="absolute w-full bottom-0 h-11 flex items-center justify-between bg-indigo-500 px-2 gap-2 text-white">
-                <div>{card.title}</div>
+                <div>{`#${card.tokenId}`}</div>
                 <ForkButton data={card} />
                 <BuyButton data={card} />
               </div>

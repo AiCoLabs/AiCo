@@ -44,3 +44,24 @@ export function  sanitizeDStorageUrl  (url: string) {
   }
 
   export const trimify = (value: string): string => value?.trim()
+
+  export const base64toBuff = (data) => {
+    var arr = data.split(',');
+    var buffer = Buffer.from(arr[1], 'base64');
+    // new Blob(buffer)
+    let array = new Uint8Array(buffer, 0, buffer.length);
+    return Array.from(array);
+  };
+
+  // Base64 转 Blob
+  export const  dataURLtoBlob = (dataurl) =>{
+  var arr = dataurl.split(',') //分割为数组，分割到第一个逗号
+  let mime = arr[0].match(/:(.*?);/)[1]//获取分割后的base64前缀中的类型
+  let bstr = window.atob(arr[1])
+  let n = bstr.length 
+  let u8arr = new Uint8Array(n)
+  while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], { type: mime });//文件类型格式
+}

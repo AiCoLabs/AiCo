@@ -1,10 +1,9 @@
 import Image from "next/image"
 import opensealogo from "../public/opensealogo.png"
 import Link from "next/link"
-import { NFTProps } from "./NFTCards"
-import { NewCollectionCreateds } from "@/lib/type"
+import { NewCollectionCreateds, NewNFTCreateds } from "@/lib/type"
 
-const BuyButton = (props: { data: NFTProps | NewCollectionCreateds }) => {
+const BuyButton = (props: { data: NewNFTCreateds | NewCollectionCreateds }) => {
     const { data } = props
     return (
         <Link href={"/"}>

@@ -31,11 +31,14 @@ import Upload from "@/components/Upload";
 import Image from "next/image";
 import { collectionItem } from "@/components/CollectionCards";
 
-import { cn } from "@/lib/utils";
-import { DiffusionModel } from "@/lib/constants";
+import { base64toBuff, cn, dataURLtoBlob, trimify } from "@/lib/utils";
+import { AICOO_PROXY_ADDRESS, AICOO_WEBSITE, DiffusionModel } from "@/lib/constants";
 import { requestImageToImage, requestTextToImage } from "@/lib/openAPI";
 import { useCallback, useState } from "react";
-
+import { useContractWrite } from "wagmi";
+import { AI_COO_ABI } from "@/abis/AiCooProxy";
+import { storeBlob, storeCar } from "@/lib/uploadToStorage";
+import { ethers } from 'ethers'
 
 const NFTbaseFormSchema = z.object({
   prompt: z.string(),
@@ -62,15 +65,19 @@ const defaultValues: Partial<NFTbaseFormValues> = {
 interface BaseFormProps {
   // this form component is used by below 3 pages
   type: "TextToImage" | "ImageToImage" | "ForkImage";
+  collectionId: string,
+  nftId?: string,
   className?: string;
 }
 
 export default function NFTbaseForm(props: BaseFormProps) {
+  const abiCoder = new ethers.AbiCoder() 
   const { type, className } = props;
   const [imageURL, setImageURL] = useState<string[] | undefined>(undefined);
   const [generating, setGenerating] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [selectIndex, setSelectIndex] = useState(-1);
+  const [buttonState, setButtonState] = useState({buttonText: 'Upload', loading: false})
 
   const form = useForm<NFTbaseFormValues>({
     resolver: zodResolver(NFTbaseFormSchema),
@@ -123,11 +130,103 @@ export default function NFTbaseForm(props: BaseFormProps) {
     generate(data)
   }
 
+
+  const { write: writePostContract } = useContractWrite({
+    address: AICOO_PROXY_ADDRESS,
+    abi: AI_COO_ABI,
+    functionName: 'commitNewNFTIntoCollection',
+    onSuccess: (data) => {
+      console.log('onSuccess data', data)
+      setButtonState({
+        buttonText: `Upload`,
+        loading: false
+      })
+    },
+    onError: (error) => {
+      console.log('onError error', error)
+      setButtonState({
+        buttonText: `Upload`,
+        loading: false
+      })
+    }
+  })
+
+  const createNFT = async (imageSource: string) => {
+    try {
+      setButtonState({
+        buttonText: `Storing metadata`,
+        loading: true
+      })
+      const media= [
+        {
+          item: imageSource,
+          type: 'image/png',
+          cover: imageSource
+        }
+      ]
+      const attributes= []
+      const metadata= {
+        content: trimify(
+          `**I'm particpating a fantasitic collection on OpTree.**\n**This is my work.**\n${AICOO_WEBSITE}/Collection/${props.collectionId}/`
+        ),
+        mainContentFocus: 'IMAGE',
+        external_link: `${AICOO_WEBSITE}`,
+        image: imageSource,
+        attributes,
+        media,
+      }
+      console.log('metadata',metadata)
+      let metadataUri = await await storeBlob(JSON.stringify(metadata))
+      metadataUri = 'ipfs://' + metadataUri
+      console.log('metadataUri', metadataUri)
+      setButtonState({
+        buttonText: `Posting image`,
+        loading: true
+      })
+      //let mintInfo = await getNewCollectionMintInfo(id)   
+      // uint256 collectionId;
+      // string nftInfoURI;
+      // uint256 derivedFrom;
+      // bytes derivedModuleData;
+      // bytes32[] proof;
+
+      const args = [
+        props.collectionId,
+        metadataUri,
+        "0",
+        abiCoder.encode(['bool'], [false]),
+        [],
+      ]
+      console.log('writePostContract args', args)
+      return  writePostContract?.({ args: [args] })
+    } catch (e){
+      console.error('e',e) 
+      setButtonState({
+        buttonText: `Post image`,
+        loading: false
+      })
+    }
+  }
+
+  const uploadImageToIpfs = async ( ) => {
+    if (imageURL?.[selectIndex]){
+      setButtonState({
+        buttonText: `Uploading to IPFS`,
+        loading: true
+      })
+      const result = await storeCar(dataURLtoBlob(imageURL[selectIndex]))
+      const url = 'ipfs://' + result
+      return await createNFT(url)
+    }
+  }
+
   const uploadToContract = ()=>{
     if (selectIndex === -1){
       return;
     }
+    uploadImageToIpfs()
   }
+
   return (
     <>
       <Form {...form}>
@@ -305,7 +404,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
                     </div>
             })}
           </div>
-          <Button className="mt-8" onClick={uploadToContract} disabled={selectIndex === -1}>Upload</Button>
+          <Button className="mt-8" onClick={uploadToContract} disabled={selectIndex === -1}>{buttonState.buttonText}</Button>
         </div>
       }
     </>
