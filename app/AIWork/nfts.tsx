@@ -5,7 +5,7 @@ import BuyButton from '@/components/BuyBtn';
 
 const collectionItem = {
     title: "Integrate OpenSea",
-    desc: "Automatically listed on Opensea immediatelyafter collection created",
+    desc: "Automatically listed on Opensea immediately after collection created",
     logo: collection
 }
 

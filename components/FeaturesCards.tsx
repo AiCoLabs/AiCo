@@ -8,7 +8,7 @@ import ChatGPT_logo from "../public/ChatGPT_logo.png"
 import chatgpt from "../public/chatgpt.png"
 
 const cardarr3: CardProps[] = [
-    { title: "Integrate OpenSea    ", desc: "Automatically listed on Opensea immediatelyafter collection created", logo: opensealogo },
+    { title: "Integrate OpenSea    ", desc: "Automatically listed on Opensea immediately after collection created", logo: opensealogo },
     { title: "Integrate AI", desc: "Co-Create photograph in one collection by stable diffusion", logo: StabilityAi_Logo },
     { title: "Integrate ChatGpt", desc: "Co-Create Novel/Drama by GPT,anyone can contribute chapter.", logo: ChatGPT_logo },
     { title: "Permissionless", desc: "Anyone can initiate a new collection.", logo: per },
