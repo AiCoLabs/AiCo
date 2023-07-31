@@ -1,6 +1,4 @@
-import { collectionItem } from "@/components/CollectionCards";
-import Image from "next/image";
-
+'use client'
 import {
   BsDiscord,
   BsMedium,
@@ -19,22 +17,28 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import CollectionCards from "./collections";
-import type { NFTProps } from "@/components/NFTCards";
-import collectionImg from "/public/collection.png";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { NewCollectionCreateds, NewNFTCreateds } from "@/lib/type";
+import { getNewNFTCreatedByCollectionId, getNewNFTCreateds } from "@/api/thegraphApi";
 
-let nfts: NFTProps[]|null = null
 
 const Collection = ({ params }: { params: { id: string } }) => {
+  const [collectionItem, setCollectionItem] = useState<NewCollectionCreateds|undefined>()
+  const [nfts, setNFTs] = useState<NewNFTCreateds[]|undefined>()
+  useEffect(()=>{
+    getNewNFTCreatedByCollectionId(params.id).then((res)=>setCollectionItem(res))
+    getNewNFTCreateds(params.id).then((res)=>setNFTs(res))
+  },[])
   return (
     <div className="container mx-auto">
-      <Image
-        src={collectionItem.logo}
+      <img
+        src={collectionItem?.detailJson.image }
         alt=""
         className="w-full h-56 -mb-32"
-      ></Image>
+      />
       <div className="px-10 ">
-        <Image src={collectionItem.logo} alt="" className="w-40 h-40"></Image>
+        <img src={collectionItem?.detailJson.image} alt="" className="w-40 h-40"/>
         <div className="grid grid-cols-3 gap-14 text-lg text-white">
           <div className="col-span-2">
             <div className="flex justify-between items-center mt-4">
@@ -48,7 +52,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
             </div>
             <div className="flex gap-2 items-center mt-4">
               <div>By</div>
-              <UserAvatar data={collectionItem} />
+              {collectionItem && <UserAvatar data={collectionItem} />}
             </div>
             <div className="flex gap-6 mt-4">
               <div className="flex gap-2 items-center">

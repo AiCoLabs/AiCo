@@ -1,3 +1,4 @@
+'use client'
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import { getReq } from './server/abstract';
 import { sanitizeDStorageUrl } from '@/lib/utils';
@@ -16,26 +17,53 @@ export const client = new ApolloClient({
 export const newCollectionCreatedsDoc = gql`
   query newCollectionCreateds {
     newCollectionCreateds {
-      id
+      baseRoyalty
+      blockNumber
+      blockTimestamp
       collInfoURI
       collectionId
       collectionOwner
-      derivedRuleModule
+      collectionType
       derivedCollectionAddr
+      derivedRuleModule
+      id
+      timestamp
+      transactionHash
+    }    
+  }
+`
+
+export const newCollectionCreatedByIdDoc = gql`
+  query newCollectionCreateds ($collectionId: String!){
+    newCollectionCreateds(where: {collectionId: $collectionId}) {
+      baseRoyalty
+      blockNumber
+      blockTimestamp
+      collInfoURI
+      collectionId
+      collectionOwner
+      collectionType
+      derivedCollectionAddr
+      derivedRuleModule
+      id
+      timestamp
+      transactionHash
     }    
   }
 `
 
 
-
 export const newNFTCreatedsDoc = gql`
   query getNewNFTCreateds ($collectionId: String!){
     newNFTCreateds(where: {collectionId: $collectionId}) {
-      id
-      nftInfoURI
+      blockNumber
+      blockTimestamp
       collectionId
       derivedFrom
+      id
+      nftInfoURI
       tokenId
+      transactionHash
     }    
   }
 `
@@ -51,20 +79,36 @@ export const newCollectionMintInfosDoc = gql`
   }
 `
 
-export const getNewCollectionCreated = async (size:number, offset:number)=>{
+const parseCollectionDetailJson = async (collInfoURI: string) =>{
+    let url = sanitizeDStorageUrl(collInfoURI);
+    let json: any = await getReq(url)
+    if (json.image) json.image = sanitizeDStorageUrl(json.image);
+    return json
+}
+
+export const getNewCollectionCreated = async (size?:number, offset?:number)=>{
   let response: {data: {newCollectionCreateds: NewCollectionCreateds[]}} = await client.query({query: newCollectionCreatedsDoc})
   console.log('getNewCollectionCreated response',response)
   let collections = await Promise.all(response.data.newCollectionCreateds.map(async (collection: NewCollectionCreateds) => {
-    if(parseInt(collection.collectionId) < 8) return
-    let url = sanitizeDStorageUrl(collection.collInfoURI);
-    let json: any = await getReq(url)
+    let json = await parseCollectionDetailJson(collection.collInfoURI)
     return {...collection, detailJson: json}
   }))
-  console.log('collections',collections, collections.filter((item)=>!!item))
   return collections.filter((item)=>!!item)
 }
 
-export const getNewNFTCreateds = async( collectionId: string, size:number, offset:number)=>{
+export const getNewNFTCreatedByCollectionId = async( collectionId: string)=>{
+  let response: {data: {newCollectionCreateds: NewCollectionCreateds[]}} = await client.query({
+      query: newCollectionCreatedByIdDoc, 
+      variables: { collectionId }
+    })
+  let collections = await Promise.all(response.data.newCollectionCreateds.map(async (collection: NewCollectionCreateds) => {
+    let json = await parseCollectionDetailJson(collection.collInfoURI)
+    return {...collection, detailJson: json}
+  }))
+  return collections?.[0]
+}
+
+export const getNewNFTCreateds = async( collectionId: string)=>{
   let response: {data: {newNFTCreateds: NewNFTCreateds[]}} = await client.query({
       query: newNFTCreatedsDoc, 
       variables: { collectionId }

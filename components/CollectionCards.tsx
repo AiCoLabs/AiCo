@@ -4,6 +4,7 @@ import UserAvatar from "./UserAvatar";
 import collectionImg from "/public/collection.png";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { NewCollectionCreateds } from "@/lib/type";
 
 export interface CollectionProps {
   name: string;
@@ -23,7 +24,7 @@ export const collectionItem = {
 };
 
 interface CardProps {
-  data: CollectionProps;
+  data: NewCollectionCreateds;
   children?: React.ReactNode;
   className?: string;
 }
@@ -34,7 +35,7 @@ export const CollectionRandom = (props: CardProps) => {
   return (
     <Link href={`/Collection/${data.id}`}>
       <div className={`w-full h-full relative rounded-2xl overflow-hidden`}>
-        <Image className="rounded-16" src={data.logo} fill alt="card" />
+        <img className="rounded-16" src={data.detailJson.image}  alt="card" />
         <div className="absolute inset-x-0 bottom-0 h-10 bg-white bg-opacity-30 px-4">
           <div className="flex justify-between items-center text-xs h-full">
             <div>Name</div>
@@ -53,12 +54,12 @@ export const CollectionIng = (props: CardProps) => {
     <Link href={`/Collection/${data.id}`}>
       <div className={`text-white w-64`}>
         <div className="w-64 h-[28.9375rem] relative rounded-[30px] overflow-hidden">
-          <Image src={data.logo} alt={data.title} fill />
+          <img src={data.detailJson.image} alt={data.detailJson.name}  />
         </div>
         <div className="flex gap-4 mt-5">
-          <Image
+          <img
             className="rounded-2xl h-20 w-20"
-            src={data.logo}
+            src={data.detailJson.image}
             width={75}
             height={75}
             alt="card"
@@ -80,7 +81,7 @@ export const CollectionDone = (props: CardProps) => {
     <div
       className={cn("w-[15.18125rem] h-[18.75rem] relative", props.className)}
     >
-      <Image src={data.logo} alt="card" fill />
+      <img src={data.detailJson.image} alt="card" />
       {props.children}
     </div>
   );
