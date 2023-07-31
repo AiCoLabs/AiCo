@@ -33,12 +33,12 @@ import { toast } from "@/components/ui/use-toast";
 import Image from "next/image";
 
 const categorys = [
-  { label: "Meme", value: "meme" },
-  { label: "Art", value: "art" },
-  { label: "PFPs", value: "pfp" },
-  { label: "Photography", value: "photo" },
-  { label: "Music", value: "music" },
-  { label: "Video", value: "video" },
+  { label: "Meme", value: '0' },
+  { label: "Art", value: '1' },
+  { label: "PFPs", value: '2' },
+  { label: "Photography", value: '3' },
+  { label: "Music", value: '4' },
+  { label: "Video", value: '5' },
 ] as const;
 
 const accountFormSchema = z.object({

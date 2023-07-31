@@ -43,34 +43,43 @@ const currencys = [
 ] as const;
 
 const accountFormSchema = z.object({
-  limit: z.number().max(10000, {
-    message: "Name must be at least 2 characters.",
-  }),
-  royalty: z.number().max(100, {
-    message: "Name must be at least 2 characters.",
-  }),
+  limit: z.string(),
+  royalty: z.string(),
+  // limit: z.number().max(10000, {
+  //   message: "Name must be at least 2 characters.",
+  // }),
+  // royalty: z.number().max(100, {
+  //   message: "Name must be at least 2 characters.",
+  // }),
   endTime: z.date({
     required_error: "A date of birth is required.",
   }),
-  isCharge: z.boolean(),
+  isCharge: z.boolean().optional(),
   currency: z.string({
     required_error: "Please select a currency.",
-  }),
+  }).optional(),
   price: z.number().max(10000, {
     message: "Name must be at least 2 characters.",
-  }),
+  }).optional(),
   receiptAddress: z.string().min(20).max(100, {
     message: "Name must be at least 2 characters.",
-  }),
-  isSupportWhiteList: z.boolean(),
-  whiteList: z.any(),
+  }).optional(),
+  isSupportWhiteList: z.boolean().optional(),
+  whiteList: z.any().optional(),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
+type SettingProps = {
+  next:(info:AccountFormValues)=>void, 
+  defaultValue: Partial<AccountFormValues>|null,
+  status: {
+    buttonText: string,
+    loading: boolean
+  }
+}
 
-
-export default function AccountForm(props:{next:(info:AccountFormValues)=>void, defaultValue: Partial<AccountFormValues>|null} ) {
+export default function AccountForm(props:SettingProps ) {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues: props.defaultValue || {},
@@ -312,7 +321,7 @@ export default function AccountForm(props:{next:(info:AccountFormValues)=>void, 
             )}
           </>
         )}
-        <Button type="submit">Create Collection</Button>
+        <Button type="submit">{props.status.buttonText}</Button>
       </form>
     </Form>
   );

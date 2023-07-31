@@ -1,8 +1,5 @@
 import Image from "next/image";
 import type { StaticImageData } from "next/image";
-import UserAvatar from "./UserAvatar";
-import collectionImg from "/public/collection.png";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export interface NFTProps {

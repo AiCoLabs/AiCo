@@ -42,3 +42,5 @@ export function  sanitizeDStorageUrl  (url: string) {
       .replace('ipfs://ipfs/', ipfsGateway)
       .replace('ar://', arweaveGateway)
   }
+
+  export const trimify = (value: string): string => value?.trim()
