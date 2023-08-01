@@ -6,7 +6,7 @@ export default function ForkNFT() {
     <div className="container mx-auto var-dark">
       <Separator className="my-6" />
       <div className="flex-1 text-white text-2xl mt-32">
-        <NftBaseForm type="ForkImage" className="w-2/3" />
+        <NftBaseForm type="ForkImage" className="w-2/3" collectionId={''}/>
       </div>
     </div>
   );
