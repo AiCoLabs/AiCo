@@ -7,17 +7,23 @@ import { useCallback, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { AICOO_PROXY_ADDRESS, AICOO_WEBSITE, FEE_DERIVIED_MODULE_ADDRESS, FREE_DERIVIED_MODULE_ADDRESS } from "@/lib/constants";
 import { AI_COO_ABI } from "@/abis/AiCooProxy";
-import { useContractWrite } from "wagmi";
+import { useAccount, useContractWrite, useEnsAddress } from "wagmi";
 import { storeBlob, storeCar } from "@/lib/uploadToStorage";
 import { trimify } from "@/lib/utils";
 import { ethers } from 'ethers'
 import { useRouter } from "next/navigation";
+import { postReq } from "@/api/server/abstract";
 
 const CreateCollection = () => {
   const abiCoder = new ethers.AbiCoder() 
   const router = useRouter()
   const [tabValue, setTabValue] = useState("Collections");
   const [status, setStatus] = useState({buttonText: 'Create Collection',loading: false})
+  const account = useAccount({
+    onConnect: (data) => console.log('connected', data),
+    onDisconnect: () => console.log('disconnected'),
+  })
+  const [imageSource, setImageSource] = useState<string|undefined>()
   const [collectionInfo, setCollectionInfo] = useState<{
     name: string|undefined,
     description?: string|undefined,
@@ -43,8 +49,31 @@ const CreateCollection = () => {
     abi: AI_COO_ABI,
     functionName: 'createNewCollection',
     // mode: 'recklesslyUnprepared',
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       console.log('onSuccess data', data)
+      await postReq({
+        url: '/api/collection/create',
+        data: {collectionName: collectionInfo.name, 
+          collectionDesc: collectionInfo.description, 
+          creator: account.address, 
+          collectionId: 1, 
+          category: collectionInfo.category, 
+          logoImage: imageSource, 
+          website: socialInfo.website, 
+          twitter: socialInfo.twitter, 
+          telegram: socialInfo.telegram, 
+          medium: socialInfo.medium, 
+          discord: socialInfo.discord, 
+          mintLimit: settingInfo?.limit, 
+          royalty: parseFloat(settingInfo?.royalty||'0') * 100, 
+          endTime: 1693493754 * 1000, 
+          bCharge: !!settingInfo?.isCharge, 
+          mintPrice: settingInfo?.price, 
+          currency: settingInfo?.currency, 
+          receiptAddress: settingInfo?.receiptAddress, 
+          bWhitelist: false, 
+          whitelistRootHash: ''}
+      })
       setStatus({
         buttonText: 'Create collection',
         loading: false
@@ -71,6 +100,7 @@ const CreateCollection = () => {
         if (reader.result){
           const result = await storeCar(new Blob([reader.result]))
           const url = 'ipfs://' + result
+          setImageSource(url)
           return await createPublication(url, settingInfo)
         }
         
@@ -134,7 +164,6 @@ const CreateCollection = () => {
         derivedRuleModule,
         derivedRuleModuleInitData
       ]
-      console.log('writeContract args', args)
       return  writeContract?.({ args: [args]})
     } catch (e){
       console.error('e',e) 

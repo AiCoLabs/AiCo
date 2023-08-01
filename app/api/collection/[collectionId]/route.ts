@@ -1,17 +1,16 @@
 import CreateCollection from "@/models/createcollection";
 import { connectToDB } from "@/lib/mongodb";
 
-export const GET = async (request, { params }) => {
+export const GET = async (request, {params}) => {
     try {
         await connectToDB()
-
-        const collectionInfo = await CreateCollection.findById(params.collectionId)
-        if (!collectionInfo) return new Response("Collection Not Found", { status: 404 });
-
+        console.log('params',params)
+        const collectionInfo = await CreateCollection.find(params)
+        if (!collectionInfo) return new Response(JSON.stringify({error: "Collection Not Found"}), { status: 404 });
         return new Response(JSON.stringify(collectionInfo), { status: 200 })
 
     } catch (error) {
-        return new Response("Internal Server Error", { status: 500 });
+        return new Response(JSON.stringify({error: `Internal Server Error, ${error}`}), { status: 500 });
     }
 }
 

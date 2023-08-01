@@ -12,12 +12,12 @@ const nftSchema = new Schema({
 
     nftCreator: {
         type: String,
-        maxLength: [22, "receiptAddress must be lesser than 30 characters"],
+        maxLength: [60, "receiptAddress must be lesser than 30 characters"],
     },
 
     nftOwner: {
         type: String,
-        maxLength: [22, "receiptAddress must be lesser than 30 characters"],
+        maxLength: [60, "receiptAddress must be lesser than 30 characters"],
     },
 
     forkFrom: {

@@ -9,6 +9,6 @@ export const GET = async (request) => {
 
         return new Response(JSON.stringify(nfts), { status: 200 })
     } catch (error) {
-        return new Response("Failed to fetch all nfts", { status: 500 })
+        return new Response(JSON.stringify({error:"Failed to fetch all nfts"}), { status: 500 })
     }
 } 

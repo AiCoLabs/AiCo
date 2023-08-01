@@ -15,7 +15,7 @@ const collectionSchema = new Schema({
 
     creator: {
         type: String,
-        maxLength: [22, "receiptAddress must be lesser than 30 characters"],
+        maxLength: [60, "receiptAddress must be lesser than 60 characters"],
     },
 
     collectionId: {
@@ -86,7 +86,7 @@ const collectionSchema = new Schema({
 
     receiptAddress: {
         type: String,
-        maxLength: [22, "receiptAddress must be lesser than 30 characters"],
+        maxLength: [60, "receiptAddress must be lesser than 60 characters"],
     },
 
     bWhitelist: {

@@ -112,13 +112,14 @@ export const getNewNFTCreateds = async( collectionId: string)=>{
       query: newNFTCreatedsDoc, 
       variables: { collectionId }
     })
-  console.log('getNewNFTCreateds response',response, collectionId)
+  console.log('getNewNFTCreateds response',response)
   let collections = await Promise.all(response.data.newNFTCreateds.map(async (collection: NewNFTCreateds) => {
     let url = sanitizeDStorageUrl(collection.nftInfoURI);
     let json: any = await getReq(url)
-    if (json.image) json.image = sanitizeDStorageUrl(json.image);
+    if (json?.image) json.image = sanitizeDStorageUrl(json.image);
     return {...collection, detailJson: json}
   }))
+  console.log('getNewNFTCreateds response',collections)
   return collections
 }
 

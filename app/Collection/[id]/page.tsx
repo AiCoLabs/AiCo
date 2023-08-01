@@ -28,7 +28,10 @@ const Collection = ({ params }: { params: { id: string } }) => {
   const [nfts, setNFTs] = useState<NewNFTCreateds[]|undefined>()
   useEffect(()=>{
     getNewNFTCreatedByCollectionId(params.id).then((res)=>setCollectionItem(res))
-    getNewNFTCreateds(params.id).then((res)=>setNFTs(res))
+    getNewNFTCreateds(params.id).then((res)=>{
+      console.log('res', res)
+      setNFTs(res)
+    })
   },[])
   return (
     <div className="container mx-auto">

@@ -32,13 +32,15 @@ import Image from "next/image";
 import { collectionItem } from "@/components/CollectionCards";
 
 import { base64toBuff, cn, dataURLtoBlob, trimify } from "@/lib/utils";
-import { AICOO_PROXY_ADDRESS, AICOO_WEBSITE, DiffusionModel } from "@/lib/constants";
+import { AICOO_PROXY_ADDRESS, AICOO_WEBSITE, DiffusionModel, IPFS_GATEWAY_URL } from "@/lib/constants";
 import { requestImageToImage, requestTextToImage } from "@/lib/openAPI";
 import { useCallback, useState } from "react";
-import { useContractWrite } from "wagmi";
+import { useAccount, useContractWrite } from "wagmi";
 import { AI_COO_ABI } from "@/abis/AiCooProxy";
 import { storeBlob, storeCar } from "@/lib/uploadToStorage";
 import { ethers } from 'ethers'
+import { useRouter } from "next/navigation";
+import { postReq } from "@/api/server/abstract";
 
 const NFTbaseFormSchema = z.object({
   prompt: z.string(),
@@ -67,23 +69,30 @@ interface BaseFormProps {
   type: "TextToImage" | "ImageToImage" | "ForkImage";
   collectionId: string,
   nftId?: string,
+  fromImageId?: string,
   className?: string;
 }
 
 export default function NFTbaseForm(props: BaseFormProps) {
   const abiCoder = new ethers.AbiCoder() 
-  const { type, className } = props;
+  const { type, collectionId, nftId, fromImageId, className } = props;
   const [imageURL, setImageURL] = useState<string[] | undefined>(undefined);
   const [generating, setGenerating] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [selectIndex, setSelectIndex] = useState(-1);
   const [buttonState, setButtonState] = useState({buttonText: 'Upload', loading: false})
-
+  const router = useRouter()
   const form = useForm<NFTbaseFormValues>({
     resolver: zodResolver(NFTbaseFormSchema),
     defaultValues,
   });
-
+  const account = useAccount({
+    onConnect: (data) => console.log('connected', data),
+    onDisconnect: () => console.log('disconnected'),
+  })
+  const [imageSource, setImageSource] = useState<string|undefined>()
+  const [prompt, setPrompt] = useState('')
+  const [nprompt, setNPrompt] = useState<string|undefined>()
   const [advanced, count] = form.watch(["advanced", "count"]);
 
   const generate = useCallback(async (data: NFTbaseFormValues) => {
@@ -105,6 +114,8 @@ export default function NFTbaseForm(props: BaseFormProps) {
     }
     console.log('generate', res)
     if (res){
+      setPrompt(data.prompt)
+      setNPrompt(data.nPrompt)
       const [url, error] = res
       setGenerating(false);
       if (error) {
@@ -135,12 +146,26 @@ export default function NFTbaseForm(props: BaseFormProps) {
     address: AICOO_PROXY_ADDRESS,
     abi: AI_COO_ABI,
     functionName: 'commitNewNFTIntoCollection',
-    onSuccess: (data) => {
+    onSuccess: async(data) => {
       console.log('onSuccess data', data)
+      await postReq({
+        url: '/api/nft/fork',
+        data: {
+          nftName: '', 
+          belongToCollectionId: collectionId, 
+          nftCreator: account?.address, 
+          nftOwner: account?.address, 
+          forkFrom: nftId || 0, 
+          prompt: prompt, 
+          nagativePrompt: nprompt, 
+          imageUrl:imageSource
+        }
+      })
       setButtonState({
         buttonText: `Upload`,
         loading: false
       })
+      router.push(`/Collection/${collectionId}`)
     },
     onError: (error) => {
       console.log('onError error', error)
@@ -216,6 +241,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
       })
       const result = await storeCar(dataURLtoBlob(imageURL[selectIndex]))
       const url = 'ipfs://' + result
+      setImageSource(url)
       return await createNFT(url)
     }
   }
@@ -234,11 +260,11 @@ export default function NFTbaseForm(props: BaseFormProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className={cn("space-y-8 bg-indigo-500 p-3 rounded-2xl", className)}
         >
-          {type === "ForkImage" && (
+          {type === "ForkImage" && fromImageId && (
             <div>
               <FormLabel>Fork From( #NFT Name)</FormLabel>
-              <Image
-                src={collectionItem.logo}
+              <img
+                src={`${IPFS_GATEWAY_URL}/${fromImageId}`}
                 alt="nft"
                 className="w-40 h-40 mx-auto mt-2"
               />

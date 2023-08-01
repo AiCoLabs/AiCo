@@ -41,3 +41,37 @@ export type CollectionIdQueryRequest = {
 /** The collection id */
   collectionId: string
 }
+
+export type CollectionInfoProps = {
+  collectionName: string,
+  collectionDesc: string,
+  creator: string,
+  collectionId: number,
+  category: number,
+  logoImage: string,
+  website: string,
+  twitter: string,
+  telegram: string,
+  medium: string,
+  discord: string,
+  mintLimit: number,
+  royalty: number,
+  endTime: Date,
+  bCharge: boolean,
+  mintPrice: number,
+  currency: string,
+  receiptAddress: string,
+  bWhitelist: boolean,
+  whitelistRootHash: string,
+}
+
+export type NFTInfoProps = {
+  nftName: string,
+  belongToCollectionId: number,
+  nftCreator: string,
+  nftOwner: string,
+  forkFrom: number,
+  prompt: string,
+  nagativePrompt: string,
+  imageUrl: string,
+}

@@ -88,8 +88,6 @@ export default function AccountForm(props:SettingProps ) {
     "isCharge",
     "isSupportWhiteList",
   ]);
-  console.log("isCharge", isCharge);
-  console.log("isSupportWhiteList", isSupportWhiteList);
 
   function onSubmit(data: AccountFormValues) {
     toast({
