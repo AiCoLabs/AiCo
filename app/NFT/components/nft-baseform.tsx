@@ -100,9 +100,9 @@ export default function NFTbaseForm(props: BaseFormProps) {
     setGenerating(true);
     setError(undefined);
     let res : [string[] | undefined, Error | undefined] | null = null
-    if (type === 'TextToImage'){
+    if (type === 'TextToImage' || type === 'ForkImage'){
       res = await requestTextToImage(data.model, data.prompt, count? count[0] : 1, data.nPrompt, data.height, data.width, data.steps)
-    } else if ((type === 'ImageToImage' || type === 'ForkImage') && data.image){
+    } else if ((type === 'ImageToImage' ) && data.image){
       res = await requestImageToImage(
         data.model, 
         data.prompt,
