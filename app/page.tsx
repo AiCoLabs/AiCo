@@ -31,13 +31,13 @@ const Home = () => {
           </div>
           <div className='absolute inset-0 left-2/3'>
             <div className="absolute top-0 end-32 w-52 h-72 rotate-[35deg]">
-              <CollectionRandom data={collections[0]} />
+              <CollectionRandom sampleData={collections[0]} />
             </div>
             <div className="absolute top-80 end-0 w-44 h-60">
-              <CollectionRandom data={collections[0]} />
+              <CollectionRandom sampleData={collections[0]} />
             </div>
             <div className="absolute top-96 end-72 w-44 h-60 rotate-[17.5deg]">
-              <CollectionRandom data={collections[0]} />
+              <CollectionRandom sampleData={collections[0]} />
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@ const Home = () => {
             style={{
               background: 'linear-gradient(241deg, #031322 0%, rgba(151, 147, 198, 0.24) 71.35%)'
             }}>
-            {collections.slice(0, 3).map(card => <CollectionIng key={card.id} data={card} />)}
+            {collections.slice(0, 3).map(card => <CollectionIng key={card.id} sampleData={card} />)}
           </div>
         </div>
         {/* <div className='mt-40'>

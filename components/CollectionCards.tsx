@@ -24,53 +24,55 @@ export const collectionItem = {
 };
 
 interface CardProps {
-  data: NewCollectionCreateds;
+  data?: NewCollectionCreateds;
+  sampleData?: CollectionProps;
   children?: React.ReactNode;
   className?: string;
 }
 
 // banner random select collectionCard
 export const CollectionRandom = (props: CardProps) => {
-  const { data } = props;
+  const { sampleData } = props;
   return (
-    <Link href={`/Collection/${data.id}`}>
+    sampleData ? 
+    <Link href={`/Collection/${sampleData.id}`}>
       <div className={`w-full h-full relative rounded-2xl overflow-hidden`}>
-        <img className="rounded-16" src={data.detailJson.image}  alt="card" />
+        <Image className="rounded-16" src={sampleData?.logo}  alt="card" />
         <div className="absolute inset-x-0 bottom-0 h-10 bg-white bg-opacity-30 px-4">
           <div className="flex justify-between items-center text-xs h-full">
             <div>Name</div>
-            <UserAvatar data={data} className={"w-5 h-5"} />
+            <UserAvatar data={sampleData} className={"w-5 h-5"} />
           </div>
         </div>
       </div>
-    </Link>
+    </Link> : <></>
   );
 };
 
 // live Collection
 export const CollectionIng = (props: CardProps) => {
-  const { data } = props;
+  const { sampleData } = props;
   return (
-    <Link href={`/Collection/${data.id}`}>
+    sampleData? <Link href={`/Collection/${sampleData.id}`}>
       <div className={`text-white w-64`}>
         <div className="w-64 h-[28.9375rem] relative rounded-[30px] overflow-hidden">
-          <img src={data.detailJson.image} alt={data.detailJson.name}  />
+          <Image src={sampleData.logo} alt={sampleData?.title}  />
         </div>
         <div className="flex gap-4 mt-5">
-          <img
+          <Image
             className="rounded-2xl h-20 w-20"
-            src={data.detailJson.image}
+            src={sampleData.logo}
             width={75}
             height={75}
             alt="card"
           />
           <div className="text-xl">
             <div className="mb-2">Collection Name</div>
-            <UserAvatar data={data} />
+            <UserAvatar data={sampleData} />
           </div>
         </div>
       </div>
-    </Link>
+    </Link>:<></>
   );
 };
 
@@ -81,10 +83,22 @@ export const CollectionDone = (props: CardProps) => {
     <div
       className={cn("w-[15.18125rem] h-[18.75rem] relative", props.className)}
     >
-      <img src={data.detailJson.image} alt="card" />
+      <img src={data?.detailJson.image} alt="card" />
       {props.children}
     </div>
   );
 };
 
+// finshed collection
+export const CollectionNFTDone = (props: CardProps) => {
+  const { sampleData } = props;
+  return (
+    sampleData ? <div
+      className={cn("w-[15.18125rem] h-[18.75rem] relative", props.className)}
+    >
+      <Image src={sampleData.logo} alt="card" />
+      {props.children}
+    </div>:<></>
+  );
+};
 

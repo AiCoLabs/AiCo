@@ -52,7 +52,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
             </div>
             <div className="flex gap-2 items-center mt-4">
               <div>By</div>
-              {collectionItem && <UserAvatar data={collectionItem} />}
+              {collectionItem && <UserAvatar created={collectionItem} />}
             </div>
             <div className="flex gap-6 mt-4">
               <div className="flex gap-2 items-center">

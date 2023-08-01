@@ -3,7 +3,7 @@ import opensealogo from "../public/opensealogo.png"
 import Link from "next/link"
 import { NewCollectionCreateds, NewNFTCreateds } from "@/lib/type"
 
-const BuyButton = (props: { data: NewNFTCreateds | NewCollectionCreateds }) => {
+const BuyButton = (props: { data: any}) => { //NewNFTCreateds | NewCollectionCreateds
     const { data } = props
     return (
         <Link href={"/"}>
