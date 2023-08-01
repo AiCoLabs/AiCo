@@ -73,7 +73,7 @@ const Home = () => {
                   Claim the royalty fee from the NFT contracts.
                 </div>
                 <Link href={"/Collection/Create"}>
-                  <Button className="yellow-rgba text-black mt-16">Show your creativity</Button>
+                  <Button className="bg-yellow-rgba text-black mt-16">Show your creativity</Button>
                 </Link>
               </div>
             </div>
