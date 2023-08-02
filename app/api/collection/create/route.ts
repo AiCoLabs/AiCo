@@ -5,7 +5,7 @@ export const POST = async (request) => {
     const { collectionName, collectionDesc, creator, category, logoImage, website, twitter, telegram, medium, discord, mintLimit, royalty, endTime, bCharge, mintPrice, currency, receiptAddress, bWhitelist, whitelistRootHash } = await request.json();
     try {
         await connectToDB();
-        const collectionId = await CreateCollection.count({})
+        const collectionId = await CreateCollection.countDocuments({})
         const newCollection = new CreateCollection({ collectionName, collectionDesc, creator, collectionId, category, logoImage, website, twitter, telegram, medium, discord, mintLimit, royalty, endTime, bCharge, mintPrice, currency, receiptAddress, bWhitelist, whitelistRootHash });
 
         await newCollection.save();
