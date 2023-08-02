@@ -3,8 +3,8 @@ import type { StaticImageData } from "next/image";
 import UserAvatar from "./UserAvatar";
 import collectionImg from "/public/collection.png";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { NewCollectionCreateds } from "@/lib/type";
+import { cn, sanitizeDStorageUrl } from "@/lib/utils";
+import { NFTInfoProps, NewCollectionCreateds, NewNFTCreateds } from "@/lib/type";
 
 export interface CollectionProps {
   name: string;
@@ -25,38 +25,42 @@ export const collectionItem = {
 
 interface CardProps {
   data?: NewCollectionCreateds;
-  sampleData?: CollectionProps;
+  sampleData?: NewNFTCreateds;
+  children?: React.ReactNode;
+  className?: string;
+}
+interface NFTCardProps {
+  sampleData: NFTInfoProps;
   children?: React.ReactNode;
   className?: string;
 }
 
 // banner random select collectionCard
-export const CollectionRandom = (props: CardProps) => {
+export const CollectionRandom = (props: NFTCardProps) => {
   const { sampleData } = props;
   return (
-    sampleData ? 
-    <Link href={`/Collection/${sampleData.id}`}>
-      <div className={`w-full h-full relative rounded-2xl overflow-hidden`}>
-        <Image className="rounded-16" src={sampleData?.logo}  alt="card" />
-        <div className="absolute inset-x-0 bottom-0 h-10 bg-white bg-opacity-30 px-4">
+    <Link href={`/NFT/${sampleData.belongToCollectionId}`}>
+      <>
+        <img className="w-full h-full rounded-2xl overflow-hidden object-cover" src={sanitizeDStorageUrl(sampleData.imageUrl)} alt="card"  />
+        <div className="absolute inset-x-0 bottom-0 h-10 bg-white bg-opacity-30 px-4 rounded-bl-2xl rounded-br-2xl overflow-hidden">
           <div className="flex justify-between items-center text-xs h-full">
-            <div>Name</div>
+            <div>{sampleData.nftName}</div>
             <UserAvatar data={sampleData} className={"w-5 h-5"} />
           </div>
         </div>
-      </div>
-    </Link> : <></>
+      </>
+    </Link>
   );
 };
 
 // live Collection
 export const CollectionIng = (props: CardProps) => {
   const { sampleData } = props;
-  return (
-    sampleData? <Link href={`/Collection/${sampleData.id}`}>
+  return sampleData ? (
+    <Link href={`/Collection/${sampleData.id}`}>
       <div className={`text-white w-64`}>
         <div className="w-64 h-[28.9375rem] relative rounded-[30px] overflow-hidden">
-          <Image src={sampleData.logo} alt={sampleData?.title}  />
+          <Image src={sampleData.logo} alt={sampleData?.title} />
         </div>
         <div className="flex gap-4 mt-5">
           <Image
@@ -72,7 +76,9 @@ export const CollectionIng = (props: CardProps) => {
           </div>
         </div>
       </div>
-    </Link>:<></>
+    </Link>
+  ) : (
+    <></>
   );
 };
 
@@ -92,13 +98,14 @@ export const CollectionDone = (props: CardProps) => {
 // finshed collection
 export const CollectionNFTDone = (props: CardProps) => {
   const { sampleData } = props;
-  return (
-    sampleData ? <div
+  return sampleData ? (
+    <div
       className={cn("w-[15.18125rem] h-[18.75rem] relative", props.className)}
     >
       <Image src={sampleData.logo} alt="card" />
       {props.children}
-    </div>:<></>
+    </div>
+  ) : (
+    <></>
   );
 };
-

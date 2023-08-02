@@ -1,3 +1,4 @@
+import { NewNFTCreateds } from '@/lib/type';
 import { getReq } from './server/abstract';
 
 export const getNewCollectionCreated = async (size?:number, offset?:number)=>{
@@ -19,3 +20,8 @@ export const getMongoNFTById = async( collectionId: string, tokenId: string)=>{
   let response = await getReq(`/api/nft/${collectionId}/${tokenId}`)
   return response
 }
+export const getAllNFTCreateds = async<T>():Promise<T>=>{
+  let response = await getReq<T>(`/api/nft`)
+  return response
+}
+
