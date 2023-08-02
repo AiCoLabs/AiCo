@@ -6,10 +6,12 @@ import Link from "next/link";
 import DeleteBtn from "@/components/DeleteBtn";
 import {  NFTCard } from "@/components/NFTCards";
 import { cn } from "@/lib/utils";
-import { NewNFTCreateds } from "@/lib/type";
+import { NewCollectionCreateds, NewNFTCreateds } from "@/lib/type";
+import { useRouter } from "next/navigation";
 
-const Collections = (props:{data: NewNFTCreateds[],className?:string}) => {
-  const {data=[]}=props
+const Collections = (props:{data: NewNFTCreateds[],collectionItem: NewCollectionCreateds|undefined ,className?:string}) => {
+  const {data=[],collectionItem }=props
+  const router = useRouter()
   return (
     <div className={cn("grid grid-cols-4 gap-4 py-8",props.className)}>
       {data.map((card) => (
@@ -22,7 +24,7 @@ const Collections = (props:{data: NewNFTCreateds[],className?:string}) => {
               <div className="absolute w-full bottom-0 h-11 flex items-center justify-between bg-indigo-500 px-2 gap-2 text-white">
                 <div>{`#${card.tokenId}`}</div>
                 <ForkButton data={card} />
-                <BuyButton data={card} />
+                <BuyButton data={{...card, derivedCollectionAddr: collectionItem?.derivedCollectionAddr}} />
               </div>
             </>
           </NFTCard>

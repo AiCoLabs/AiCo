@@ -86,6 +86,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
       <img
         src={collectionItem?.detailJson.image}
         alt=""
+        style={{objectFit: 'cover'}}
         className="w-full h-56 -mb-32"
       />
       <div className="px-10 ">
@@ -224,7 +225,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
           Initail Ancestor NFT
         </Link>
       ) : (
-        <CollectionCards data={nfts} className="mt-4" />
+        <CollectionCards data={nfts} collectionItem={collectionItem} className="mt-4" />
       )}
     </div>
   );

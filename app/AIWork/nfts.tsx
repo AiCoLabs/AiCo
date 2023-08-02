@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link";
 import collection from "/public/collection.png"
 import { CollectionProps, CollectionNFTDone } from '@/components/CollectionCards';
