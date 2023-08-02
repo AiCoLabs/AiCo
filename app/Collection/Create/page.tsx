@@ -65,7 +65,7 @@ const CreateCollection = () => {
           discord: socialInfo.discord, 
           mintLimit: settingInfo?.limit, 
           royalty: parseFloat(settingInfo?.royalty||'0') * 100, 
-          endTime: 1693493754 * 1000, 
+          endTime: settingInfo?.endTime?.getTime() || 1693493754 * 1000, 
           bCharge: !!settingInfo?.isCharge, 
           mintPrice: settingInfo?.price, 
           currency: settingInfo?.currency, 
@@ -148,12 +148,13 @@ const CreateCollection = () => {
       let derivedRuleModule = isFee ? FEE_DERIVIED_MODULE_ADDRESS: FREE_DERIVIED_MODULE_ADDRESS
       let derivedRuleModuleInitData = isFee ? abiCoder.encode(['uint256','uint256','uint256','address' ,'address'],[
         settingInfo?.limit, 
-        1693493754, //(settingInfo?.endTime?.getTime() || 0)/ 1000 , 
+        (settingInfo?.endTime?.getTime() || 1693493754)/ 1000 , 
         settingInfo?.price,
         settingInfo?.currency, 
         settingInfo?.receiptAddress]) : abiCoder.encode(['uint256','uint256'],[
           settingInfo?.limit, 
-          1693493754]) //(settingInfo?.endTime?.getTime() || 0)/ 1000 ])           
+          (settingInfo?.endTime?.getTime() || 1693493754)/ 1000 ])  
+        console.log('settingInfo?.endTime?.getTime()',(settingInfo?.endTime?.getTime() || 1693493754)/ 1000)        
       const args = [
         parseFloat(settingInfo?.royalty||'0') * 100,
         parseInt(collectionInfo.category|| '0'),
