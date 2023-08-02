@@ -44,7 +44,7 @@ interface NFTCardProps {
 export const CollectionRandom = (props: NFTCardProps) => {
   const { sampleData } = props;
   return (
-    <Link href={`/NFT/${sampleData.belongToCollectionId}`}>
+    <Link href={`/NFT/${sampleData.belongToCollectionId}/${sampleData.tokenId}`}>
       <>
         <img
           className="w-full h-full rounded-2xl overflow-hidden object-cover"
@@ -67,7 +67,7 @@ export const CollectionIng = (props: CollectionCardProps) => {
   const { sampleData } = props;
   const { detailJson } = sampleData;
   return (
-    <Link href={`/Collection/${sampleData.id}`}>
+    <Link href={`/Collection/${sampleData.collectionId}`}>
       <div className={`text-white w-64`}>
         <div className="w-64 h-[28.9375rem] relative rounded-[30px] overflow-hidden">
           <img src={detailJson.image} alt={detailJson.name} className="w-full h-full object-cover" />
