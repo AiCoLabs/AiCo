@@ -24,6 +24,13 @@ export type NewCollectionCreateds = {
   detailJson: DetailJson
 }
 
+export type CollectionMintInfo = {
+  id: string
+  mintExpired: number
+  mintLimit: number
+  mintPrice: number
+}
+
 export type NewNFTCreateds = {
   id: string
   blockNumber: number
@@ -34,7 +41,6 @@ export type NewNFTCreateds = {
   tokenId: string
   transactionHash: string
   detailJson: DetailJson
-
 }
 
 export type CollectionIdQueryRequest = {

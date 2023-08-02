@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import { getReq } from './server/abstract';
 import { sanitizeDStorageUrl } from '@/lib/utils';
-import { NewCollectionCreateds, NewNFTCreateds } from '@/lib/type';
+import { NewCollectionCreateds, NewNFTCreateds, CollectionMintInfo } from '@/lib/type';
 
 const API_URL = 'https://api.studio.thegraph.com/query/50436/aicoo_subgraph/version/latest';
 
@@ -124,10 +124,11 @@ export const getNewNFTCreateds = async( collectionId: string)=>{
 }
 
 export const getNewCollectionMintInfo = async( id: string)=>{
-  let response: {data: {newCollectionMintInfos: {}}} = await client.query({
+  let response: {data: {newCollectionMintInfos: CollectionMintInfo[]}} = await client.query({
       query: newCollectionMintInfosDoc, 
       variables: { id }
     })
+  let collectionInfo = response.data.newCollectionMintInfos
   console.log('getNewCollectionMintInfo response',response) 
-  return response
+  return collectionInfo?.[0]
 }

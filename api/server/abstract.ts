@@ -17,13 +17,12 @@ function _axios(_axiosRequest: AxiosRequest) {
          // resolve(new Response(response.data));
         } else {
           resolve(response.data)
-          /// 权限控制
          // resolve(new Response(response.data));
         }
       })
       .catch((error: any) => {
         const message =
-          error?.data?.errorMessage || error?.message || '请求失败';
+          error?.data?.errorMessage || error?.message || 'req failed';
         reject({
           message: message,
           data: null,

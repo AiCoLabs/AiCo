@@ -19,15 +19,16 @@ import { Input } from "@/components/ui/input";
 import CollectionCards from "./collections";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { NewCollectionCreateds, NewNFTCreateds } from "@/lib/type";
-import { getNewNFTCreatedByCollectionId, getNewNFTCreateds } from "@/api/thegraphApi";
-
+import { NewCollectionCreateds, NewNFTCreateds, CollectionMintInfo } from "@/lib/type";
+import { getNewNFTCreatedByCollectionId, getNewNFTCreateds, getNewCollectionMintInfo } from "@/api/thegraphApi";
 
 const Collection = ({ params }: { params: { id: string } }) => {
   const [collectionItem, setCollectionItem] = useState<NewCollectionCreateds|undefined>()
+  const [collectionInfo, setCollectionInfo] = useState<CollectionMintInfo|undefined>()
   const [nfts, setNFTs] = useState<NewNFTCreateds[]|undefined>()
   useEffect(()=>{
     getNewNFTCreatedByCollectionId(params.id).then((res)=>setCollectionItem(res))
+    getNewCollectionMintInfo(params.id).then((res)=>setCollectionInfo(res))
     getNewNFTCreateds(params.id).then((res)=>{
       console.log('res', res)
       setNFTs(res)
@@ -45,7 +46,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
         <div className="grid grid-cols-3 gap-14 text-lg text-white">
           <div className="col-span-2">
             <div className="flex justify-between items-center mt-4">
-              <div className="text-2xl font-medium">Collection Name</div>
+              <div className="text-2xl font-medium">{collectionItem?.detailJson.name}</div>
               <div className="flex justify-between gap-2">
                 <BsTwitter />
                 <BsTelegram />
@@ -68,15 +69,15 @@ const Collection = ({ params }: { params: { id: string } }) => {
               </div>
               <div className="flex gap-2 items-center">
                 <div className="text-white-rgba">Community earnings</div>
-                <div>4%</div>
+                <div>{collectionItem?.baseRoyalty}/100 %</div>
               </div>
               <div className="flex gap-2 items-center">
                 <div className="text-white-rgba">Category </div>
-                <div>MEME</div>
+                <div>{collectionItem?.collectionType}</div>
               </div>
             </div>
-            <div className="mt-4">Collection description</div>
-            <div className="mt-4">
+            <div className="mt-4">{collectionItem?.detailJson.description}</div>
+            {/* <div className="mt-4">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="text-white-rgba">
@@ -87,7 +88,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
-            </div>
+            </div> */}
             <div className="bg-indigo-500 py-4 px-2">
               <div className="flex gap-6">
                 <div className="flex gap-2 items-center">
@@ -104,7 +105,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
                   <div className="text-white-rgba"> Your Share: </div>
                   <div>0.1 ETH</div>
                 </div>
-                <div className="bg-indigo-800 p-1 rounded-sm">Chain</div>
+                <div className="bg-indigo-800 p-1 rounded-sm">Claim</div>
               </div>
             </div>
           </div>
@@ -112,19 +113,19 @@ const Collection = ({ params }: { params: { id: string } }) => {
             <div className="text-2xl font-medium text-white-rgba">Rule</div>
             <div className="flex gap-4 mt-4">
               <div className="text-white-rgba">Mint Limit: </div>
-              <div>10K</div>
+              <div>{collectionInfo?.mintLimit}</div>
             </div>
             <div className="flex gap-4 mt-4">
               <div className="text-white-rgba">End Time: </div>
-              <div>Jul/20th/2023 18:00:00</div>
+              <div>{collectionInfo?.mintExpired}</div>
             </div>
             <div className="flex gap-4 mt-4">
               <div className="text-white-rgba">Mint Price: </div>
-              <div>0.05 ETH </div>
+              <div>{collectionInfo?.mintPrice}</div>
             </div>
             <div className="flex gap-4 mt-4">
               <div className="text-white-rgba">Permission: </div>
-              <div>Need Whitelist/Public</div>
+              <div>Public</div>
             </div>
             <div className="flex gap-4 mt-4">
               <div className="text-white-rgba">Rights: </div>
@@ -157,7 +158,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
         }
       >
         <BsPlusLg className="w-36 h-36" />
-          add first NFT
+          Initail Ancestor NFT
       </Link> : <CollectionCards data={nfts} className="mt-4" />
       }
       
