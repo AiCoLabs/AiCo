@@ -30,7 +30,7 @@ const Home = () => {
     });
   }, []);
   const [collections, setCollections] = useState<
-    NewCollectionCreateds[] | undefined
+    (NewCollectionCreateds | undefined)[] | undefined
   >();
 
   useEffect(() => {

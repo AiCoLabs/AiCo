@@ -4,7 +4,7 @@ import { NewCollectionCreateds, NFTInfoProps } from "@/lib/type";
 
 const UserAvatar = (props: {
   data?: NFTInfoProps;
-  created?: NewCollectionCreateds;
+  created?: {detailJson:{image: string}, collectionOwner?: string};
   className?: string;
 }) => {
   const { data, created, className = "w-10 h-10" } = props;
@@ -22,7 +22,7 @@ const UserAvatar = (props: {
         <AvatarImage src={logo as string} />
         <AvatarFallback>{data?.nftName}</AvatarFallback>
       </Avatar>
-      <div>{created?.collectionOwner}</div>
+      <div>{created?.collectionOwner || ''}</div>
     </div>
   );
 };

@@ -32,6 +32,7 @@ export const newCollectionCreatedsDoc = gql`
   }
 `
 
+
 export const newCollectionCreatedByIdDoc = gql`
   query newCollectionCreateds ($collectionId: String!){
     newCollectionCreateds(where: {collectionId: $collectionId}) {
@@ -51,6 +52,22 @@ export const newCollectionCreatedByIdDoc = gql`
   }
 `
 
+
+/* define a GraphQL query  */
+export const newAllNFTCreatedsDoc = gql`
+  query getNewNFTCreateds {
+    newNFTCreateds {
+      blockNumber
+      blockTimestamp
+      collectionId
+      derivedFrom
+      id
+      nftInfoURI
+      tokenId
+      transactionHash
+    }    
+  }
+`
 
 export const newNFTCreatedsDoc = gql`
   query getNewNFTCreateds ($collectionId: String!){
@@ -110,17 +127,28 @@ export const getNewNFTCreatedByCollectionId = async( collectionId: string)=>{
 
 export const getNewNFTCreateds = async( collectionId: string)=>{
   let response: {data: {newNFTCreateds: NewNFTCreateds[]}} = await client.query({
-      query: newNFTCreatedsDoc, 
+      query: newNFTCreatedsDoc,
       variables: { collectionId }
     })
   console.log('getNewNFTCreateds response',response)
   let collections = await Promise.all(response.data.newNFTCreateds.map(async (collection: NewNFTCreateds) => {
-    let url = sanitizeDStorageUrl(collection.nftInfoURI);
-    let json: any = await getReq(url)
-    if (json?.image) json.image = sanitizeDStorageUrl(json.image);
+    let json = await parseCollectionDetailJson(collection.nftInfoURI)
     return {...collection, detailJson: json}
   }))
   console.log('getNewNFTCreateds response',collections)
+  return collections
+}
+
+export const getAllNewNFTCreateds = async( )=>{
+  let response: {data: {newNFTCreateds: NewNFTCreateds[]}} = await client.query({
+      query: newAllNFTCreatedsDoc
+    })
+  console.log('getAllNewNFTCreateds response',response)
+  let collections = await Promise.all(response.data.newNFTCreateds.map(async (collection: NewNFTCreateds) => {
+    let json = await parseCollectionDetailJson(collection.nftInfoURI)
+    return {...collection, detailJson: json}
+  }))
+  console.log('getAllNewNFTCreateds response',collections)
   return collections
 }
 

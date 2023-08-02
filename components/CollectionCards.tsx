@@ -60,19 +60,19 @@ export const CollectionIng = (props: CardProps) => {
     <Link href={`/Collection/${sampleData.id}`}>
       <div className={`text-white w-64`}>
         <div className="w-64 h-[28.9375rem] relative rounded-[30px] overflow-hidden">
-          <Image src={sampleData.logo} alt={sampleData?.title} />
+          <img src={sampleData.detailJson.image} alt={sampleData?.id} />
         </div>
         <div className="flex gap-4 mt-5">
-          <Image
+          <img
             className="rounded-2xl h-20 w-20"
-            src={sampleData.logo}
+            src={sampleData.detailJson.image}
             width={75}
             height={75}
             alt="card"
           />
           <div className="text-xl">
             <div className="mb-2">Collection Name</div>
-            <UserAvatar data={sampleData} />
+            <UserAvatar created={sampleData} />
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@ export const CollectionNFTDone = (props: CardProps) => {
     <div
       className={cn("w-[15.18125rem] h-[18.75rem] relative", props.className)}
     >
-      <Image src={sampleData.logo} alt="card" />
+      <img src={sampleData.detailJson.image} alt="card" />
       {props.children}
     </div>
   ) : (
