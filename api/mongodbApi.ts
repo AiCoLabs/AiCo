@@ -15,3 +15,7 @@ export const getNewNFTCreateds = async( collectionId: string)=>{
   return response
 }
 
+export const getMongoNFTById = async( collectionId: string, tokenId: string)=>{
+  let response = await getReq(`/api/nft/${collectionId}/${tokenId}`)
+  return response
+}

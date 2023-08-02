@@ -13,7 +13,7 @@ const Collections = (props:{data: NewNFTCreateds[],className?:string}) => {
   return (
     <div className={cn("grid grid-cols-4 gap-4 py-8",props.className)}>
       {data.map((card) => (
-        <Link key={card.id} href={`/NFT/${card.id}`}>
+        <Link key={card.id} href={`/NFT/${card.collectionId}/${card.tokenId}`}>
           <NFTCard data={card}>
             <>
               <div className="absolute right-2 top-2">

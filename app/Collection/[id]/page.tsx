@@ -80,7 +80,6 @@ const Collection = ({ params }: { params: { id: string } }) => {
     console.log('claimRelease')
     claimFromContract({args: [account?.address]})
   }
-  console.log('claimFromContract', collectionBalance)
 
   return (
     <div className="container mx-auto">

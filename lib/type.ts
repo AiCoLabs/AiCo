@@ -80,4 +80,5 @@ export type NFTInfoProps = {
   prompt: string,
   nagativePrompt: string,
   imageUrl: string,
+  tokenId: number
 }
