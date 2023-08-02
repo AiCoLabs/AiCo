@@ -23,6 +23,9 @@ import { NewCollectionCreateds, NewNFTCreateds, CollectionMintInfo } from "@/lib
 import { getNewNFTCreatedByCollectionId, getNewNFTCreateds, getNewCollectionMintInfo } from "@/api/thegraphApi";
 import { categorys } from "../Create/components/FormInfo";
 import { format } from "date-fns";
+import { DERIVED_NFT_ABI } from "@/abis/AiCooProxy";
+import { Address, sepolia, useAccount, useBalance, useContractRead, useContractWrite } from "wagmi";
+import { bignumberPlus, toAmount } from "@/lib/utils";
 
 const Collection = ({ params }: { params: { id: string } }) => {
   const [collectionItem, setCollectionItem] = useState<NewCollectionCreateds|undefined>()
@@ -36,7 +39,49 @@ const Collection = ({ params }: { params: { id: string } }) => {
       setNFTs(res)
     })
   },[])
+
+  const account = useAccount({
+    onConnect: (data) => console.log('connected', data),
+    onDisconnect: () => console.log('disconnected'),
+  })
+
+  const {data: totalReleased} = useContractRead({
+    address: collectionItem?.derivedCollectionAddr as Address,
+    abi: DERIVED_NFT_ABI,
+    functionName: 'totalReleased'
+  })
   
+  const { data: collectionBalance } = useBalance({
+    address: collectionItem?.derivedCollectionAddr as Address,
+    chainId: sepolia.id,
+    watch: true
+  })
+
+  // const {data: releasable} = useContractRead({
+  //   address: collectionItem?.derivedCollectionAddr as Address,
+  //   abi: DERIVED_NFT_ABI,
+  //   functionName: 'releasable',
+  //   args: [account?.address || '']
+  // })
+
+  const { write: claimFromContract } = useContractWrite({
+    address: collectionItem?.derivedCollectionAddr as Address,
+    abi: DERIVED_NFT_ABI,
+    functionName: 'release',
+    onSuccess: (data) => {
+      console.log('onSuccess data', data)
+    },
+    onError: (error) => {
+      console.log('onError error', error)
+    }
+  })
+
+  const claimRelease = ()=>{
+    console.log('claimRelease')
+    claimFromContract({args: [account?.address]})
+  }
+  console.log('claimFromContract', collectionBalance)
+
   return (
     <div className="container mx-auto">
       <img
@@ -109,19 +154,19 @@ const Collection = ({ params }: { params: { id: string } }) => {
               <div className="flex gap-6">
                 <div className="flex gap-2 items-center">
                   <div className="text-white-rgba">Total Royalty: </div>
-                  <div>9.5 ETH</div>
+                  <div>{`${bignumberPlus(totalReleased || 0, collectionBalance?.value || 0, 18)} ETH`}</div>
                 </div>
                 <div className="flex gap-2 items-center">
                   <div className="text-white-rgba">Royalty Balance: </div>
-                  <div> 5.5 ETH</div>
+                  <div>{`${toAmount(collectionBalance?.value || 0, 18)} ETH`}</div>
                 </div>
               </div>
               <div className="flex gap-6 mt-4">
                 <div className="flex gap-2 items-center">
                   <div className="text-white-rgba"> Your Share: </div>
-                  <div>0.1 ETH</div>
+                  <div>{`0 ETH`}</div>
                 </div>
-                <div className="bg-indigo-800 p-1 rounded-sm">Claim</div>
+                <div className="bg-indigo-800 p-1 rounded-sm" onClick={claimRelease}>Claim</div>
               </div>
             </div>
           </div>
