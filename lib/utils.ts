@@ -89,3 +89,8 @@ export const shuffleArray = <T>(array: T[] = []): T[] => {
 
   return shuffledArray;
 }
+
+export const getShortAddress = (address: string): string => {
+  let shortAddress = address.slice(-4)
+  return `0x${shortAddress}`;
+}

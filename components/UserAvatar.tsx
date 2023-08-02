@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CollectionProps } from "./CollectionCards";
 import { NewCollectionCreateds, NFTInfoProps } from "@/lib/type";
+import { getShortAddress } from "@/lib/utils";
 
 const UserAvatar = (props: {
   data?: NFTInfoProps;
@@ -20,9 +21,9 @@ const UserAvatar = (props: {
     <div className="flex gap-2 items-center">
       <Avatar className={className}>
         <AvatarImage src={logo as string} />
-        <AvatarFallback>{data?.nftName}</AvatarFallback>
+        <AvatarFallback>{created?.collectionOwner}</AvatarFallback>
       </Avatar>
-      <div>{created?.collectionOwner || ''}</div>
+      <div>{getShortAddress(created?.collectionOwner || '')}</div>
     </div>
   );
 };

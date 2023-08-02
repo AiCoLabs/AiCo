@@ -8,8 +8,6 @@ import {
   CollectionDone,
   CollectionIng,
   CollectionRandom,
-  CollectionProps,
-  collectionItem,
 } from "@/components/CollectionCards";
 import img4 from "@/public/card.png";
 import logo from "@/public/logo.svg";
@@ -30,14 +28,16 @@ const Home = () => {
     });
   }, []);
   const [collections, setCollections] = useState<
-    (NewCollectionCreateds | undefined)[] | undefined
-  >();
+    NewCollectionCreateds[] | undefined
+  >([]);
 
   useEffect(() => {
     getNewCollectionCreated().then((res) => {
-      setCollections(res);
+      setCollections(res as NewCollectionCreateds[]);
     });
   }, []);
+  console.log(collections);
+  
   const [nft1, nft2, nft3] = shuffleArray<NFTInfoProps>(nfts);
   return (
     <main>
@@ -90,9 +90,9 @@ const Home = () => {
                 "linear-gradient(241deg, #031322 0%, rgba(151, 147, 198, 0.24) 71.35%)",
             }}
           >
-            {/* {nfts.slice(0, 3).map((card) => (
+            {collections?.slice(0, 3).map((card) => (
               <CollectionIng key={card.id} sampleData={card} />
-            ))} */}
+            ))}
           </div>
         </div>
         {/* <div className='mt-40'>
