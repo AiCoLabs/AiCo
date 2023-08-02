@@ -6,7 +6,8 @@ export const POST = async (request) => {
 
     try {
         await connectToDB();
-        const newForkNft = new ForkNFT({ nftName, belongToCollectionId, nftCreator, nftOwner, forkFrom, prompt, nagativePrompt, imageUrl });
+        const tokenId = await ForkNFT.count({belongToCollectionId})
+        const newForkNft = new ForkNFT({ nftName, belongToCollectionId, nftCreator, nftOwner, forkFrom, prompt, nagativePrompt, imageUrl, tokenId});
 
         await newForkNft.save();
         return new Response(JSON.stringify({message :"create collection successful."}), { status: 200 })

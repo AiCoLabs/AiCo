@@ -2,9 +2,10 @@ import CreateCollection from "@/models/createcollection";
 import { connectToDB } from "@/lib/mongodb";
 
 export const POST = async (request) => {
-    const { collectionName, collectionDesc, creator, collectionId, category, logoImage, website, twitter, telegram, medium, discord, mintLimit, royalty, endTime, bCharge, mintPrice, currency, receiptAddress, bWhitelist, whitelistRootHash } = await request.json();
+    const { collectionName, collectionDesc, creator, category, logoImage, website, twitter, telegram, medium, discord, mintLimit, royalty, endTime, bCharge, mintPrice, currency, receiptAddress, bWhitelist, whitelistRootHash } = await request.json();
     try {
         await connectToDB();
+        const collectionId = await CreateCollection.count({})
         const newCollection = new CreateCollection({ collectionName, collectionDesc, creator, collectionId, category, logoImage, website, twitter, telegram, medium, discord, mintLimit, royalty, endTime, bCharge, mintPrice, currency, receiptAddress, bWhitelist, whitelistRootHash });
 
         await newCollection.save();

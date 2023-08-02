@@ -56,7 +56,6 @@ const CreateCollection = () => {
         data: {collectionName: collectionInfo.name, 
           collectionDesc: collectionInfo.description, 
           creator: account.address, 
-          collectionId: 1, 
           category: collectionInfo.category, 
           logoImage: imageSource, 
           website: socialInfo.website, 
