@@ -16,7 +16,7 @@ const UserAvatar = (props: { data?: CollectionProps, created?: NewCollectionCrea
                 <AvatarImage src={logo as string} />
                 <AvatarFallback>Avtar</AvatarFallback>
             </Avatar>
-            <div>created?.collectionOwner</div>
+            <div>{created?.collectionOwner}</div>
         </div>
     )
 }

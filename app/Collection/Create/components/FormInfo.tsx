@@ -30,9 +30,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
-import Image from "next/image";
 
-const categorys = [
+export const categorys = [
   { label: "Meme", value: '0' },
   { label: "Art", value: '1' },
   { label: "PFPs", value: '2' },

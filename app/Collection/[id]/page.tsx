@@ -21,6 +21,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { NewCollectionCreateds, NewNFTCreateds, CollectionMintInfo } from "@/lib/type";
 import { getNewNFTCreatedByCollectionId, getNewNFTCreateds, getNewCollectionMintInfo } from "@/api/thegraphApi";
+import { categorys } from "../Create/components/FormInfo";
+import { format } from "date-fns";
 
 const Collection = ({ params }: { params: { id: string } }) => {
   const [collectionItem, setCollectionItem] = useState<NewCollectionCreateds|undefined>()
@@ -34,19 +36,26 @@ const Collection = ({ params }: { params: { id: string } }) => {
       setNFTs(res)
     })
   },[])
+  
   return (
     <div className="container mx-auto">
       <img
-        src={collectionItem?.detailJson.image }
+        src={collectionItem?.detailJson.image}
         alt=""
         className="w-full h-56 -mb-32"
       />
       <div className="px-10 ">
-        <img src={collectionItem?.detailJson.image} alt="" className="w-40 h-40"/>
+        <img
+          src={collectionItem?.detailJson.image}
+          alt=""
+          className="w-40 h-40"
+        />
         <div className="grid grid-cols-3 gap-14 text-lg text-white">
           <div className="col-span-2">
             <div className="flex justify-between items-center mt-4">
-              <div className="text-2xl font-medium">{collectionItem?.detailJson.name}</div>
+              <div className="text-2xl font-medium">
+                {collectionItem?.detailJson.name}
+              </div>
               <div className="flex justify-between gap-2">
                 <BsTwitter />
                 <BsTelegram />
@@ -69,11 +78,18 @@ const Collection = ({ params }: { params: { id: string } }) => {
               </div>
               <div className="flex gap-2 items-center">
                 <div className="text-white-rgba">Community earnings</div>
-                <div>{collectionItem?.baseRoyalty}/100 %</div>
+                <div>{`${(collectionItem?.baseRoyalty ?? 0) / 100} %`}</div>
               </div>
               <div className="flex gap-2 items-center">
                 <div className="text-white-rgba">Category </div>
-                <div>{collectionItem?.collectionType}</div>
+                <div>
+                  {
+                    categorys.find(
+                      (category) =>
+                        category.value === collectionItem?.collectionType
+                    )?.label
+                  }
+                </div>
               </div>
             </div>
             <div className="mt-4">{collectionItem?.detailJson.description}</div>
@@ -117,7 +133,11 @@ const Collection = ({ params }: { params: { id: string } }) => {
             </div>
             <div className="flex gap-4 mt-4">
               <div className="text-white-rgba">End Time: </div>
-              <div>{collectionInfo?.mintExpired}</div>
+              <div>
+                {collectionInfo?.mintExpired
+                  ? format(collectionInfo?.mintExpired*1000, "PPP")
+                  : ""}
+              </div>
             </div>
             <div className="flex gap-4 mt-4">
               <div className="text-white-rgba">Mint Price: </div>
@@ -130,7 +150,6 @@ const Collection = ({ params }: { params: { id: string } }) => {
             <div className="flex gap-4 mt-4">
               <div className="text-white-rgba">Rights: </div>
               <div>
-                {" "}
                 To protect the quality of collection,Collection owner have
                 rights to refund(gas not include) and delete any item within 7
                 days after minted.
@@ -150,19 +169,19 @@ const Collection = ({ params }: { params: { id: string } }) => {
           Search
         </Button>
       </div>
-      {
-        (!nfts || nfts?.length === 0) ? <Link
-        href={`/NFT/Create/${params.id}`}
-        className={
-          "flex flex-col items-center justify-center w-[15.18125rem] mt-4 h-[18.75rem] border text-white"
-        }
-      >
-        <BsPlusLg className="w-36 h-36" />
+      {!nfts || nfts?.length === 0 ? (
+        <Link
+          href={`/NFT/Create/${params.id}`}
+          className={
+            "flex flex-col items-center justify-center w-[15.18125rem] mt-4 h-[18.75rem] border text-white"
+          }
+        >
+          <BsPlusLg className="w-36 h-36" />
           Initail Ancestor NFT
-      </Link> : <CollectionCards data={nfts} className="mt-4" />
-      }
-      
-      
+        </Link>
+      ) : (
+        <CollectionCards data={nfts} className="mt-4" />
+      )}
     </div>
   );
 };
