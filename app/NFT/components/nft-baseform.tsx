@@ -218,7 +218,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
       const args = [
         props.collectionId,
         metadataUri,
-        "0",
+        nftId || 0,
         abiCoder.encode(['bool'], [false]),
         [],
       ]
