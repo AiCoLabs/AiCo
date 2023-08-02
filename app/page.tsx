@@ -19,6 +19,7 @@ import { getAllNFTCreateds } from "@/api/mongodbApi";
 import { getNewCollectionCreated } from "@/api/thegraphApi";
 
 import { shuffleArray } from "@/lib/utils";
+import { TESTNET_OPENSEA } from "@/lib/constants";
 
 const Home = () => {
   const [nfts, setNFTs] = useState<NFTInfoProps[]>([]);
@@ -52,9 +53,11 @@ const Home = () => {
               Show your creativity & Share Royalty of collection
             </h1>
             <div className="flex gap-8 mt-24">
-              <Button className="bg-yellow-rgba text-black">
-                View on OpenSea
-              </Button>
+              <a href={`${TESTNET_OPENSEA}/assets/sepolia/0x11344ee7a6ad3467b30e03665f8b9c7c246710c6`} target="_blank" rel="noopener noreferrer">
+                <Button className="bg-yellow-rgba text-black">
+                  View on OpenSea
+                </Button>
+              </a>
               <Link href={"/Collection/Create"}>
                 <Button>Create Collection</Button>
               </Link>

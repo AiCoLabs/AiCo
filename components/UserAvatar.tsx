@@ -20,7 +20,7 @@ const UserAvatar = (props: {
     <div className="flex gap-2 items-center">
       <Avatar className={className}>
         <AvatarImage src={logo as string} />
-        <AvatarFallback>{data.nftName}</AvatarFallback>
+        <AvatarFallback>{data?.nftName}</AvatarFallback>
       </Avatar>
       <div>{created?.collectionOwner}</div>
     </div>

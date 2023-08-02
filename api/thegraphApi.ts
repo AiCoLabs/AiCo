@@ -89,6 +89,7 @@ export const getNewCollectionCreated = async (size?:number, offset?:number)=>{
   let response: {data: {newCollectionCreateds: NewCollectionCreateds[]}} = await client.query({query: newCollectionCreatedsDoc})
   console.log('getNewCollectionCreated response',response)
   let collections = await Promise.all(response.data.newCollectionCreateds.map(async (collection: NewCollectionCreateds) => {
+    if (collection.collectionId == '3') return
     let json = await parseCollectionDetailJson(collection.collInfoURI)
     return {...collection, detailJson: json}
   }))
