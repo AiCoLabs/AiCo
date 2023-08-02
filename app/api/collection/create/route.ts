@@ -6,7 +6,7 @@ export const POST = async (request) => {
     try {
         await connectToDB();
         const collectionId = await CreateCollection.countDocuments({})
-        const newCollection = new CreateCollection({ collectionName, collectionDesc, creator, collectionId, category, logoImage, website, twitter, telegram, medium, discord, mintLimit, royalty, endTime, bCharge, mintPrice, currency, receiptAddress, bWhitelist, whitelistRootHash });
+        const newCollection = new CreateCollection({ collectionName, collectionDesc, creator, collectionId: collectionId + 1, category, logoImage, website, twitter, telegram, medium, discord, mintLimit, royalty, endTime, bCharge, mintPrice, currency, receiptAddress, bWhitelist, whitelistRootHash });
 
         await newCollection.save();
         return new Response(JSON.stringify({message: "create collection successful."}), { status: 200 })
