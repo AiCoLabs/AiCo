@@ -317,7 +317,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
             name="count"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image Count</FormLabel>
+                <FormLabel className="flex justify-between">Image Count <span>{count? count[0] : 1}</span></FormLabel>
                 <FormControl>
                   <Slider defaultValue={[1]} max={4} step={1} min={1} {...field} onValueChange={field.onChange}/>
                 </FormControl>
