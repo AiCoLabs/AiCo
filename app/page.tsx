@@ -32,9 +32,6 @@ const Home = () => {
   >([]);
 
   useEffect(() => {
-    // getNewCollectionCreated().then((res) => {
-    //   setCollections(res as NewCollectionCreateds[]);
-    // });
     //  mintExpired unit is second
     const todaySecondStr=`${Math.floor(Date.now()/1000)}`
     getUnMintExpiredCollection(todaySecondStr).then((res) => {

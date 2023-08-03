@@ -5,7 +5,6 @@ import { CollectionProps, CollectionNFTDone } from '@/components/CollectionCards
 import BuyButton from '@/components/BuyBtn';
 import { NewNFTCreateds } from "@/lib/type";
 import { useEffect, useState } from "react";
-import { getAllNFTCreateds } from "@/api/mongodbApi";
 import DeleteButton from "@/components/DeleteBtn";
 import { NFTCard } from "@/components/NFTCards";
 import ForkButton from "@/components/ForkBtn";
