@@ -6,6 +6,11 @@ export const getNewCollectionCreated = async (size?:number, offset?:number)=>{
   return response
 }
 
+export const getCollectionCreated = async <T>(params={}):Promise<T>=>{
+  let response = await getReq<T>('/api/collection',params)
+  return response
+}
+
 export const getNewNFTCreatedByCollectionId = async( collectionId: string)=>{
   let response = await getReq(`/api/collection/${collectionId}`)
   return response
@@ -27,8 +32,14 @@ export const getMongoNFTById = async( collectionId: string, tokenId: string)=>{
   console.log('response', response, 'item', item)
   return item?.[0]
 }
+
 export const getAllNFTCreateds = async<T>():Promise<T>=>{
   let response = await getReq<T>(`/api/nft`)
+  return response
+}
+
+export const getNFTCreateds = async<T>(params={}):Promise<T>=>{
+  let response = await getReq<T>(`/api/nft`,params)
   return response
 }
 
