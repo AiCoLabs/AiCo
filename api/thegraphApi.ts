@@ -98,7 +98,7 @@ export const newCollectionMintInfosDoc = gql`
 // filter collection
 export const filterCollectionByMintExpired = gql`
     query filterCollectionByMintExpired($mintExpired: String!) {
-      newCollectionMintInfos(where: {mintExpired_gte: $mintExpired}) {
+      newCollectionMintInfos(where: {mintExpired_gte: $mintExpired} orderBy: mintExpired) {
         mintExpired
         collectionId
     }

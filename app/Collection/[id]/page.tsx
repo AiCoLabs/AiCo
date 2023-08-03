@@ -214,7 +214,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
           Search
         </Button>
       </div>
-      {!nfts || nfts?.length === 0 ? (
+      {!nfts || nfts?.length === 0&& collectionItem?.collectionOwner===account.address ? (
         <Link
           href={`/NFT/Create/${params.id}`}
           className={
