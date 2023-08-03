@@ -14,10 +14,10 @@ import logo from "@/public/logo.svg";
 import Link from "next/link";
 import { NFTInfoProps, NewCollectionCreateds } from "@/lib/type";
 import { getAllNFTCreateds } from "@/api/mongodbApi";
-import { getNewCollectionCreated } from "@/api/thegraphApi";
 
 import { shuffleArray } from "@/lib/utils";
 import { TESTNET_OPENSEA } from "@/lib/constants";
+import { getUnMintExpiredCollection } from "@/api/thegraphApi";
 
 const Home = () => {
   const [nfts, setNFTs] = useState<NFTInfoProps[]>([]);
@@ -32,11 +32,16 @@ const Home = () => {
   >([]);
 
   useEffect(() => {
-    getNewCollectionCreated().then((res) => {
+    // getNewCollectionCreated().then((res) => {
+    //   setCollections(res as NewCollectionCreateds[]);
+    // });
+    //  mintExpired unit is second
+    const todaySecondStr=`${Math.floor(Date.now()/1000)}`
+    getUnMintExpiredCollection(todaySecondStr).then((res) => {
       setCollections(res as NewCollectionCreateds[]);
     });
   }, []);
-  console.log(collections);
+  // console.log("collections",collections);
   
   const [nft1, nft2, nft3] = shuffleArray<NFTInfoProps>(nfts);
   return (

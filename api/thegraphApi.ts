@@ -91,7 +91,37 @@ export const newCollectionMintInfosDoc = gql`
       mintExpired
       mintLimit
       mintPrice
+      collectionId
     }    
+  }
+`
+// filter collection
+export const filterCollectionByMintExpired = gql`
+    query filterCollectionByMintExpired($mintExpired: String!) {
+      newCollectionMintInfos(where: {mintExpired_gte: $mintExpired}) {
+        mintExpired
+        collectionId
+    }
+  }
+`
+
+// filter collection
+export const queryCollections = gql`
+    query queryCollections($ids:[String!]) {
+      newCollectionCreateds(where:{collectionId_in:$ids}) {
+        baseRoyalty
+        blockNumber
+        blockTimestamp
+        collInfoURI
+        collectionId
+        collectionOwner
+        collectionType
+        derivedCollectionAddr
+        derivedRuleModule
+        id
+        timestamp
+        transactionHash
+      }
   }
 `
 
@@ -160,4 +190,24 @@ export const getNewCollectionMintInfo = async( id: string)=>{
   let collectionInfo = response.data.newCollectionMintInfos
   console.log('getNewCollectionMintInfo response',response) 
   return collectionInfo?.[0]
+}
+
+export const getUnMintExpiredCollection = async( mintExpired: string)=>{
+  let unExpiredCollectionResponse: {data: {newCollectionMintInfos: CollectionMintInfo[]}} = await client.query({
+    query: filterCollectionByMintExpired, 
+    variables: { mintExpired }
+  })
+  const collectionIds=unExpiredCollectionResponse.data.newCollectionMintInfos.map(col=>col.collectionId)
+  console.log("ids",collectionIds)
+  let response: {data: {newCollectionCreateds: NewCollectionCreateds[]}} = await client.query({
+    query: queryCollections, 
+    variables: { ids:collectionIds }
+  })
+  console.log('getUnMintExpiredCollection response',response) 
+
+  let collections = await Promise.all(response.data.newCollectionCreateds.map(async (collection: NewCollectionCreateds) => {
+    let json = await parseCollectionDetailJson(collection.collInfoURI)
+    return {...collection, detailJson: json}
+  }))
+  return collections
 }

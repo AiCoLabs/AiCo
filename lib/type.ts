@@ -29,6 +29,7 @@ export type CollectionMintInfo = {
   mintExpired: number
   mintLimit: number
   mintPrice: number
+  collectionId:string
 }
 
 export type NewNFTCreateds = {
