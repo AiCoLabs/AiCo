@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { InferSchemaType, Schema } from "mongoose";
 
 const collectionSchema = new Schema({
     collectionName: {
@@ -97,6 +97,8 @@ const collectionSchema = new Schema({
         type: String,
     },
 });
+
+export type MongoCollection = InferSchemaType<typeof collectionSchema>;
 
 const CreateCollection =
     mongoose.models.CreateCollection || mongoose.model("CreateCollection", collectionSchema);

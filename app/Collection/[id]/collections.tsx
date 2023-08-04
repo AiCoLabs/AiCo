@@ -16,7 +16,7 @@ const Collections = (props:{data: NewNFTCreateds[],collectionItem: NewCollection
     <div className={cn("grid grid-cols-4 gap-4 py-8",props.className)}>
       {data.map((card) => (
         <Link key={card.id} href={`/NFT/${card.collectionId}/${card.tokenId}`}>
-          <NFTCard data={card}>
+          <NFTCard src={card.detailJson.image}>
             <>
               <div className="absolute right-2 top-2">
                 <DeleteBtn data={card} />

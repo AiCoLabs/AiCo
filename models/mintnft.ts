@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema,InferSchemaType  } from "mongoose";
 
 const nftSchema = new Schema({
     nftName: {
@@ -9,7 +9,9 @@ const nftSchema = new Schema({
     belongToCollectionId: {
         type: Number,
     },
-
+    tokenId: {
+        type: Number,
+    },
     nftCreator: {
         type: String,
         maxLength: [60, "receiptAddress must be lesser than 30 characters"],
@@ -38,6 +40,8 @@ const nftSchema = new Schema({
         maxLength: [200, "imageUrl must be lesser than 200 characters"],
     },
 });
+
+export type MongoNFT = InferSchemaType<typeof nftSchema>;
 
 const ForkNFT =
     mongoose.models.ForkNFT || mongoose.model("ForkNFT", nftSchema);
