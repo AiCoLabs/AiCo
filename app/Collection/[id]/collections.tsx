@@ -7,7 +7,6 @@ import DeleteBtn from "@/components/DeleteBtn";
 import { NFTCard } from "@/components/NFTCards";
 import { cn } from "@/lib/utils";
 import { NewCollectionCreateds, NewNFTCreateds } from "@/lib/type";
-import { useRouter } from "next/navigation";
 
 const Collections = (props: {
   data: NewNFTCreateds[];
