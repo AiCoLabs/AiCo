@@ -22,7 +22,7 @@ const Collections = (props: {
 
   return (
     <div className={cn("grid grid-cols-4 gap-4 py-8", props.className)}>
-      {collections.map((card) => (
+      {collections?.map((card) => (
         <Link key={card.collectionId} href={`/Collection/${card?.collectionId}`}>
           <NFTCard src={card.logoImage!}>
             <div className="absolute w-full bottom-0 h-11 flex items-center justify-between bg-indigo-500 px-2 gap-2 text-white">
