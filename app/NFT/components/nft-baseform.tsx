@@ -262,7 +262,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
         >
           {type === "ForkImage" && fromImageId && (
             <div>
-              <FormLabel>Fork From( #NFT Name)</FormLabel>
+              <FormLabel>Fork From( #{nftId})</FormLabel>
               <img
                 src={`${IPFS_GATEWAY_URL}/${fromImageId}`}
                 alt="nft"
