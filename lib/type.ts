@@ -11,8 +11,8 @@ export type DetailJson = {
 export type NewCollectionCreateds = {
   id: string
   baseRoyalty: number
-  blockNumber: number
-  blockTimestamp: number
+  blockNumber: number|string
+  blockTimestamp: number|string
   collInfoURI: string
   collectionId: string
   collectionOwner: string
@@ -34,8 +34,8 @@ export type CollectionMintInfo = {
 
 export type NewNFTCreateds = {
   id: string
-  blockNumber: number
-  blockTimestamp: number
+  blockNumber: number|string
+  blockTimestamp: number|string
   nftInfoURI: string
   collectionId: string
   derivedFrom: string
