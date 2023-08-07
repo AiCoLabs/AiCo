@@ -125,7 +125,7 @@ export const queryCollections = gql`
   }
 `
 
-const parseCollectionDetailJson = async (collInfoURI: string) =>{
+export const parseCollectionDetailJson = async (collInfoURI: string) =>{
     let url = sanitizeDStorageUrl(collInfoURI);
     let json: any = await getReq(url)
     if (json.image) json.image = sanitizeDStorageUrl(json.image);

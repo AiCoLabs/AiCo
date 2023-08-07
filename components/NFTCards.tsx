@@ -1,32 +1,21 @@
-import Image from "next/image";
-import type { StaticImageData } from "next/image";
-import { cn } from "@/lib/utils";
-import { NewNFTCreateds } from "@/lib/type";
-
-export interface NFTProps {
-  name: string;
-  id: string;
-  creator: string;
-  title: string;
-  desc: string;
-  logo: string | StaticImageData;
-  collectionId: string;
-}
-
+import { cn, sanitizeDStorageUrl } from "@/lib/utils";
 
 interface CardProps {
-  data: NewNFTCreateds;
+  src: string;
   children?: React.ReactNode;
   className?: string;
 }
 
 // Generate by stable_diffusion
 export const NFTCard = (props: CardProps) => {
-  const { data } = props;
-  return ( 
-    <div className={cn("w-[15.18125rem] h-[18.75rem] relative", props.className)}>
-      <img src={data.detailJson.image} alt="card" />
+  const { src,className,...rest } = props;
+  return (
+    <div
+      className={cn("w-[15.18125rem] h-[18.75rem] relative", className)}
+      {...rest}
+    >
+      <img src={sanitizeDStorageUrl(src)} alt="card" className="w-full h-full object-cover" />
       {props.children}
     </div>
-  )
+  );
 };

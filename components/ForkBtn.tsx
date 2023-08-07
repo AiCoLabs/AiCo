@@ -1,8 +1,6 @@
 import Image from "next/image"
 import Logo from "/public/logo.svg"
-import { CollectionProps } from "./CollectionCards"
 import Link from "next/link"
-import { NFTProps } from "./NFTCards"
 import { NewNFTCreateds } from "@/lib/type"
 import { IPFS_GATEWAY_URL } from "@/lib/constants"
 
