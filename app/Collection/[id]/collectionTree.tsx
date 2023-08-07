@@ -1,11 +1,13 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { NewCollectionCreateds, NewNFTCreateds } from "@/lib/type";
 import React from "react";
 import Tree, { Point } from "react-d3-tree";
+import { useRouter } from "next/navigation";
 
 import { CollectionCard } from "./collections";
 import "./custom-tree.css";
 import { getTreeData } from "./util";
+import { BsArrowRight } from "react-icons/bs";
 
 export const useCenteredTree = (
   defaultTranslate = { x: 0, y: 0 }
@@ -25,8 +27,13 @@ export default function App(props: {
   collectionItem?: NewCollectionCreateds;
   className?: string;
 }) {
-  const treeData = getTreeData(props.data);
-  // const classes = useStyles();
+  const allTreeData = useMemo(() => {
+    return getTreeData(props.data);
+  }, [props.data]);
+
+  const [treeData, setTreeData] = useState(allTreeData);
+  const router = useRouter();
+
   const [translate, containerRef] = useCenteredTree();
   const nodeSize = { x: 400, y: 400 };
   const separation = { siblings: 1, nonSiblings: 2 };
@@ -41,7 +48,7 @@ export default function App(props: {
     foreignObjectProps,
   }) => {
     // console.log("nodeDatum", nodeDatum);
-
+    const isSelected = treeData.tokenId === nodeDatum.tokenId;
     return (
       <>
         {/* `foreignObject` requires width & height to be explicitly set. */}
@@ -49,7 +56,26 @@ export default function App(props: {
           <CollectionCard
             data={nodeDatum.attibutes}
             collectionItem={props.collectionItem}
-          />
+            className={isSelected ? "border-4" : ""}
+            onClick={() => {
+              if (isSelected) {
+                setTreeData(allTreeData);
+              } else {
+                setTreeData(nodeDatum);
+              }
+            }}
+          >
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push(
+                  `/NFT/${nodeDatum.attibutes.collectionId}/${nodeDatum.attibutes.tokenId}`
+                );
+              }}
+            >
+              <BsArrowRight />
+            </div>
+          </CollectionCard>
         </foreignObject>
       </>
     );

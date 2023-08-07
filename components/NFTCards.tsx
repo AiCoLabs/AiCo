@@ -8,12 +8,13 @@ interface CardProps {
 
 // Generate by stable_diffusion
 export const NFTCard = (props: CardProps) => {
-  const { src } = props;
+  const { src,className,...rest } = props;
   return (
     <div
-      className={cn("w-[15.18125rem] h-[18.75rem] relative", props.className)}
+      className={cn("w-[15.18125rem] h-[18.75rem] relative", className)}
+      {...rest}
     >
-      <img src={sanitizeDStorageUrl(src)} alt="card" />
+      <img src={sanitizeDStorageUrl(src)} alt="card" className="w-full h-full object-cover" />
       {props.children}
     </div>
   );

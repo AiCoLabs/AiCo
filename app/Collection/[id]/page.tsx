@@ -42,7 +42,7 @@ import CollectionTree from "./collectionTree";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Collection = ({ params }: { params: { id: string } }) => {
-  const [layout, setLayout] = useState("grid");
+  const [layout, setLayout] = useState("tree");
   const [collectionItem, setCollectionItem] = useState<NewCollectionCreateds>();
   const [collectionInfo, setCollectionInfo] = useState<CollectionMintInfo>();
   const [nfts, setNFTs] = useState<NewNFTCreateds[]>([]);
@@ -249,11 +249,11 @@ const Collection = ({ params }: { params: { id: string } }) => {
           </div>
           <Tabs className="flex gap-4" value={layout} onValueChange={setLayout}>
             <TabsList className="justify-start bg-transparent text-xl text-white">
-              <TabsTrigger key={"grid"} value={"grid"}>
-                <BsFillGridFill />
-              </TabsTrigger>
               <TabsTrigger key={"tree"} value={"tree"}>
                 <BsTree />
+              </TabsTrigger>
+              <TabsTrigger key={"grid"} value={"grid"}>
+                <BsFillGridFill />
               </TabsTrigger>
             </TabsList>
           </Tabs>
