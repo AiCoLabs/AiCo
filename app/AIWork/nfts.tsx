@@ -3,7 +3,7 @@ import Link from "next/link";
 import BuyButton from "@/components/BuyBtn";
 import { NewNFTCreateds } from "@/lib/type";
 import { useEffect, useState } from "react";
-import DeleteButton from "@/components/DeleteBtn";
+import DeleteBtn from "@/components/DeleteBtn";
 import { NFTCard } from "@/components/NFTCards";
 import ForkButton from "@/components/ForkBtn";
 import { getAllNewNFTCreateds } from "@/api/thegraphApi";
@@ -24,7 +24,7 @@ const Nfts = () => {
           <NFTCard src={card.detailJson.image}>
             <>
               <div className="absolute right-2 top-2">
-                <DeleteButton data={card} />
+                <DeleteBtn data={card} />
               </div>
               <div className="absolute w-full bottom-0 h-11 flex items-center justify-between bg-indigo-500 px-2 gap-2 text-white">
                 <div>{`#${card.tokenId}`}</div>

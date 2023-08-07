@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { CollectionCard } from "./collections";
 import "./custom-tree.css";
 import { getTreeData } from "./util";
-import { BsArrowRight } from "react-icons/bs";
+import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
 
 export const useCenteredTree = (
   defaultTranslate = { x: 0, y: 0 }
@@ -73,7 +73,7 @@ export default function App(props: {
                 );
               }}
             >
-              <BsArrowRight />
+              <BsFillArrowUpRightSquareFill />
             </div>
           </CollectionCard>
         </foreignObject>

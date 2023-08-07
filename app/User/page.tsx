@@ -1,8 +1,4 @@
 'use client'
-
-import { useEffect, useState } from "react";
-import { NewCollectionCreateds, NewNFTCreateds } from "@/lib/type";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import { useAccount } from "wagmi";

@@ -28,15 +28,15 @@ export const CollectionCard = (props: {
   data: NewNFTCreateds;
   collectionItem: NewCollectionCreateds | undefined;
   children?: React.ReactNode;
-  [index:string]:any
+  [index: string]: any;
 }) => {
-  const { data: card, collectionItem,...rest } = props;
+  const { data: card, collectionItem, ...rest } = props;
 
   return (
     <NFTCard src={card.detailJson.image} {...rest}>
       <>
         <div className="absolute right-2 top-2">
-          <DeleteBtn data={card} />
+          <DeleteBtn data={card} owner={collectionItem?.collectionOwner} />
         </div>
         <div className="absolute w-full bottom-0 h-11 flex items-center justify-between bg-indigo-500 px-2 gap-2 text-white">
           <div>{`#${card.tokenId}`}</div>
