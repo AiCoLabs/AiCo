@@ -1,5 +1,6 @@
 import { getBlob } from "@/lib/utils";
 import { ImageToImageRequestBody, ImageToImageRequestPath, TextToImageRequestBody, TextToImageRequestPath } from "./DiffusionOpenAPI";
+import { useParams } from "next/navigation";
 
 const apiKey = process.env.NEXT_PUBLIC_DIFFUSION_API_KEY
 console.log('apiKey', apiKey)
@@ -13,18 +14,31 @@ interface GenerationResponse {
   }>
 }
 
-export async function requestTextToImage(
+export async function requestTextToImage(params: {
   engineID: string,
   positivePrompt: string,
   samples: number,
+  style: TextToImageRequestBody["style_preset"],
   negativePrompt?: string,
-  //style?: TextToImageRequestBody["style_preset"],
   height?: TextToImageRequestBody["height"],
   width?: TextToImageRequestBody["width"],
-  //cfgScale?: TextToImageRequestBody["cfg_scale"],
-  //seed?: TextToImageRequestBody["seed"],
+  cfgScale?: TextToImageRequestBody["cfg_scale"],
+  seed?: TextToImageRequestBody["seed"],
   steps?: TextToImageRequestBody["steps"]
-): Promise<[string[] | undefined, Error | undefined]> {
+}): Promise<[string[] | undefined, Error | undefined]> {
+  const {
+    engineID,
+    positivePrompt,
+    samples,
+    style,
+    negativePrompt,
+    height,
+    width,
+    cfgScale,
+    seed,
+    steps
+  } = params
+
   const prompts = [
     {
       text: positivePrompt,
@@ -41,12 +55,12 @@ export async function requestTextToImage(
 
   const body = JSON.stringify({
     text_prompts: prompts,
-    // style_preset: style,
+    style_preset: style,
     samples,
     height,
     width,
-    // cfg_scale: cfgScale,
-    // seed,
+    cfg_scale: cfgScale,
+    seed,
     steps,
   } satisfies TextToImageRequestBody);
 

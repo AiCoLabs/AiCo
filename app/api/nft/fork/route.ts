@@ -6,10 +6,10 @@ export const POST = async (request) => {
 
     try {
         await connectToDB();
-        const tokenId = await ForkNFT.countDocuments({belongToCollectionId})
+        const tokenId = await ForkNFT.count({belongToCollectionId})
         const newForkNft = new ForkNFT({ nftName, belongToCollectionId, nftCreator, nftOwner, forkFrom, prompt, nagativePrompt, imageUrl, tokenId});
         await newForkNft.save();
-        return new Response(JSON.stringify({message :"create collection successful."}), { status: 200 })
+        return new Response(JSON.stringify({message :"create collection successful.", tokenId: tokenId, belongToCollectionId}), { status: 200 })
     } catch (error) {
         return new Response(JSON.stringify({error:"Failed to create a new prompt"}), { status: 500 });
     }

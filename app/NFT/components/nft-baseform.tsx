@@ -32,15 +32,17 @@ import Image from "next/image";
 import { collectionItem } from "@/components/CollectionCards";
 
 import { base64toBuff, cn, dataURLtoBlob, trimify } from "@/lib/utils";
-import { AICOO_PROXY_ADDRESS, AICOO_WEBSITE, DiffusionModel, IPFS_GATEWAY_URL } from "@/lib/constants";
+import { AICOO_PROXY_ADDRESS, AICOO_WEBSITE, DiffusionModel, DiffusionStyle, IPFS_GATEWAY_URL } from "@/lib/constants";
 import { requestImageToImage, requestTextToImage } from "@/lib/openAPI";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAccount, useContractWrite } from "wagmi";
 import { AI_COO_ABI } from "@/abis/AiCooProxy";
 import { storeBlob, storeCar } from "@/lib/uploadToStorage";
 import { ethers } from 'ethers'
 import { useRouter } from "next/navigation";
 import { postReq } from "@/api/server/abstract";
+import { getNFTCreateds } from "@/api/mongodbApi";
+import { TextToImageRequestBody } from "@/lib/DiffusionOpenAPI";
 
 const NFTbaseFormSchema = z.object({
   prompt: z.string(),
@@ -51,9 +53,8 @@ const NFTbaseFormSchema = z.object({
   width: z.number().min(200).max(1000).optional(),
   height: z.number().min(200).max(1000).optional(),
   steps: z.number().min(1).max(10).optional(),
-  model: z.string().min(20).max(100, {
-    message: "Name must be at least 2 characters.",
-  }),
+  model: z.string(),
+  style: z.string(),
 });
 
 type NFTbaseFormValues = z.infer<typeof NFTbaseFormSchema>;
@@ -91,9 +92,19 @@ export default function NFTbaseForm(props: BaseFormProps) {
     onDisconnect: () => console.log('disconnected'),
   })
   const [imageSource, setImageSource] = useState<string|undefined>()
+  const [orignalNFT, setOrignalNFT] = useState<{prompt: string, nprompt: string}|undefined>()
   const [prompt, setPrompt] = useState('')
   const [nprompt, setNPrompt] = useState<string|undefined>()
   const [advanced, count] = form.watch(["advanced", "count"]);
+
+  useEffect(()=>{
+    if (nftId){
+      getNFTCreateds({belongToCollectionId: collectionId,
+        tokenId: nftId}).then(res=>{
+          setOrignalNFT(res?.[0])
+        })
+    }
+  },[collectionId,nftId])
 
   const generate = useCallback(async (data: NFTbaseFormValues) => {
     setSelectIndex(-1);
@@ -101,7 +112,15 @@ export default function NFTbaseForm(props: BaseFormProps) {
     setError(undefined);
     let res : [string[] | undefined, Error | undefined] | null = null
     if (type === 'TextToImage' || type === 'ForkImage'){
-      res = await requestTextToImage(data.model, data.prompt, count? count[0] : 1, data.nPrompt, data.height, data.width, data.steps)
+      res = await requestTextToImage({
+        engineID: data.model, 
+        positivePrompt: data.prompt, 
+        samples: count? count[0] : 1, 
+        style: data.style as TextToImageRequestBody["style_preset"], 
+        negativePrompt: data.nPrompt, 
+        height: data.height, 
+        width: data.width, 
+        steps: data.steps})
     } else if ((type === 'ImageToImage' ) && data.image){
       res = await requestImageToImage(
         data.model, 
@@ -268,8 +287,13 @@ export default function NFTbaseForm(props: BaseFormProps) {
                 alt="nft"
                 className="w-40 h-40 mx-auto mt-2"
               />
+              <FormLabel>{`Orignal Prompt:`}</FormLabel>
+              <FormDescription>{orignalNFT?.prompt}</FormDescription>
+              <FormLabel>{`Orignal Negative prompt:`}</FormLabel>
+              <FormDescription>{orignalNFT?.nprompt}</FormDescription>
             </div>
           )}
+          
           <FormField
             control={form.control}
             name="prompt"
@@ -353,6 +377,34 @@ export default function NFTbaseForm(props: BaseFormProps) {
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="style"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Style</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a style to generate" />
+                      </SelectTrigger>
+                    </FormControl>
+                  <SelectContent>
+                    {DiffusionStyle.map((item, index)=>{
+                        return <SelectItem value={item.value} key={index}>
+                        {item.label}
+                      </SelectItem>
+                      })}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="advanced"
@@ -426,7 +478,13 @@ export default function NFTbaseForm(props: BaseFormProps) {
                       key={index} 
                       onClick={()=>setSelectIndex(index)}>
                       <Image src={image} alt="card" fill />
-                      {selectIndex === index && <div className="w-full h-full"/>}
+                      {selectIndex === index && <div className="absolute rounded-2xl "style={{
+                                                              left: '-10px',
+                                                              right: '-10px',
+                                                              bottom: '-10px',
+                                                              top: '-10px',
+                                                              border: '1px solid'
+                                                          }}/>}
                     </div>
             })}
           </div>
