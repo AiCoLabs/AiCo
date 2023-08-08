@@ -211,7 +211,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
       const attributes= []
       const metadata= {
         content: trimify(
-          `**I'm particpating a fantasitic collection on OpTree.**\n**This is my work.**\n${AICOO_WEBSITE}/Collection/${props.collectionId}/`
+          `**I'm particpating a fantasitic collection on AiCoo.**\n**This is my work.**\n${AICOO_WEBSITE}/Collection/${props.collectionId}/`
         ),
         mainContentFocus: 'IMAGE',
         external_link: `${AICOO_WEBSITE}`,
@@ -220,7 +220,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
         media,
       }
       console.log('metadata',metadata)
-      let metadataUri = await await storeBlob(JSON.stringify(metadata))
+      let metadataUri = await storeBlob(JSON.stringify(metadata))
       metadataUri = 'ipfs://' + metadataUri
       console.log('metadataUri', metadataUri)
       setButtonState({

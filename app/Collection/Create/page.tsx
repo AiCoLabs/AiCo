@@ -136,7 +136,7 @@ const CreateCollection = () => {
       }
 
       console.log('metadata',metadata)
-      let metadataUri = await await storeBlob(JSON.stringify(metadata))
+      let metadataUri = await storeBlob(JSON.stringify(metadata))
       metadataUri = 'ipfs://' + metadataUri
       console.log('metadataUri', metadataUri)
       setStatus({
@@ -148,12 +148,12 @@ const CreateCollection = () => {
       let derivedRuleModule = isFee ? FEE_DERIVIED_MODULE_ADDRESS: FREE_DERIVIED_MODULE_ADDRESS
       let derivedRuleModuleInitData = isFee ? abiCoder.encode(['uint256','uint256','uint256','address' ,'address'],[
         settingInfo?.limit, 
-        1693493754, //(settingInfo?.endTime?.getTime() || 0)/ 1000 , 
+        (settingInfo?.endTime?.getTime() || (Date.now()+ 7 * 24 * 3600 * 1000))/ 1000 , 
         settingInfo?.price,
         settingInfo?.currency, 
         settingInfo?.receiptAddress]) : abiCoder.encode(['uint256','uint256'],[
           settingInfo?.limit, 
-          1693493754]) //(settingInfo?.endTime?.getTime() || 0)/ 1000 ])           
+          (settingInfo?.endTime?.getTime() || (Date.now()+ 7 * 24 * 3600 * 1000))/ 1000 ])       
       const args = [
         parseFloat(settingInfo?.royalty||'0') * 100,
         parseInt(collectionInfo.category|| '0'),
