@@ -37,7 +37,7 @@ const DeleteButton = (props: { data: NewNFTCreateds; owner?: string }) => {
   };
   // console.log("owner",owner);
 
-  if (account.address !== owner || !isShowDeleteButton(data)) {
+  if (account.address !== owner || !isShowDeleteButton(data)||data.tokenId==="0") {
     return false;
   }
   return (
