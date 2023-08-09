@@ -264,8 +264,9 @@ const Collection = ({ params }: { params: { id: string } }) => {
             </TabsList>
           </Tabs>
         </div>
-        {
-          !nfts || nfts?.length === 0 && collectionItem?.collectionOwner === account.address ? (
+      </div> 
+      {(!nfts || nfts?.length === 0) &&
+          collectionItem?.collectionOwner === account.address ? (
             <Link
               href={`/NFT/Create/${params.id}`}
               className={
@@ -275,7 +276,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
               <BsPlusLg className="w-36 h-36" />
               Initail Ancestor NFT
             </Link>
-          ) : nfts?.[0] && layout === "grid"? (
+          ) : nfts?.[0] && layout === "grid" ? (
             <CollectionCards
               data={nfts}
               collectionItem={collectionItem}
@@ -283,9 +284,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
             />
           ) : (
             <CollectionTree data={nfts} collectionItem={collectionItem} />
-          )
-        }
-      </div>
+          )}
     </>
   );
 };
