@@ -68,6 +68,12 @@ const Collection = ({ params }: { params: { id: string } }) => {
     functionName: "totalReleased",
   });
 
+  const { data: totalItems } = useContractRead({
+    address: collectionItem?.derivedCollectionAddr as Address,
+    abi: DERIVED_NFT_ABI,
+    functionName: "getLastTokenId",
+  });
+
   const { data: collectionBalance } = useBalance({
     address: collectionItem?.derivedCollectionAddr as Address,
     chainId: sepolia.id,
@@ -133,11 +139,11 @@ const Collection = ({ params }: { params: { id: string } }) => {
               <div className="flex gap-6 mt-4">
                 <div className="flex gap-2 items-center">
                   <div className="text-white-rgba">Creators</div>
-                  <div>851</div>
+                  <div>0</div>
                 </div>
                 <div className="flex gap-2 items-center">
                   <div className="text-white-rgba">Items </div>
-                  <div>5.3K</div>
+                  <div>{`${new Number(totalItems)}`}</div>
                 </div>
                 <div className="flex gap-2 items-center">
                   <div className="text-white-rgba">Community earnings</div>

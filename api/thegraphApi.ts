@@ -85,8 +85,8 @@ export const newNFTCreatedsDoc = gql`
 `
 
 export const newCollectionMintInfosDoc = gql`
-  query newCollectionMintInfos ($id: String!){
-    newCollectionMintInfos(id: $id) {
+  query newCollectionMintInfos ($collectionId: String!){
+    newCollectionMintInfos(where: {collectionId: $collectionId}) {
       id
       mintExpired
       mintLimit
@@ -182,10 +182,10 @@ export const getAllNewNFTCreateds = async( )=>{
   return collections
 }
 
-export const getNewCollectionMintInfo = async( id: string)=>{
+export const getNewCollectionMintInfo = async( collectionId: string)=>{
   let response: {data: {newCollectionMintInfos: CollectionMintInfo[]}} = await client.query({
       query: newCollectionMintInfosDoc, 
-      variables: { id }
+      variables: { collectionId }
     })
   let collectionInfo = response.data.newCollectionMintInfos
   console.log('getNewCollectionMintInfo response',response) 
