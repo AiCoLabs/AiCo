@@ -97,7 +97,7 @@ export const CollectionDone = (props: CollectionCardProps) => {
     <div
       className={cn("w-[15.18125rem] h-[18.75rem] relative", props.className)}
     >
-      <img src={sampleData.detailJson.image} alt="card" />
+      <img src={sampleData.detailJson.image} alt="card" className="w-full h-full" />
       {props.children}
     </div>
   );
@@ -110,7 +110,7 @@ export const CollectionNFTDone = (props: NFTCardProps) => {
     <div
       className={cn("w-[15.18125rem] h-[18.75rem] relative", props.className)}
     >
-      <img src={sampleData.imageUrl} alt="card" />
+      <img src={sampleData.imageUrl} alt="card" className="w-full h-full" />
       {props.children}
     </div>
   ) : (

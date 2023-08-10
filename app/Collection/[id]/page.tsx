@@ -8,6 +8,7 @@ import {
   BsFillGridFill,
   BsTree,
 } from "react-icons/bs";
+import { RiOrganizationChart } from "react-icons/ri";
 
 import UserAvatar from "@/components/UserAvatar";
 
@@ -256,7 +257,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
           <Tabs className="flex gap-4" value={layout} onValueChange={setLayout}>
             <TabsList className="justify-start bg-transparent text-xl text-white">
               <TabsTrigger key={"tree"} value={"tree"}>
-                <BsTree />
+                <RiOrganizationChart />
               </TabsTrigger>
               <TabsTrigger key={"grid"} value={"grid"}>
                 <BsFillGridFill />
@@ -265,7 +266,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
           </Tabs>
         </div>
         {nfts?.length === 0 &&
-          collectionItem?.collectionOwner === account.address && (
+          collectionItem?.collectionOwner.toLocaleLowerCase() === account.address?.toLocaleLowerCase() && (
             <Link
               href={`/NFT/Create/${params.id}`}
               className={
