@@ -4,24 +4,23 @@ import Image from "next/image";
 import Button from "@/components/Button";
 import Title from "@/components/Title";
 import FeaturesCards from "@/components/FeaturesCards";
-import {
-  CollectionIng,
-  CollectionRandom,
-} from "@/components/CollectionCards";
+import { CollectionIng, CollectionRandom } from "@/components/CollectionCards";
 import img4 from "@/public/card.png";
 import logo from "@/public/logo.svg";
 import Link from "next/link";
-import { NFTInfoProps, NewCollectionCreateds } from "@/lib/type";
-import { getAllNFTCreateds } from "@/api/mongodbApi";
+import { NewCollectionCreateds, NewNFTCreateds } from "@/lib/type";
 
 import { shuffleArray } from "@/lib/utils";
 import { TESTNET_OPENSEA } from "@/lib/constants";
-import { getUnMintExpiredCollection } from "@/api/thegraphApi";
+import {
+  getAllNewNFTCreateds,
+  getUnMintExpiredCollection,
+} from "@/api/thegraphApi";
 
 const Home = () => {
-  const [nfts, setNFTs] = useState<NFTInfoProps[]>([]);
+  const [nfts, setNFTs] = useState<NewNFTCreateds[]>([]);
   useEffect(() => {
-    getAllNFTCreateds<NFTInfoProps[]>().then((res) => {
+    getAllNewNFTCreateds().then((res) => {
       console.log("res", res);
       setNFTs(res);
     });
@@ -32,13 +31,13 @@ const Home = () => {
 
   useEffect(() => {
     //  mintExpired unit is second
-    const todaySecondStr=`${Math.floor(Date.now()/1000)}`
+    const todaySecondStr = `${Math.floor(Date.now() / 1000)}`;
     getUnMintExpiredCollection(todaySecondStr).then((res) => {
       setCollections(res as NewCollectionCreateds[]);
     });
   }, []);
-  
-  const [nft1, nft2, nft3] = shuffleArray<NFTInfoProps>(nfts);
+
+  const [nft1, nft2, nft3] = shuffleArray<NewNFTCreateds>(nfts);
   return (
     <main>
       <div className="container mx-auto">
@@ -53,7 +52,11 @@ const Home = () => {
               Show your creativity & Share Royalty of collection
             </h1>
             <div className="flex gap-8 mt-24">
-              <a href={`${TESTNET_OPENSEA}/assets/sepolia/0x11344ee7a6ad3467b30e03665f8b9c7c246710c6`} target="_blank" rel="noopener noreferrer">
+              <a
+                href={`${TESTNET_OPENSEA}/assets/sepolia/0x11344ee7a6ad3467b30e03665f8b9c7c246710c6`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Button className="bg-yellow-rgba text-black">
                   View on OpenSea
                 </Button>
@@ -63,23 +66,21 @@ const Home = () => {
               </Link>
             </div>
           </div>
-          <div className="absolute inset-0 left-2/3">
-            {nft1 && (
-              <div className="absolute top-0 end-32 w-52 h-72 rotate-[35deg]">
-                <CollectionRandom sampleData={nft1} />
-              </div>
-            )}
-            {nft2 && (
-              <div className="absolute top-80 end-0 w-44 h-60">
-                <CollectionRandom sampleData={nft2} />
-              </div>
-            )}
-            {nft2 && (
-              <div className="absolute top-96 end-72 w-44 h-60 rotate-[17.5deg]">
-                <CollectionRandom sampleData={nft3} />
-              </div>
-            )}
-          </div>
+          {nft1 && (
+            <div className="absolute top-0 end-32 w-52 h-72 rotate-[35deg]">
+              <CollectionRandom sampleData={nft1} />
+            </div>
+          )}
+          {nft2 && (
+            <div className="absolute top-80 end-0 w-44 h-60">
+              <CollectionRandom sampleData={nft2} />
+            </div>
+          )}
+          {nft2 && (
+            <div className="absolute top-96 end-72 w-44 h-60 rotate-[17.5deg]">
+              <CollectionRandom sampleData={nft3} />
+            </div>
+          )}
         </div>
         <div className="mt-32">
           <Title>Live Co-Create</Title>
