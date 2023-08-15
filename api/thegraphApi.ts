@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import { getReq } from './server/abstract';
 import { sanitizeDStorageUrl } from '@/lib/utils';
-import { NewCollectionCreateds, NewNFTCreateds, CollectionMintInfo } from '@/lib/type';
+import { NewCollectionCreateds, NewNFTCreateds, CollectionMintInfo, CollectionFreeInfo } from '@/lib/type';
 
 const API_URL = 'https://api.studio.thegraph.com/query/50436/aicoo_subgraph/version/latest';
 
@@ -124,90 +124,114 @@ export const queryCollections = gql`
       }
   }
 `
+// filter collection
+export const queryCollectionFee = gql`
+    query collectionFeeAddressSets {
+  collectionFeeAddressSets(orderBy: timestamp, orderDirection: desc, first: 1) {
+    id
+    transactionHash
+    timestamp
+    prevMaxBaseRoyalty
+    blockNumber
+    blockTimestamp
+    caller
+    newMaxBaseRoyalty
+  }
+}
+`
 
-export const parseCollectionDetailJson = async (collInfoURI: string) =>{
-    let url = sanitizeDStorageUrl(collInfoURI);
-    let json: any = await getReq(url)
-    if (json.image) json.image = sanitizeDStorageUrl(json.image);
-    return json
+export const parseCollectionDetailJson = async (collInfoURI: string) => {
+  let url = sanitizeDStorageUrl(collInfoURI);
+  let json: any = await getReq(url)
+  if (json.image) json.image = sanitizeDStorageUrl(json.image);
+  return json
 }
 
-export const getNewCollectionCreated = async (size?:number, offset?:number)=>{
-  let response: {data: {newCollectionCreateds: NewCollectionCreateds[]}} = await client.query({query: newCollectionCreatedsDoc})
-  console.log('getNewCollectionCreated response',response)
+export const getNewCollectionCreated = async (size?: number, offset?: number) => {
+  let response: { data: { newCollectionCreateds: NewCollectionCreateds[] } } = await client.query({ query: newCollectionCreatedsDoc })
+  console.log('getNewCollectionCreated response', response)
   let collections = await Promise.all(response.data.newCollectionCreateds.map(async (collection: NewCollectionCreateds) => {
     if (collection.collectionId == '3') return
     let json = await parseCollectionDetailJson(collection.collInfoURI)
-    return {...collection, detailJson: json}
+    return { ...collection, detailJson: json }
   }))
-  return collections.filter((item)=>!!item)
+  return collections.filter((item) => !!item)
 }
 
-export const getNewNFTCreatedByCollectionId = async( collectionId: string)=>{
-  let response: {data: {newCollectionCreateds: NewCollectionCreateds[]}} = await client.query({
-      query: newCollectionCreatedByIdDoc, 
-      variables: { collectionId }
-    })
+export const getNewNFTCreatedByCollectionId = async (collectionId: string) => {
+  let response: { data: { newCollectionCreateds: NewCollectionCreateds[] } } = await client.query({
+    query: newCollectionCreatedByIdDoc,
+    variables: { collectionId }
+  })
   let collections = await Promise.all(response.data.newCollectionCreateds.map(async (collection: NewCollectionCreateds) => {
     let json = await parseCollectionDetailJson(collection.collInfoURI)
-    return {...collection, detailJson: json}
+    return { ...collection, detailJson: json }
   }))
   return collections?.[0]
 }
 
-export const getNewNFTCreateds = async( collectionId: string)=>{
-  let response: {data: {newNFTCreateds: NewNFTCreateds[]}} = await client.query({
-      query: newNFTCreatedsDoc,
-      variables: { collectionId }
-    })
-  console.log('getNewNFTCreateds response',response)
+export const getNewNFTCreateds = async (collectionId: string) => {
+  let response: { data: { newNFTCreateds: NewNFTCreateds[] } } = await client.query({
+    query: newNFTCreatedsDoc,
+    variables: { collectionId }
+  })
+  console.log('getNewNFTCreateds response', response)
   let collections = await Promise.all(response.data.newNFTCreateds.map(async (collection: NewNFTCreateds) => {
     let json = await parseCollectionDetailJson(collection.nftInfoURI)
-    return {...collection, detailJson: json}
+    return { ...collection, detailJson: json }
   }))
-  console.log('getNewNFTCreateds response',collections)
+  console.log('getNewNFTCreateds response', collections)
   return collections
 }
 
-export const getAllNewNFTCreateds = async( )=>{
-  let response: {data: {newNFTCreateds: NewNFTCreateds[]}} = await client.query({
-      query: newAllNFTCreatedsDoc
-    })
-  console.log('getAllNewNFTCreateds response',response)
+export const getAllNewNFTCreateds = async () => {
+  let response: { data: { newNFTCreateds: NewNFTCreateds[] } } = await client.query({
+    query: newAllNFTCreatedsDoc
+  })
+  console.log('getAllNewNFTCreateds response', response)
   let collections = await Promise.all(response.data.newNFTCreateds.map(async (collection: NewNFTCreateds) => {
     let json = await parseCollectionDetailJson(collection.nftInfoURI)
-    return {...collection, detailJson: json}
+    return { ...collection, detailJson: json }
   }))
-  console.log('getAllNewNFTCreateds response',collections)
+  console.log('getAllNewNFTCreateds response', collections)
   return collections
 }
 
-export const getNewCollectionMintInfo = async( collectionId: string)=>{
-  let response: {data: {newCollectionMintInfos: CollectionMintInfo[]}} = await client.query({
-      query: newCollectionMintInfosDoc, 
-      variables: { collectionId }
-    })
+export const getNewCollectionMintInfo = async (collectionId: string) => {
+  let response: { data: { newCollectionMintInfos: CollectionMintInfo[] } } = await client.query({
+    query: newCollectionMintInfosDoc,
+    variables: { collectionId }
+  })
   let collectionInfo = response.data.newCollectionMintInfos
-  console.log('getNewCollectionMintInfo response',response) 
+  console.log('getNewCollectionMintInfo response', response)
   return collectionInfo?.[0]
 }
 
-export const getUnMintExpiredCollection = async( mintExpired: string)=>{
-  let unExpiredCollectionResponse: {data: {newCollectionMintInfos: CollectionMintInfo[]}} = await client.query({
-    query: filterCollectionByMintExpired, 
+export const getUnMintExpiredCollection = async (mintExpired: string) => {
+  let unExpiredCollectionResponse: { data: { newCollectionMintInfos: CollectionMintInfo[] } } = await client.query({
+    query: filterCollectionByMintExpired,
     variables: { mintExpired }
   })
-  const collectionIds=unExpiredCollectionResponse.data.newCollectionMintInfos.map(col=>col.collectionId)
-  console.log("ids",collectionIds)
-  let response: {data: {newCollectionCreateds: NewCollectionCreateds[]}} = await client.query({
-    query: queryCollections, 
-    variables: { ids:collectionIds }
+  const collectionIds = unExpiredCollectionResponse.data.newCollectionMintInfos.map(col => col.collectionId)
+  console.log("ids", collectionIds)
+  let response: { data: { newCollectionCreateds: NewCollectionCreateds[] } } = await client.query({
+    query: queryCollections,
+    variables: { ids: collectionIds }
   })
-  console.log('getUnMintExpiredCollection response',response) 
+  console.log('getUnMintExpiredCollection response', response)
 
   let collections = await Promise.all(response.data.newCollectionCreateds.map(async (collection: NewCollectionCreateds) => {
     let json = await parseCollectionDetailJson(collection.collInfoURI)
-    return {...collection, detailJson: json}
+    return { ...collection, detailJson: json }
   }))
   return collections
+}
+
+export const getNewCollectionFee = async () => {
+  let response: { data: { collectionFeeAddressSets: CollectionFreeInfo[] } } = await client.query({
+    query: queryCollectionFee
+  })
+  let collectionInfo = response.data.collectionFeeAddressSets
+  console.log('getCollectionFreeInfo response', response)
+  return collectionInfo?.[0]
 }
