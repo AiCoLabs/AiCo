@@ -4,7 +4,8 @@ import React from "react";
 import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Button } from "./ui/button";
-import { BsFillPersonLinesFill } from "react-icons/bs";
+import { BsFillPersonLinesFill, BsGithub, BsTwitter } from "react-icons/bs";
+import { GITHUB_ADDRESS, TWITTER_ADDRESS } from "@/lib/constants";
 
 const navs = [
   {
@@ -48,66 +49,74 @@ const Navbar = () => {
         ))}
       </div>
       <div>
-        <ConnectButton.Custom>
-          {({
-            account,
-            chain,
-            openAccountModal,
-            openChainModal,
-            openConnectModal,
-            mounted,
-          }) => {
-            // Note: If your app doesn't use authentication, you
-            // can remove all 'authenticationStatus' checks
-            const connected = mounted && account && chain;
-            return (
-              <div
-                {...(!mounted && {
-                  "aria-hidden": true,
-                  style: {
-                    opacity: 0,
-                    pointerEvents: "none",
-                    userSelect: "none",
-                  },
-                })}
-                className="text-bold"
-              >
-                {(() => {
-                  if (!connected) {
+        <div className="flex gap-4 items-center">
+          <Link target="_blank" href={TWITTER_ADDRESS}>
+            <BsTwitter />
+          </Link>
+          <Link target="_blank" href={GITHUB_ADDRESS}>
+            <BsGithub />
+          </Link>
+          <ConnectButton.Custom>
+            {({
+              account,
+              chain,
+              openAccountModal,
+              openChainModal,
+              openConnectModal,
+              mounted,
+            }) => {
+              // Note: If your app doesn't use authentication, you
+              // can remove all 'authenticationStatus' checks
+              const connected = mounted && account && chain;
+              return (
+                <div
+                  {...(!mounted && {
+                    "aria-hidden": true,
+                    style: {
+                      opacity: 0,
+                      pointerEvents: "none",
+                      userSelect: "none",
+                    },
+                  })}
+                  className="text-bold"
+                >
+                  {(() => {
+                    if (!connected) {
+                      return (
+                        <Button
+                          onClick={openConnectModal}
+                          className="bg-blue-500"
+                          variant={"ghost"}
+                        >
+                          Connect Web3
+                        </Button>
+                      );
+                    }
+                    if (chain.unsupported) {
+                      return (
+                        <Button onClick={openChainModal}>Wrong network</Button>
+                      );
+                    }
                     return (
-                      <Button
-                        onClick={openConnectModal}
-                        className="bg-blue-500"
-                        variant={"ghost"}
-                      >
-                        Connect Web3
-                      </Button>
+                      <div className="flex gap-3 text-white items-center">
+                        <Button
+                          onClick={openAccountModal}
+                          className="bg-white text-black"
+                          variant={"ghost"}
+                        >
+                          {account.displayName}
+                        </Button>
+                        <Link href={"/User"}>
+                          <BsFillPersonLinesFill className="text-3xl cursor-pointer" />
+                        </Link>
+                      </div>
                     );
-                  }
-                  if (chain.unsupported) {
-                    return (
-                      <Button onClick={openChainModal}>Wrong network</Button>
-                    );
-                  }
-                  return (
-                    <div className="flex gap-3 text-white items-center">
-                      <Button
-                        onClick={openAccountModal}
-                        className="bg-white text-black"
-                        variant={"ghost"}
-                      >
-                        {account.displayName}
-                      </Button>
-                      <Link href={"/User"}>
-                        <BsFillPersonLinesFill className="text-3xl cursor-pointer" />
-                      </Link>
-                    </div>
-                  );
-                })()}
-              </div>
-            );
-          }}
-        </ConnectButton.Custom>
+                  })()}
+                </div>
+              );
+            }}
+          </ConnectButton.Custom>
+        </div>
       </div>
     </nav>
   );
