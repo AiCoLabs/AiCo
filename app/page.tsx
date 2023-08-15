@@ -79,7 +79,7 @@ const Home = () => {
               <CollectionRandom sampleData={nft2} />
             </div>
           )}
-          {nft2 && (
+          {nft3 && (
             <div className="absolute top-96 end-72 w-44 h-60 rotate-[17.5deg]">
               <CollectionRandom sampleData={nft3} />
             </div>
