@@ -1,25 +1,24 @@
 import { getReq } from './server/abstract';
-import { parseCollectionDetailJson } from './thegraphApi';
 
-export const getNewCollectionCreated = async (size?: number, offset?: number) => {
-  let response = await getReq('/api/collection')
-  return response
-}
+// export const getNewCollectionCreated = async (size?: number, offset?: number) => {
+//   let response = await getReq('/api/collection')
+//   return response
+// }
 
 export const getCollectionCreated = async <T>(params = {}): Promise<T> => {
   let response = await getReq<T>('/api/collection', params)
   return response
 }
 
-export const getNewNFTCreatedByCollectionId = async (collectionId: string) => {
-  let response = await getReq(`/api/collection/${collectionId}`)
-  return response
-}
+// export const getNewNFTCreatedByCollectionId = async (collectionId: string) => {
+//   let response = await getReq(`/api/collection/${collectionId}`)
+//   return response
+// }
 
-export const getNewNFTCreateds = async (collectionId: string) => {
-  let response = await getReq(`/api/nft/${collectionId}`)
-  return response
-}
+// export const getNewNFTCreateds = async (collectionId: string) => {
+//   let response = await getReq(`/api/nft/${collectionId}`)
+//   return response
+// }
 
 export const getMongoNFTById = async (collectionId: string, tokenId: string) => {
   let response: Array<any> = await getReq(`/api/nft`)
