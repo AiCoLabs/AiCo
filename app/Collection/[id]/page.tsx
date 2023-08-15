@@ -102,7 +102,9 @@ const Collection = ({ params }: { params: { id: string } }) => {
 
   const claimRelease = () => {
     console.log("claimRelease");
-    claimFromContract({ args: [account?.address] });
+    if(account?.address){
+      claimFromContract({ args: [account.address] });
+    }
   };
 
   return (
@@ -156,7 +158,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
                     {
                       categorys.find(
                         (category) =>
-                          category.value === collectionItem?.collectionType
+                          category.value === collectionItem?.collectionType?.toString()
                       )?.label
                     }
                   </div>

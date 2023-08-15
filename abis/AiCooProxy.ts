@@ -579,7 +579,7 @@ export const AI_COO_ABI = [
     "stateMutability": "nonpayable",
     "type": "function"
   }
-]
+] as const
 
 export const DERIVED_NFT_ABI=  [
   {
@@ -1850,6 +1850,6 @@ export const DERIVED_NFT_ABI=  [
     "stateMutability": "payable",
     "type": "receive"
   }
-]
+] as const
 
   
