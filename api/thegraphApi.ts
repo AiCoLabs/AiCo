@@ -3,7 +3,7 @@ import { getReq } from './server/abstract';
 import { sanitizeDStorageUrl } from '@/lib/utils';
 import { NewCollectionCreateds, NewNFTCreateds, CollectionMintInfo, CollectionFreeInfo } from '@/lib/type';
 
-const API_URL = 'https://api.studio.thegraph.com/query/50436/aicoo_subgraph/version/latest';
+const API_URL = 'https://api.studio.thegraph.com/query/50436/aicoo_subgraph_base/version/latest';
 
 /* create the API client */
 export const client = new ApolloClient({
