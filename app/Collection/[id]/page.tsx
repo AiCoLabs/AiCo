@@ -156,7 +156,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
                     {
                       categorys.find(
                         (category) =>
-                          category.value === collectionItem?.collectionType
+                          category.value === collectionItem?.collectionType.toString()
                       )?.label
                     }
                   </div>
