@@ -7,6 +7,7 @@ import {
   BsPlusLg,
   BsFillGridFill,
   BsTree,
+  BsFillHouseHeartFill,
 } from "react-icons/bs";
 import { RiOrganizationChart } from "react-icons/ri";
 
@@ -41,21 +42,31 @@ import {
 import { bignumberPlus, toAmount } from "@/lib/utils";
 import CollectionTree from "./collectionTree";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getCollectionCreated } from "@/api/mongodbApi";
+import { MongoCollection } from "@/models/createcollection";
 
 const Collection = ({ params }: { params: { id: string } }) => {
   const [layout, setLayout] = useState("tree");
   const [collectionItem, setCollectionItem] = useState<NewCollectionCreateds>();
   const [collectionInfo, setCollectionInfo] = useState<CollectionMintInfo>();
+  const [collectionmongo, setCollection] = useState<MongoCollection>();
+
   const [nfts, setNFTs] = useState<NewNFTCreateds[]>([]);
   useEffect(() => {
+    
     getNewNFTCreatedByCollectionId(params.id).then((res) =>
       setCollectionItem(res)
     );
+
     getNewCollectionMintInfo(params.id).then((res) => setCollectionInfo(res));
     getNewNFTCreateds(params.id).then((res) => {
       console.log("res", res);
       setNFTs(res);
     });
+
+    getCollectionCreated<MongoCollection[]>({ collectionId: params.id }).then(
+      (res) => setCollection(res?.[0])
+    );
   }, []);
 
   const account = useAccount({
@@ -102,7 +113,7 @@ const Collection = ({ params }: { params: { id: string } }) => {
 
   const claimRelease = () => {
     console.log("claimRelease");
-    if(account?.address){
+    if (account?.address) {
       claimFromContract({ args: [account.address] });
     }
   };
@@ -129,10 +140,31 @@ const Collection = ({ params }: { params: { id: string } }) => {
                   {collectionItem?.detailJson.name}
                 </div>
                 <div className="flex justify-between gap-2">
-                  <BsTwitter />
-                  <BsTelegram />
-                  <BsMedium />
-                  <BsDiscord />
+                  {collectionmongo?.website && (
+                    <Link target="_blank" href={collectionmongo.website}>
+                      <BsFillHouseHeartFill />
+                    </Link>
+                  )}
+                  {collectionmongo?.twitter && (
+                    <Link target="_blank" href={collectionmongo.twitter}>
+                      <BsTwitter />
+                    </Link>
+                  )}
+                  {collectionmongo?.telegram && (
+                    <Link target="_blank" href={collectionmongo.telegram}>
+                      <BsTelegram />
+                    </Link>
+                  )}
+                  {collectionmongo?.medium && (
+                    <Link target="_blank" href={collectionmongo.medium}>
+                      <BsMedium />
+                    </Link>
+                  )}
+                  {collectionmongo?.discord && (
+                    <Link target="_blank" href={collectionmongo.discord}>
+                      <BsDiscord />
+                    </Link>
+                  )}
                 </div>
               </div>
               <div className="flex gap-2 items-center mt-4">
@@ -158,7 +190,8 @@ const Collection = ({ params }: { params: { id: string } }) => {
                     {
                       categorys.find(
                         (category) =>
-                          category.value === collectionItem?.collectionType?.toString()
+                          category.value ===
+                          collectionItem?.collectionType?.toString()
                       )?.label
                     }
                   </div>
@@ -268,7 +301,8 @@ const Collection = ({ params }: { params: { id: string } }) => {
           </Tabs>
         </div>
         {nfts?.length === 0 &&
-          collectionItem?.collectionOwner.toLocaleLowerCase() === account.address?.toLocaleLowerCase() && (
+          collectionItem?.collectionOwner.toLocaleLowerCase() ===
+            account.address?.toLocaleLowerCase() && (
             <Link
               href={`/NFT/Create/${params.id}`}
               className={
