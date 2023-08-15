@@ -105,7 +105,7 @@ const Home = () => {
             {nfts.map(card => <Link key={card.id} href={`/Collection/${card.id}`}><CollectionDone data={card} /></Link>)}
           </div>
         </div> */}
-        <div className="mt-40">
+        <div className="mt-40" id="About">
           <Title>How to works</Title>
           <div className="mt-16 rounded-2xl bg-indigo-500">
             <ReactPlayer url="https://youtu.be/nCZ6GDQ_BJU" width={"100%"} height={"640px"} controls/>

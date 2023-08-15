@@ -16,7 +16,7 @@ const navs = [
     label: "Create",
   },
   {
-    link: "/About",
+    link: "/#About",
     label: "About",
   },
   {
@@ -42,7 +42,7 @@ const Navbar = () => {
       </Link>
       <div className="w-[420px] py-2 flex justify-between text-xl">
         {navs.map((nav) => (
-          <Link key={nav.link} href={nav.link}>
+          <Link key={nav.link} href={nav.link} scroll>
             {nav.label}
           </Link>
         ))}
