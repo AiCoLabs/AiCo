@@ -5,7 +5,6 @@ import Button from "@/components/Button";
 import Title from "@/components/Title";
 import FeaturesCards from "@/components/FeaturesCards";
 import {
-  CollectionDone,
   CollectionIng,
   CollectionRandom,
 } from "@/components/CollectionCards";
@@ -38,7 +37,6 @@ const Home = () => {
       setCollections(res as NewCollectionCreateds[]);
     });
   }, []);
-  // console.log("collections",collections);
   
   const [nft1, nft2, nft3] = shuffleArray<NFTInfoProps>(nfts);
   return (

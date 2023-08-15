@@ -54,17 +54,17 @@ export const base64toBuff = (data) => {
   return Array.from(array);
 };
 
-// Base64 转 Blob
+// Base64 to Blob
 export const dataURLtoBlob = (dataurl) => {
-  var arr = dataurl.split(',') //分割为数组，分割到第一个逗号
-  let mime = arr[0].match(/:(.*?);/)[1]//获取分割后的base64前缀中的类型
+  var arr = dataurl.split(',') 
+  let mime = arr[0].match(/:(.*?);/)[1]
   let bstr = window.atob(arr[1])
   let n = bstr.length
   let u8arr = new Uint8Array(n)
   while (n--) {
     u8arr[n] = bstr.charCodeAt(n);
   }
-  return new Blob([u8arr], { type: mime });//文件类型格式
+  return new Blob([u8arr], { type: mime });
 }
 
 export const toAmount = (s, decimals) => {
@@ -80,11 +80,11 @@ export const bignumberPlus = (add1, add2, decimals) => {
   return value1.plus(value2).dividedBy(divide).toFixed(4)
 }
 export const shuffleArray = <T>(array: T[] = []): T[] => {
-  const shuffledArray = [...array]; // 创建一个原始数组的副本，以防止修改原始数组
+  const shuffledArray = [...array]; 
 
   for (let i = shuffledArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]]; // 交换元素位置
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]]; 
   }
 
   return shuffledArray;
