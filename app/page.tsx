@@ -1,5 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import ReactPlayer from "react-player";
+
 import Image from "next/image";
 import Button from "@/components/Button";
 import Title from "@/components/Title";
@@ -102,6 +104,12 @@ const Home = () => {
             {nfts.map(card => <Link key={card.id} href={`/Collection/${card.id}`}><CollectionDone data={card} /></Link>)}
           </div>
         </div> */}
+        <div className="mt-40">
+          <Title>How to works</Title>
+          <div className="mt-16 rounded-2xl bg-indigo-500">
+            <ReactPlayer url="https://youtu.be/nCZ6GDQ_BJU" width={"100%"} height={"640px"} controls/>
+          </div>
+        </div>
         <div className="mt-40">
           <Title>Features</Title>
           <FeaturesCards />
