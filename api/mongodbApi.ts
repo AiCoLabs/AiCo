@@ -30,3 +30,7 @@ export const getNFTCreateds = async<T>(params = {}): Promise<T> => {
   return response 
 }
 
+export const getAllNFTCreateds = async<T>(): Promise<T> => {
+  let response = await getReq<T>(`/api/nft`)
+  return response
+}

@@ -49,14 +49,14 @@ interface NFTCardPropsGraph {
 }
 
 // banner random select collectionCard
-export const CollectionRandom = (props: NFTCardPropsGraph) => {
+export const CollectionRandom = (props: NFTCardProps) => {
   const { sampleData } = props;
   return (
-    <Link href={`/NFT/${sampleData.collectionId}/${sampleData.tokenId}`}>
+    <Link href={`/NFT/${sampleData.belongToCollectionId}/${sampleData.tokenId}`}>
       <>
         <img
           className="w-full h-full rounded-2xl overflow-hidden object-cover"
-          src={sanitizeDStorageUrl(sampleData.detailJson.image)}
+          src={sanitizeDStorageUrl(sampleData.imageUrl)}
           alt="card"
         />
         {/* <div className="absolute inset-x-0 bottom-0 h-10 bg-white bg-opacity-30 px-4 rounded-bl-2xl rounded-br-2xl overflow-hidden">

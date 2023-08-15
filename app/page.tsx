@@ -10,7 +10,8 @@ import { CollectionIng, CollectionRandom } from "@/components/CollectionCards";
 import img4 from "@/public/card.png";
 import logo from "@/public/logo.svg";
 import Link from "next/link";
-import { NewCollectionCreateds, NewNFTCreateds } from "@/lib/type";
+import { NFTInfoProps, NewCollectionCreateds } from "@/lib/type";
+import { getAllNFTCreateds } from "@/api/mongodbApi";
 
 import { shuffleArray } from "@/lib/utils";
 import { TESTNET_OPENSEA } from "@/lib/constants";
@@ -20,9 +21,9 @@ import {
 } from "@/api/thegraphApi";
 
 const Home = () => {
-  const [nfts, setNFTs] = useState<NewNFTCreateds[]>([]);
+  const [nfts, setNFTs] = useState<NFTInfoProps[]>([]);
   useEffect(() => {
-    getAllNewNFTCreateds().then((res) => {
+    getAllNFTCreateds<NFTInfoProps[]>().then((res) => {
       console.log("res", res);
       setNFTs(res);
     });
@@ -39,7 +40,7 @@ const Home = () => {
     });
   }, []);
 
-  const [nft1, nft2, nft3] = shuffleArray<NewNFTCreateds>(nfts);
+  const [nft1, nft2, nft3] = shuffleArray<NFTInfoProps>(nfts);
   return (
     <main>
       <div className="container mx-auto">
