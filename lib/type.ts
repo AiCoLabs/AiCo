@@ -92,3 +92,8 @@ export type NFTInfoProps = {
   imageUrl: string,
   tokenId: number
 }
+declare global {
+  interface Window {
+   	timer: number;
+  }
+}
