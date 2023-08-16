@@ -22,6 +22,11 @@ export const AI_COO_ABI = [
   },
   {
     "inputs": [],
+    "name": "CanNotDeleteZeroNFT",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "CannotInitImplementation",
     "type": "error"
   },
@@ -140,57 +145,6 @@ export const AI_COO_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "collectionId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "nftInfoURI",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "derivedFrom",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bytes",
-            "name": "derivedModuleData",
-            "type": "bytes"
-          },
-          {
-            "internalType": "bytes32[]",
-            "name": "proof",
-            "type": "bytes32[]"
-          }
-        ],
-        "internalType": "struct AiCooDataTypes.CreateNewNFTData",
-        "name": "vars",
-        "type": "tuple"
-      },
-      {
-        "internalType": "address",
-        "name": "minter",
-        "type": "address"
-      }
-    ],
-    "name": "_createNFT",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -595,6 +549,11 @@ export const DERIVED_NFT_ABI=  [
   },
   {
     "inputs": [],
+    "name": "AlreadyTrade",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "InitParamsInvalid",
     "type": "error"
   },
@@ -986,6 +945,19 @@ export const DERIVED_NFT_ABI=  [
         "internalType": "string",
         "name": "",
         "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "creatorAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -1398,7 +1370,7 @@ export const DERIVED_NFT_ABI=  [
         "type": "address"
       }
     ],
-    "name": "releasable",
+    "name": "releasableERC20",
     "outputs": [
       {
         "internalType": "uint256",
@@ -1435,7 +1407,7 @@ export const DERIVED_NFT_ABI=  [
         "type": "address"
       }
     ],
-    "name": "release",
+    "name": "releaseERC20",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1851,5 +1823,3 @@ export const DERIVED_NFT_ABI=  [
     "type": "receive"
   }
 ]
-
-  

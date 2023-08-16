@@ -142,25 +142,11 @@ const CreateCollection = () => {
         buttonText: `Storing metadata`,
         loading: true,
       });
-      const media = [
-        {
-          item: imageSource,
-          type: collectionInfo.file?.type || "image/png",
-          cover: imageSource,
-        },
-      ];
-      const attributes = [];
       const metadata = {
         description: trimify(collectionInfo.description || ""),
-        content: trimify(
-          `I'm create a fantasitic collection on Aicoo(A decentralized co-create platform).\nShow your creativity in collaboration.\nLet's jump in...\n${AICOO_WEBSITE}/AIWork`
-        ),
-        mainContentFocus: "IMAGE",
         external_link: `${AICOO_WEBSITE}`,
         image: imageSource,
         name: trimify(collectionInfo.name || ""),
-        attributes,
-        media,
       };
 
       console.log("metadata", metadata);

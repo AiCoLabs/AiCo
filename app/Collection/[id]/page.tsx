@@ -33,12 +33,12 @@ import { format } from "date-fns";
 import { DERIVED_NFT_ABI } from "@/abis/AiCooProxy";
 import {
   Address,
-  sepolia,
   useAccount,
   useBalance,
   useContractRead,
   useContractWrite,
 } from "wagmi";
+import {baseGoerli} from "wagmi/chains"
 import { bignumberPlus, toAmount } from "@/lib/utils";
 import CollectionTree from "./collectionTree";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -74,10 +74,10 @@ const Collection = ({ params }: { params: { id: string } }) => {
     onDisconnect: () => console.log("disconnected"),
   });
 
-  const { data: totalReleased } = useContractRead({
+  const { data: totalReceivedEthRoyalty } = useContractRead({
     address: collectionItem?.derivedCollectionAddr as Address,
     abi: DERIVED_NFT_ABI,
-    functionName: "totalReleased",
+    functionName: "totalReceivedEthRoyalty",
   });
 
   const { data: totalItems } = useContractRead({
@@ -88,16 +88,16 @@ const Collection = ({ params }: { params: { id: string } }) => {
 
   const { data: collectionBalance } = useBalance({
     address: collectionItem?.derivedCollectionAddr as Address,
-    chainId: sepolia.id,
+    chainId: baseGoerli.id,
     watch: true,
   });
 
-  // const {data: releasable} = useContractRead({
-  //   address: collectionItem?.derivedCollectionAddr as Address,
-  //   abi: DERIVED_NFT_ABI,
-  //   functionName: 'releasable',
-  //   args: [account?.address || '']
-  // })
+  const {data: releasable} = useContractRead({
+    address: collectionItem?.derivedCollectionAddr as Address,
+    abi: DERIVED_NFT_ABI,
+    functionName: 'releasable',
+    args: [account?.address || '']
+  })
 
   const { write: claimFromContract } = useContractWrite({
     address: collectionItem?.derivedCollectionAddr as Address,
@@ -200,25 +200,12 @@ const Collection = ({ params }: { params: { id: string } }) => {
               <div className="mt-4">
                 {collectionItem?.detailJson.description}
               </div>
-              {/* <div className="mt-4">
-              <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-white-rgba">
-                    See more
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    Yes. It adheres to the WAI-ARIA design pattern.
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div> */}
               <div className="bg-indigo-500 py-4 px-2">
                 <div className="flex gap-6">
                   <div className="flex gap-2 items-center">
                     <div className="text-white-rgba">Total Royalty: </div>
-                    <div>{`${bignumberPlus(
-                      totalReleased || 0,
-                      collectionBalance?.value || 0,
+                    <div>{`${toAmount(
+                      totalReceivedEthRoyalty || 0,
                       18
                     )} ETH`}</div>
                   </div>
@@ -233,7 +220,10 @@ const Collection = ({ params }: { params: { id: string } }) => {
                 <div className="flex gap-6 mt-4">
                   <div className="flex gap-2 items-center">
                     <div className="text-white-rgba"> Your Share: </div>
-                    <div>{`0 ETH`}</div>
+                    <div>{`${toAmount(
+                      releasable || 0,
+                      18
+                    )} ETH`}</div>
                   </div>
                   <div
                     className="bg-indigo-800 p-1 rounded-sm"

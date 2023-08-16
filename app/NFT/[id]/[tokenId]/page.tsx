@@ -1,6 +1,4 @@
 'use client'
-import { CollectionProps, collectionItem } from "@/components/CollectionCards";
-import Image from "next/image";
 import { Share2 } from "lucide-react";
 import Button from "@/components/Button";
 import Link from "next/link";
@@ -67,7 +65,7 @@ const Nft = ({ params }: { params: { id: string, tokenId: string } }) => {
             {nftInfo?.nagativePrompt}
           </div>
           <div className="flex gap-8 mt-24">
-            <a href={`${TESTNET_OPENSEA}/assets/sepolia/${collectionItem?.derivedCollectionAddr}/${params.tokenId}`} target="_blank" rel="noopener noreferrer">
+            <a href={`${TESTNET_OPENSEA}/assets/base-goerli/${collectionItem?.derivedCollectionAddr}/${params.tokenId}`} target="_blank" rel="noopener noreferrer">
               <Button className="bg-yellow-rgba text-black">
                 View on OpenSea
               </Button>

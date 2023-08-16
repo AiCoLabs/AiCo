@@ -201,23 +201,11 @@ export default function NFTbaseForm(props: BaseFormProps) {
         buttonText: `Storing metadata`,
         loading: true
       })
-      const media= [
-        {
-          item: imageSource,
-          type: 'image/png',
-          cover: imageSource
-        }
-      ]
       const attributes= []
       const metadata= {
-        content: trimify(
-          `**I'm particpating a fantasitic collection on AiCoo.**\n**This is my work.**\n${AICOO_WEBSITE}/Collection/${props.collectionId}/`
-        ),
-        mainContentFocus: 'IMAGE',
         external_link: `${AICOO_WEBSITE}`,
         image: imageSource,
         attributes,
-        media,
       }
       console.log('metadata',metadata)
       let metadataUri = await storeBlob(JSON.stringify(metadata))
@@ -287,10 +275,10 @@ export default function NFTbaseForm(props: BaseFormProps) {
                 alt="nft"
                 className="w-40 h-40 mx-auto mt-2"
               />
-              <FormLabel>{`Orignal Prompt:`}</FormLabel>
+              {/* <FormLabel>{`Orignal Prompt:`}</FormLabel>
               <FormDescription>{orignalNFT?.prompt}</FormDescription>
               <FormLabel>{`Orignal Negative prompt:`}</FormLabel>
-              <FormDescription>{orignalNFT?.nprompt}</FormDescription>
+              <FormDescription>{orignalNFT?.nprompt}</FormDescription> */}
             </div>
           )}
           
@@ -301,7 +289,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
               <FormItem>
                 <FormLabel>Prompt</FormLabel>
                 <FormControl>
-                  <Textarea {...field} />
+                  <Textarea {...field} value={orignalNFT?.prompt} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -314,7 +302,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
               <FormItem>
                 <FormLabel>Negative prompt</FormLabel>
                 <FormControl>
-                  <Textarea {...field} required={false}/>
+                  <Textarea {...field} required={false} value={orignalNFT?.nprompt}/>
                 </FormControl>
                 <FormMessage />
               </FormItem>

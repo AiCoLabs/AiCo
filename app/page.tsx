@@ -56,7 +56,7 @@ const Home = () => {
             </h1>
             <div className="flex gap-8 mt-24">
               <a
-                href={`${TESTNET_OPENSEA}/assets/sepolia/0x11344ee7a6ad3467b30e03665f8b9c7c246710c6`}
+                href={`${TESTNET_OPENSEA}/assets/base-goerli/0x6e1842df1740fbea35845581a163e0a742f6ad40`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
