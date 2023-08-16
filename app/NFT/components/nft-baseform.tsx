@@ -360,7 +360,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
               )}
             />
           )}
-          <FormField
+          {/* <FormField
             control={form.control}
             name="count"
             render={({ field }) => (
@@ -381,7 +381,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <FormField
             control={form.control}
