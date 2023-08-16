@@ -45,7 +45,7 @@ const Home = () => {
     <main>
       <div className="container mx-auto">
         <div className="flex text-white py-40 relative">
-          <div className="w-9/12 z-10">
+          <div className="w-9/12">
             <h1 className="text-4xl uppercase font-500 tracking-wider">
               Unlock the power of creators through{" "}
               <span className="text-[#A318D3]">AI Coo</span>perate
@@ -70,17 +70,17 @@ const Home = () => {
             </div>
           </div>
           {nft1 && (
-            <div className="absolute top-0 end-32 w-52 h-72 rotate-[35deg]">
+            <div className="absolute top-8 end-32 w-52 h-72 rotate-[35deg]">
               <CollectionRandom sampleData={nft1} />
             </div>
           )}
           {nft2 && (
-            <div className="absolute top-80 end-0 w-44 h-60">
+            <div className="absolute top-80 end-0 w-48 h-64">
               <CollectionRandom sampleData={nft2} />
             </div>
           )}
           {nft3 && (
-            <div className="absolute top-96 end-72 w-44 h-60 rotate-[17.5deg]">
+            <div className="absolute top-96 end-72 w-48 h-64 rotate-[17.5deg]">
               <CollectionRandom sampleData={nft3} />
             </div>
           )}

@@ -101,7 +101,10 @@ export default function NFTbaseForm(props: BaseFormProps) {
     if (nftId){
       getNFTCreateds({belongToCollectionId: collectionId,
         tokenId: nftId}).then(res=>{
-          setOrignalNFT(res?.[0])
+          const orignalNFT=res?.[0]
+          setOrignalNFT(orignalNFT)
+          form.setValue("prompt",orignalNFT.prompt)
+          form.setValue("nPrompt",orignalNFT.nPrompt)
         })
     }
   },[collectionId,nftId])
@@ -289,7 +292,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
               <FormItem>
                 <FormLabel>Prompt</FormLabel>
                 <FormControl>
-                  <Textarea {...field} value={orignalNFT?.prompt} />
+                  <Textarea {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -302,7 +305,7 @@ export default function NFTbaseForm(props: BaseFormProps) {
               <FormItem>
                 <FormLabel>Negative prompt</FormLabel>
                 <FormControl>
-                  <Textarea {...field} required={false} value={orignalNFT?.nprompt}/>
+                  <Textarea {...field} required={false}/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
