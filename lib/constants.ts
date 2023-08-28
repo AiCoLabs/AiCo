@@ -34,7 +34,7 @@ export const DiffusionStyle = [
 ]
 
 export const TESTNET_OPENSEA = 'https://testnets.opensea.io'
-export const IPFS_GATEWAY_URL = 'https://gateway.ipfscdn.io/ipfs'
+export const IPFS_GATEWAY_URL = 'https://ipfs.io/ipfs' //https://gateway.ipfscdn.io/ipfs'
 export const ARWEAVE_GATEWAY_URL = 'https://arweave.net'
 export const AICOO_PROXY_ADDRESS = '0x2e1F211D853b20C0aa25Ed41af6250A3F678c67D'
 
