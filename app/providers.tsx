@@ -10,10 +10,37 @@ import {
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 
+//add taiko Jolnir
+import { Chain } from '@wagmi/core'
+export const jolnir = {
+  id: 167007,
+  name: 'Taiko Jolnir',
+  network: 'taiko',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Taiko',
+    symbol: 'ETH',
+  },
+  rpcUrls: {
+    public: { http: ['https://rpc.jolnir.taiko.xyz'] },
+    default: { http: ['https://rpc.jolnir.taiko.xyz'] },
+  },
+  blockExplorers: {
+    etherscan: { name: 'taiko', url: 'https://explorer.jolnir.taiko.xyz/' },
+    default: { name: 'taiko', url: 'https://explorer.jolnir.taiko.xyz/' },
+  },
+  contracts: {
+    multicall3: {
+      address: '0xca11bde05977b3631167028862be2a173976ca11',
+      blockCreated: 11907934,
+    },
+  },
+} as const satisfies Chain
+
 const { chains, publicClient } = configureChains(
   [
-    baseGoerli,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [baseGoerli] : []),
+    jolnir,
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [jolnir] : []),
   ],
   [publicProvider()]
 );
