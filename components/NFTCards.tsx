@@ -14,7 +14,7 @@ export const NFTCard = (props: CardProps) => {
       className={cn("w-[15.18125rem] h-[18.75rem] relative", className)}
       {...rest}
     >
-      <img src={sanitizeDStorageUrl(src)} alt="card" className="w-full h-full object-cover" />
+      <img src={src} alt="card" className="w-full h-full object-cover" />
       {props.children}
     </div>
   );
