@@ -46,7 +46,7 @@ import { getCollectionCreated } from "@/api/mongodbApi";
 import { MongoCollection } from "@/models/createcollection";
 
 const Collection = ({ params }: { params: { id: string } }) => {
-  const [layout, setLayout] = useState("tree");
+  const [layout, setLayout] = useState("grid");
   const [collectionItem, setCollectionItem] = useState<NewCollectionCreateds>();
   const [collectionInfo, setCollectionInfo] = useState<CollectionMintInfo>();
   const [collectionmongo, setCollection] = useState<MongoCollection>();
